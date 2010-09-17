@@ -2,7 +2,8 @@ module Cream::Generators
   module Config
     module CanCan
       def configure_devise_gems
-        gem 'cancan'          
+        gem 'cancan'  
+        gem 'cancan-rest-links'
       end
 
       # CanCan access denied exception handling

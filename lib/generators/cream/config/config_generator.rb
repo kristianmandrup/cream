@@ -20,32 +20,22 @@ module Cream::Generators
     source_root File.dirname(__FILE__)
 
     # Role Strategy
-    class_option  :strategy,       :type => :string,   :desc => "Role strategy to use",  
-                  :default => 'role_string'
+    class_option  :strategy,          :type => :string,   :default => 'role_string',    :desc => "Role strategy to use", 
 
     # Create Admin user
-    class_option :admin_user,     :type => :boolean,  :desc => "Create admin user",     
-                 :default => false
+    class_option :admin_user,         :type => :boolean,  :default => false,            :desc => "Create admin user",  
 
-    # Default roles
-    class_option :default_roles,  :type => :boolean,  :desc => "Create default roles :admin and :guest",     
-                 :default => true
+    # Roles
+    class_option :default_roles,      :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest"
+    class_option :roles,              :type => :array,    :default => [],               :desc => "Roles to create"
 
-    class_option :roles_config,  :type => :boolean,  :desc => "Configure roles or not",     
-                 :default => true
-
-    class_option :permission_config,  :type => :boolean,  :desc => "Configure permissions or not",     
-                 :default => true
-
-    class_option :roles,          :type => :array,    :desc => "Create default roles :admin and :guest",     
-                 :default => []
+    # Permits
+    class_option :permits,            :type => :boolean,  :default => true,             :desc => "Configure permits or not"
 
     # ORM to use
-    class_option :orm,            :type => :string,   :desc => "ORM to use",            
-                 :default => 'active_record'
+    class_option :orm,                :type => :string,   :default => 'active_record',  :desc => "ORM to use"
 
-    class_option :logfile,        :type => :string,   :desc => "Logfile location",            
-                 :default => nil
+    class_option :logfile,            :type => :string,   :default => nil,              :desc => "Logfile location"
 
     def main_flow 
       configure_logger

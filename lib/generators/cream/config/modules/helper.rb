@@ -8,15 +8,10 @@ module Cream::Generators
         :mongoid      => 'rails3-mongoid-devise'                
       }
 
-      def has_user? user
-        return true if user == :admin && !admin_user?
-        begin
-          read_model(user) =~ /devise/
-        rescue Exception => e
-          logger.info "Exception for has_user? #{user}: #{e.message}"
-          false
-        end
-      end
+      def execute command
+        logger.debug command
+        run command
+      end        
 
       def strategy
         options[:strategy]      

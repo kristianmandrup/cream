@@ -37,7 +37,7 @@ end
 
 ## Cream configuration
 
-None?
+copy locales and views (optional)
 
 ## CanCan Configuration
 
