@@ -2,8 +2,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "cream"
-    gem.summary = %Q{Provides a complete Session, Role and Permission solution for Rails 3}
-    gem.description = %Q{Provides assistance for setting up Session, Role and Permission systems for a Rails 3 app}
+    gem.summary = %Q{Integrates Devise, Roles and CanCan with Permits for a Rails 3 app}
+    gem.description = %Q{Provides assistance for setting up Session, Role and Permission systems for a Rails 3 app. Support for multiple ORMs}
     gem.email = "kmandrup@gmail.com"
     gem.homepage = "http://github.com/kristianmandrup/devise-assistant"
     gem.authors = ["Kristian Mandrup"]

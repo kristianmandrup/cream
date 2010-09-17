@@ -93,9 +93,24 @@ module Cream::Generators
     def configure_devise_gems
       gem_name = ORM_MAP[orm]      
       gem gem_name if gem_name
-      gem "roles_#{orm}"
+
       gem 'devise'
-      gem 'cancan'
+      gem 'cancan'          
+
+      # Roles for specific orm
+      gem "roles_#{orm}"
+
+      case orm.to_sym
+      when :mongo_mapper
+        gem 'mm-devise'
+
+      # permits
+      gem 'cancan-permits'
+
+      # links
+      gem 'devise-links'
+      gem 'cancan-rest-links'      
+
       run "bundle install"
     end
 
