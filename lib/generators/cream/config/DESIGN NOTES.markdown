@@ -2,6 +2,9 @@
 
 Each of the following should be a module in its own right!
 
+1. Create fresh Rails 3 app and set it up so that all the sub-systems work
+2. Develop the generator so that it can mutate a Rails 3 app that matches this example app
+
 ## Devise Configuration
 
 Gemfile
