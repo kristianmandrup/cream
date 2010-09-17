@@ -1,6 +1,12 @@
 module Cream::Generators 
-  class ConfigGenerator < Rails::Generators::Base
+  module Config
     module Helpers
+
+      ORM_MAP = {
+        :data_mapper  => 'dm-devise',
+        :mongo_mapper => 'mm-devise',
+        :mongoid      => 'rails3-mongoid-devise'                
+      }
 
       def has_user? user
         return true if user == :admin && !admin_user?
@@ -42,10 +48,6 @@ module Cream::Generators
 
       def admin_user?
         options[:admin]
-      end
-
-      def init_devise?
-        options[:devise]
       end
 
       def here

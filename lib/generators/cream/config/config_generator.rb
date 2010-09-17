@@ -9,7 +9,7 @@ module Cream
   end
 end
 
-require 'generators/cream/config/helpers'
+require_all File.dirname(__FILE__) + '/modules'
 
 module Cream::Generators 
   class ConfigGenerator < Rails::Generators::Base
@@ -22,10 +22,6 @@ module Cream::Generators
     # Role Strategy
     class_option  :strategy,       :type => :string,   :desc => "Role strategy to use",  
                   :default => 'role_string'
-
-    # Init Devise
-    class_option :init_devise,    :type => :boolean,  :desc => "Initialize devise",     
-                 :default => false 
 
     # Create Admin user
     class_option :admin_user,     :type => :boolean,  :desc => "Create admin user",     
@@ -52,137 +48,34 @@ module Cream::Generators
                  :default => nil
 
     def main_flow 
-      logger.add_logfile :logfile => logfile
-      logger.debug 'main flow'
-       
-      init_devise if init_devise?
-      configure_devise_gems
-      handle_devise_users if !devise_users?
+      configure_logger
+      configure_gems       
 
-      if devise_users?     
-        logger.debug 'Devise users OK'           
-        configure_roles if roles_config? 
-        configure_exception_handling      
-        configure_permission_system if permission_config?
-        configure_locale
-        handle_devise_users
-      else
-        logger.warn 'Devise users not there!'        
+      MODULES.each do |name|
+        send :"configure_#{name}"
       end
     end
 
     # -----------------      
     protected
 
-    includes Cream::Generators::Config, :devise, :cancan, :roles, :permits
+    MODULES = [:devise] #, :cancan, :roles, :permits, :cream]
 
+    includes Cream::Generators::Config, :helper, MODULES #, :cancan, :roles, :permits, :cream
     include Rails::Assist::BasicLogging
 
     use_helpers :model, :controller, :permit
 
-    def init_devise        
-      invoke 'devise_install'
+    def configure_logger
+      logger.add_logfile :logfile => logfile
+      logger.debug 'main flow'
     end
 
-    ORM_MAP = {
-      :data_mapper  => 'dm-devise',
-      :mongo_mapper => 'mm-devise',
-      :mongoid      => 'rails3-mongoid-devise'                
-    }
-
-    def configure_devise_gems
-      gem_name = ORM_MAP[orm]      
-      gem gem_name if gem_name
-
-      gem 'devise'
-      gem 'cancan'          
-
-      # Roles for specific orm
-      gem "roles_#{orm}"
-
-      # Devise ORM integration
-      case orm.to_sym
-      when :mongoid
-        say "Configure Devise for Mongoid as demonstrated by the Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
-      when :mongo_mapper
-        gem 'mm-devise'
-      when :data_mapper
-        gem 'dm-devise'
+    def configure_gems
+      MODULES.each do |name|
+        send :"#{name}_gems"
       end
-
-      # permits and roles integration
-      gem 'cream'
-
       run "bundle install"
     end
-
-    def devise_users?
-      has_user?(:user) && has_user?(:admin)
-    end
-
-    def handle_devise_users
-      return notify_create_users if !init_devise?
-      create_users 
-    end
-
-    def notify_create_users
-      logger.debug 'notify_create_users'
-      say "You must first run devise generators:"
-      say "rails g devise User"
-      say "rails g devise Admin" if admin_user?      
-    end
-
-    def create_users
-      logger.debug 'create_users'      
-      run "rails g devise User"
-      if user_admin?
-        logger.debug 'create devise Admin user'              
-        run "rails g model Admin"
-        File.replace_content_from model_file(:admin), where => /Admin/, with => 'Admin < User'
-      end
-    end
-
-    def configure_roles
-      command = "rails g #{orm}:roles --strategy #{strategy} --roles #{roles} #{default_roles}"
-      logger.debug command
-      run command
-    end
-
-    def configure_permission_system
-      logger.debug "configure_permission_system"      
-    end
-
-    def configure_locale
-      src = File.expand_path "config/locales/en.yml".path.up(2)
-      # src = "config/locales/en.yml"
-      logger.debug "configure_locale, copy from: #{src}"            
-      copy_file src, "config/locales/cream.en.yml"
-    end
-
-    # -----------------
-    private
-
-    # Must be ORM specific!
-    def create_user
-       'rails g devise User'
-    end
-
-    def create_admin_user
-      run 'rails g devise Admin' 
-    end      
-
-    # CanCan access denied exception handling
-    def configure_exception_handling         
-      insert_into_controller :application, :after => "ActionController::Base\n" do
-        %{
-rescue_from CanCan::AccessDenied do |exception|
-  flash[:error] = exception.message
-  redirect_to root_url
-end
-}
-      end
-    end
-
-    include Helpers
   end
 end
