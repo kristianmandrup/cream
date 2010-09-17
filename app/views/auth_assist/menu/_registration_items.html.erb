@@ -1,0 +1,10 @@
+<% for_role :user do %>
+  <li>
+  <%= link_to('Edit registration', edit_user_registration_path) %>
+  </li>
+<% end %>
+<% for_role :admin, false do %>
+  <li>
+  <%= link_to('Register', new_user_registration_path)  %>
+  </li>
+<% end %>

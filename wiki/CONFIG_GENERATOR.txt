@@ -1,0 +1,21 @@
+The *config* generator generates a configuration initializer file for setting up `cream` to use a particular role strategy.
+
+<pre>$ rails g cream:config --strategy NAME</pre>
+
+NAME is the name of a role strategy. 
+
+Strategies with a single role for each user
+* admin_field
+* role_string
+* one_role
+
+Strategies with multiple roles for each user
+* roles_mask
+* many_roles
+
+Currently role groups are not supported. Feel free to provide an add-on to support this or integrate with an existing 'role group' solution.  
+
+Example usage:
+
+<pre>$ rails g cream:config --strategy admin_field</pre>
+

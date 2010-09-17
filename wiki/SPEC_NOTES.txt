@@ -1,0 +1,6 @@
+# Notes and Status
+
+Currently these specs are a work in progress. 
+I am first building up a skeleton structure for the specs and then plan to gradually implement them as described in the DESIGN.txt document :)
+
+You are most welcome to help in the effort!

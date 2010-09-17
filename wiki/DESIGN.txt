@@ -1,0 +1,21 @@
+# Design and plans for the future...
+
+1) Specs for generators
+Currently there are a few generators. I have found some good examples of how to write generator tests (using test_unit) in the rails3-generators project.
+I am porting this to RSpec 2 and will then write generator specs next.
+
+2) New hook-in approach for controller and view methods
+I will change how the methods are added to Rails controllers and views using a new approach I found and used in the Netzke project.
+
+3) Create specs for the custom methods
+4) Create cucumber features for various Role scenarios
+5) Add Mongoid and Mongo Mapper ORM support
+Mongoid currently supported by Devise, and Mongo Mapper will be supported after Rails 3 release I think (have heard?)
+
+6) Add Data Mapper support
+dm-devise project almost done by jm81 as per. July 9, 2010
+
+7) Add support for Canable (jnunemaker), an even simpler permission system alternative to CanCan.
+I already added generators and specs to this gem.
+
+Feel free to suggest other improvements etc ;)

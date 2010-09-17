@@ -1,0 +1,40 @@
+*Auth assistant* supports single and multiple role strategies. Currently groups are not supported. 
+
+Note: Maybe roles support could be integrated in the future using an existing solution for roles and groups? 
+
+h2. Single role per user
+
+* admin_field 
+* role_field (role : string in users table)
+* role_assignment (role_id -> role.id)
+
+h3. admin_field
+Uses the field *admin : boolean* in the _users_ table
+
+h3. role_field
+Uses the field *role : string* in the _users_ table
+
+h3. role_assignment
+Uses the field *role_id :integer* in the _users_ table. 
+A _roles_ table has id and name fields, where name is the name of the role.
+`users.role_id` points to `role.id` in a 1-M relation. 
+
+Many (M) users can have the same (1) role. Any user can however only have a single role.
+
+h2. Multiple roles per user
+* roles mask
+* roles_field 
+* multi_role_assignment
+
+h3. roles mask
+Uses the field *role_masks : integer* in the _users_ table.
+Each bit of the integer matches a given role.
+
+h3. roles_field
+Uses the field *roles : string* in the _users_ table.
+Currently "experimental".
+
+h3. multi_role_assignment
+Uses the field *role_assignment_id : integer* in the _users_ table.
+A _roles_ table has id and name fields, where name is the name of the role.
+A _role_assignments_ table has _role_id_ and _user_id_ fields, linking the assignment to a user in the users table and a role in the roles table.

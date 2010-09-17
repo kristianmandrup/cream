@@ -1,0 +1,32 @@
+Authorization is setup by designing permits for each can of role to do certain actions.
+The config generator generates a default permits.rb file in /lib
+
+Please see "cancan 1.3 wiki":http://wiki.github.com/ryanb/cancan/upgrading-to-13 for more options 
+you can use in designing your Permits. The 'owns' convenience method provided, now uses the new hash option so it
+is also available in the controller using fx:
+
+<pre>Book.accessible_by(current_ability)</pre>
+
+The user can manage any Comment instance if 'user' field on instance points to the user, marking ownership
+<pre>user.owns(Comment)</pre>
+
+Override default 'user_id' field used by owns, to instead use 'author' as ownership key (foreign key) pointing to the user (user.id).  
+<pre>user.owns(Book, :author)</pre>
+
+Example:
+<pre>module RolePermit
+  class Moderator
+    def initialize(ability)
+      super
+    end
+
+    def permit?(user)
+      super
+      return if !user.role?(:moderator)
+      can :read, :all    
+      
+      user.owns(Comment) 
+      user.owns(Book, :author)       
+    end  
+  end
+end</pre>

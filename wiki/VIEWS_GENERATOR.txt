@@ -1,0 +1,35 @@
+The `views` generator generates views (partials) for use with menus.
+
+It is sometimes the case that you want to have menu items in a main navigation menu that enable the user to log in/out, register a new user account or edit an existing user account. The menu items partials ensure that these menuitems are only shown as appropriate in relation to the current user login status, so that log out and edit account is only shown if the user is currently logged in and vice-versa.   
+
+<pre>$ rails g cream:views</pre>
+
+Create HAML views
+
+<pre>$ rails g cream:views --template_engine haml</pre>
+
+Example usage:
+<pre>ul.menu
+    render 'cream/login_items'                              
+    render 'cream/registration_items'
+
+  ul.admin_menu_
+    render 'cream/admin_login_items'</pre>
+    
+    
+<pre>module RolePermit
+  class Moderator
+    def initialize(ability)
+      super
+    end
+
+
+    def permit?(user)
+      super
+      return if !user.role?(:moderator)
+      can :read, :all
+      user.owns(Comment)
+      user.owns(Book, :author)
+    end
+  end
+end</pre>

@@ -1,0 +1,11 @@
+<% for_role :user do %>
+  <li>
+  <%= link_to('Logout', destroy_user_session_path) %>        
+  </li>
+<% end %>
+<% for_role :user, false do %>
+  <li>
+  <%= link_to('Login', new_user_session_path)  %>  
+  </li>
+<% end %>
+

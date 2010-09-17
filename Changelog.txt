@@ -1,0 +1,8 @@
+September 17, 2010
+---
+* Renamed 'auth-assistant' to 'cream'
+* Using latest supporting gems
+
+TODO:
+* Need to complete :config generator
+* Need to use latest spec helpers and cancan + devise extensions, permissions etc.

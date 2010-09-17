@@ -1,0 +1,6 @@
+This gem has been designed for Rails 3 only. Any back port to Rails 2 is most welcome ;)
+
+Insert <pre>gem 'auth-assistant'</pre> in your Rails 3 Gemfile
+
+<pre>$ bundle install</pre>
+

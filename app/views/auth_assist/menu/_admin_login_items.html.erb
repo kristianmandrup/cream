@@ -1,0 +1,11 @@
+<% for_role :admin do %>
+  <li>
+  <%= link_to('Logout', destroy_admin_session_path) %>        
+  </li>
+<% end %>
+<% for_role :admin, false do %>
+  <li>
+  <%= link_to('Login', new_admin_session_path)  %>  
+  </li>
+<% end %>
+
