@@ -1,4 +1,5 @@
 require 'sugar-high/file'
+require 'sugar-high/modules'
 require 'cream'
 require 'rails3_artifactor'
 require 'logging_assist'
@@ -60,7 +61,8 @@ module Cream::Generators
 
       if devise_users?     
         logger.debug 'Devise users OK'           
-        configure_roles if roles_config?       
+        configure_roles if roles_config? 
+        configure_exception_handling      
         configure_permission_system if permission_config?
         configure_locale
         handle_devise_users
@@ -72,11 +74,9 @@ module Cream::Generators
     # -----------------      
     protected
 
-    # include Rails::Assist::BasicLogging
+    includes Cream::Generators::Config, :devise, :cancan, :roles, :permits
 
-    def logger
-      @log ||= Rails::Assist::Logging.new 
-    end  
+    include Rails::Assist::BasicLogging
 
     use_helpers :model, :controller, :permit
 
@@ -149,8 +149,7 @@ module Cream::Generators
     end
 
     def configure_permission_system
-      logger.debug "configure_permission_system"
-      configure_exception_handling
+      logger.debug "configure_permission_system"      
     end
 
     def configure_locale
@@ -172,7 +171,7 @@ module Cream::Generators
       run 'rails g devise Admin' 
     end      
 
-    # CanCan permissions configuration
+    # CanCan access denied exception handling
     def configure_exception_handling         
       insert_into_controller :application, :after => "ActionController::Base\n" do
         %{

@@ -25,7 +25,7 @@ begin
     gem.add_dependency 'logging_assist',    "~> 0.1.2"
 
     gem.add_dependency "r3_plugin_toolbox", "~> 0.3.6" 
-    gem.add_dependency "sugar-high",        "~> 0.2.9"      
+    gem.add_dependency "sugar-high",        "~> 0.2.10"      
            
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     
