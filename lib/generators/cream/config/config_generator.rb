@@ -100,16 +100,18 @@ module Cream::Generators
       # Roles for specific orm
       gem "roles_#{orm}"
 
+      # Devise ORM integration
       case orm.to_sym
+      when :mongoid
+        say "Configure Devise for Mongoid as demonstrated by the Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
       when :mongo_mapper
         gem 'mm-devise'
+      when :data_mapper
+        gem 'dm-devise'
+      end
 
-      # permits
-      gem 'cancan-permits'
-
-      # links
-      gem 'devise-links'
-      gem 'cancan-rest-links'      
+      # permits and roles integration
+      gem 'cream'
 
       run "bundle install"
     end

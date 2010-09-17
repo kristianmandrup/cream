@@ -1,5 +1,13 @@
 require 'active_support/inflector'
 require 'require_all'
+
+require 'devise'
+require 'devise-links'
+
+require 'cancan'
+require 'cancan-rest-links'
+require 'cancan-permits'
+
 require 'cream/namespaces'    
 
 require 'sugar-high/alias'
