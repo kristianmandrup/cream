@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.5.3"
+  s.version = "0.5.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
@@ -68,6 +68,12 @@ Gem::Specification.new do |s|
      "spec/cream/view/role_area_spec.rb",
      "spec/cream/view/role_ext_spec.rb",
      "spec/generator_spec_helper.rb",
+     "spec/generators/cream/config/devise/existing_devise_users.rb",
+     "spec/generators/cream/config/empty_app/default_args_spec.rb",
+     "spec/generators/cream/config/permits/existing_permits_spec.rb",
+     "spec/generators/cream/config/permits/no_permits_spec.rb",
+     "spec/generators/cream/config/roles/default_roles.rb",
+     "spec/generators/cream/config/roles/roles_spec.rb",
      "spec/generators/cream/shared_examples.rb",
      "spec/generators/cream/views_generator_spec.rb",
      "spec/spec_helper.rb",
