@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe 'Generator' do
-  GeneratorSpec.with_generator do |g, c|
+  with_generator do |g, c|
     g.tests Cream::Generators::ViewsGenerator
     c.setup
   end
 
   def check_generated_views folder=nil
-    GeneratorSpec.with_generator do |g, check|
+    with_generator do |g, check|
       if folder
         g.run_generator folder 
       else             
