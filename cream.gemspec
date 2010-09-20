@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.5.4"
+  s.version = "0.5.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
      ".gitignore",
      ".rspec",
      "Changelog.txt",
+     "Gemfile",
      "LICENSE",
      "README.markdown",
      "Rakefile",
@@ -118,11 +119,10 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, ["~> 2.0.0.beta.22"])
       s.add_development_dependency(%q<generator-spec>, ["~> 0.6.4"])
       s.add_development_dependency(%q<rspec-action_view>, ["~> 0.3.1"])
-      s.add_development_dependency(%q<rails-app-spec>, ["~> 0.2.11"])
+      s.add_development_dependency(%q<rails-app-spec>, ["~> 0.2.13"])
       s.add_runtime_dependency(%q<devise-links>, ["~> 0.1.1"])
       s.add_runtime_dependency(%q<cancan-rest-links>, ["~> 0.1.1"])
       s.add_runtime_dependency(%q<cancan-permits>, ["~> 0.1.1"])
-      s.add_runtime_dependency(%q<devise>, ["~> 1.1.2"])
       s.add_runtime_dependency(%q<cancan>, ["~> 1.3.4"])
       s.add_runtime_dependency(%q<rails>, ["~> 3.0.0"])
       s.add_runtime_dependency(%q<rails3_artifactor>, ["~> 0.2.4"])
@@ -133,11 +133,10 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, ["~> 2.0.0.beta.22"])
       s.add_dependency(%q<generator-spec>, ["~> 0.6.4"])
       s.add_dependency(%q<rspec-action_view>, ["~> 0.3.1"])
-      s.add_dependency(%q<rails-app-spec>, ["~> 0.2.11"])
+      s.add_dependency(%q<rails-app-spec>, ["~> 0.2.13"])
       s.add_dependency(%q<devise-links>, ["~> 0.1.1"])
       s.add_dependency(%q<cancan-rest-links>, ["~> 0.1.1"])
       s.add_dependency(%q<cancan-permits>, ["~> 0.1.1"])
-      s.add_dependency(%q<devise>, ["~> 1.1.2"])
       s.add_dependency(%q<cancan>, ["~> 1.3.4"])
       s.add_dependency(%q<rails>, ["~> 3.0.0"])
       s.add_dependency(%q<rails3_artifactor>, ["~> 0.2.4"])
@@ -149,11 +148,10 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rspec>, ["~> 2.0.0.beta.22"])
     s.add_dependency(%q<generator-spec>, ["~> 0.6.4"])
     s.add_dependency(%q<rspec-action_view>, ["~> 0.3.1"])
-    s.add_dependency(%q<rails-app-spec>, ["~> 0.2.11"])
+    s.add_dependency(%q<rails-app-spec>, ["~> 0.2.13"])
     s.add_dependency(%q<devise-links>, ["~> 0.1.1"])
     s.add_dependency(%q<cancan-rest-links>, ["~> 0.1.1"])
     s.add_dependency(%q<cancan-permits>, ["~> 0.1.1"])
-    s.add_dependency(%q<devise>, ["~> 1.1.2"])
     s.add_dependency(%q<cancan>, ["~> 1.3.4"])
     s.add_dependency(%q<rails>, ["~> 3.0.0"])
     s.add_dependency(%q<rails3_artifactor>, ["~> 0.2.4"])

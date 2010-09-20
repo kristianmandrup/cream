@@ -5,7 +5,7 @@ describe Cream::Helper::Role do
   
   extend_view_with Cream::Helper::Role  
 
-  context 'method auto-generated when Rails initialize based on registered roles'
+  context 'method auto-generated when Rails initialize based on registered roles' do
     describe '#guest_area' do              
 
       it "should execute an Admin guarded block for :admin" do        
@@ -80,6 +80,7 @@ describe Cream::Helper::Role do
         end
       end
     end # desc
+  end
   
   describe '#has_role?' do
     context 'user has role :admin' do
@@ -109,8 +110,8 @@ describe Cream::Helper::Role do
           res.should match /false/
         end    
       end
-    end
-  end
+    end # ctx
+  end # dec
 
   describe '#has_roles?' do
     context 'user has roles :admin and :guest' do
@@ -139,7 +140,7 @@ describe Cream::Helper::Role do
           res.should match /false/
         end    
       end
-    end
+    end # ctx
   end
   
   describe '#owner?' do
@@ -182,6 +183,5 @@ describe Cream::Helper::Role do
         res.should match /true/
       end    
     end
-
-  end  
+  end # desc 
 end
