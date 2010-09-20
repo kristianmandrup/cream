@@ -1,7 +1,8 @@
 require 'active_support/inflector'
 require 'require_all'
 
-require 'devise'
+require 'rails'
+# require 'devise'
 require 'devise-links'
 
 require 'cancan'

@@ -1,6 +1,4 @@
-require 'require_all'
 require 'spec_helper'
-
 require 'cream/helper/role'
 
 describe Cream::Helper::Role do
