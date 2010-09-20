@@ -10,8 +10,14 @@ The objective of this project is to
 
 ## Status
 
-This project and the gems it assembles should all work. 
+This project and the gems it assembles should all mostly work. I am currently going through all the supporting gems, making sure dependencies 
+are updated and that they use the latest APIs of the other gems and all specs pass. Stay tuned!
 The config generators is currently under construction and needs some fine-tuning to bring all the gems together.
+
+I have now also started a new project called [Cream rails 3 app](http://github.com/kristianmandrup/cream-rails3-app) which is to be a template Rails 3 project 
+that demonstrates what a final Rails 3 app using Cream will look like. I plan to use this as a template for the Cream config generator, making sure that given
+Mongo Mapper as the ORM and default arguments, the generartor should generate a "mirror image" of this template project. You are most welcome to help me in this effort
+or provide suggestions etc. The README of the template project will contain a recipe with the steps to be taken to produce it ;)
 
 NOTE: I have renamed the old 'auth-assistant' project to this project called 'cream'. 
 
