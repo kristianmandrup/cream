@@ -22,7 +22,7 @@ begin
     gem.add_dependency "rails",             "~> 3.0.0"
 
     gem.add_dependency "rails3_artifactor", "~> 0.2.4"
-    gem.add_dependency 'logging_assist',    "~> 0.1.2"
+    gem.add_dependency 'logging_assist',    "~> 0.1.3"
 
     gem.add_dependency "r3_plugin_toolbox", "~> 0.3.6" 
     gem.add_dependency "sugar-high",        "~> 0.2.10"      
