@@ -52,7 +52,8 @@ module Cream::Generators
     MODULES = [:devise] #, :cancan, :roles, :permits, :cream]
 
     includes Cream::Generators::Config, :helper, MODULES #, :cancan, :roles, :permits, :cream
-    include Rails::Assist::BasicLogging
+
+    include Rails3::Assist::BasicLogger
 
     use_helpers :model, :controller, :permit
 
