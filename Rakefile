@@ -13,6 +13,8 @@ begin
     gem.add_development_dependency "rspec-action_view", "~> 0.3.1"     
     gem.add_development_dependency "rails-app-spec",    "~> 0.2.13"
 
+    gem.add_dependency "require_all",       ">= 1.1.0"
+    
     gem.add_dependency "devise-links",      "~> 0.1.1"
     gem.add_dependency "cancan-rest-links", "~> 0.1.1" 
     gem.add_dependency "cancan-permits",    "~> 0.1.1" 
