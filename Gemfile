@@ -6,7 +6,7 @@ group :default do
   gem "cancan-rest-links", "~> 0.1.1" 
   gem "cancan-permits",    "~> 0.1.1" 
 
-  gem "devise",            "~> 1.2.0"    
+  gem "devise",            ">= 1.1.2"    
   gem "cancan",            "~> 1.3.4" 
   gem "rails",             "~> 3.0.0"
 
