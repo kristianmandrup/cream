@@ -142,10 +142,10 @@ The *config* generator should automatically setup up your project with Devise, a
 
 Cream will support these ORMs:
 
+* Active Record
+* Data Mapper
 * Mongo Mapper
 * Mongoid 
-* Data Mapper
-* Acive Record
 
 Status 17 sept, 2010: 
 The latest *generator-spec* and other supporting generator utils I've created (such as rails3_artifactor) should facilitate finishing this generator...
@@ -155,6 +155,8 @@ The goal is to make the generator:
 * Run various other generators 
 
 The result should be a full (or nearly full) integration of all the sub-systems mentioned for a given Rails 3 app with the ORM of choice.
+
+See [Cream rails 3 app](http://github.com/kristianmandrup/cream-rails3-app) to get an idea of the end goal.
 
 ### Config Generator ###
 
