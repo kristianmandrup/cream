@@ -18,5 +18,10 @@ Rails3::Plugin::Extender.new do
   
   after :initialize do   
     require_all File.dirname(__FILE__) + '/after_init'
-  end
+
+    # set cream config object
+    Rails3.with_configuration do
+      cream = Cream::Rails::Config.new :roles => Cream::Role.available
+    end
+  end  
 end
