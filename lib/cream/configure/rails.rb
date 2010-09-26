@@ -18,7 +18,6 @@ Rails3::Plugin::Extender.new do
   end  
   
   after :initialize do   
-    puts "Rails app initialized"
     require_all File.dirname(__FILE__) + '/after_init'
   end
 end

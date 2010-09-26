@@ -7,7 +7,7 @@ require 'cancan'
 require 'cancan-rest-links'
 require 'cancan-permits'
 
-require 'cream/namespaces'    
+require 'cream/namespaces' 
 
 require 'sugar-high/alias'
 require 'sugar-high/kind_of'

@@ -1,5 +1,7 @@
 require 'configure_helper'
 
+require 'cream/configure'
+
 class Role  
   attr_accessor :name
   
@@ -11,9 +13,6 @@ class Role
     [Role.new('admin'), Role.new('guest')]
   end
 end
-
-require 'cream/role'
-require 'cream/configure'
 
 describe "Rails extension" do
   describe 'Extensions' do
