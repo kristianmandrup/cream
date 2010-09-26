@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.5.7"
+  s.version = "0.5.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
@@ -62,12 +62,12 @@ Gem::Specification.new do |s|
      "lib/generators/cream_refactor.rb",
      "log/development.log",
      "sandbox/test.rb",
+     "spec/configure_helper.rb",
      "spec/cream/configure/rails_spec.rb",
      "spec/cream/helper/host_spec.rb",
      "spec/cream/helper/role_spec.rb",
      "spec/cream/view/host_area_spec.rb",
      "spec/cream/view/role_area_spec.rb",
-     "spec/cream/view/role_ext_spec.rb",
      "spec/generator_spec_helper.rb",
      "spec/generators/cream/config/devise/existing_devise_users.rb",
      "spec/generators/cream/config/empty_app/default_args_spec.rb",
@@ -93,12 +93,12 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Integrates Devise, Roles and CanCan with Permits for a Rails 3 app}
   s.test_files = [
-    "spec/cream/configure/rails_spec.rb",
+    "spec/configure_helper.rb",
+     "spec/cream/configure/rails_spec.rb",
      "spec/cream/helper/host_spec.rb",
      "spec/cream/helper/role_spec.rb",
      "spec/cream/view/host_area_spec.rb",
      "spec/cream/view/role_area_spec.rb",
-     "spec/cream/view/role_ext_spec.rb",
      "spec/generator_spec_helper.rb",
      "spec/generators/cream/config/devise/existing_devise_users.rb",
      "spec/generators/cream/config/empty_app/default_args_spec.rb",
