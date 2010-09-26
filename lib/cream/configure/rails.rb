@@ -12,7 +12,7 @@ Rails3::Plugin::Extender.new do
 
   # extend action_view with methods from some modules
   extend_rails :view do
-    extend_from_module Cream::View, :role, :user_action_menu
+    extend_from_module Cream::View, :role, :host, :user_action_menu
     extend_from_module Cream::Helper, :role
   end  
   

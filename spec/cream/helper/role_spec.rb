@@ -8,27 +8,27 @@ describe Cream::Helper::Role do
   context 'method auto-generated when Rails initialize based on registered roles' do
     describe '#guest_area' do              
 
-      it "should execute an Admin guarded block for :admin" do        
-        with_engine do |e, view|
-          view.stubs(:has_role?).with([:admin]).returns true
-
-          res = e.run_template do 
-            %{<%= for_admin { 'hello' } %>}
-          end        
-          res.should match /hello/
-        end
-      end
-  
-      it "should not execute an Admin guarded block for user not :admin" do        
-        with_engine do |e, view|
-          view.stubs(:has_role?).with([:admin]).returns false
-
-          res = e.run_template do 
-            %{<%= for_admin { 'hello' } %>}
-          end        
-          res.should be_empty
-        end
-      end
+      # it "should execute an Admin guarded block for :admin" do        
+      #   with_engine do |e, view|
+      #     view.stubs(:has_role?).with([:admin]).returns true
+      # 
+      #     res = e.run_template do 
+      #       %{<%= for_admin { 'hello' } %>}
+      #     end        
+      #     res.should match /hello/
+      #   end
+      # end
+      #   
+      # it "should not execute an Admin guarded block for user not :admin" do        
+      #   with_engine do |e, view|
+      #     view.stubs(:has_role?).with([:admin]).returns false
+      # 
+      #     res = e.run_template do 
+      #       %{<%= for_admin { 'hello' } %>}
+      #     end        
+      #     res.should be_empty
+      #   end
+      # end
     end # desc
   end # context
 

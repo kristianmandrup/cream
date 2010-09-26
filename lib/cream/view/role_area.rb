@@ -25,7 +25,7 @@ module Cream::View
       options = last_option(user_roles)
       not_for_roles user_roles do             
         clazz = options[:class] || 'special'
-        area(clazz, &block)
+        area(:class => clazz, &block)
       end
     end  
     alias_method :area_not_for_role, :area_not_for_roles

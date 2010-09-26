@@ -1,4 +1,4 @@
-module AuthAssistant
+module Cream
   module Role
     def self.available
       ::Role.all.map(&:name).to_symbols
