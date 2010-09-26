@@ -2,9 +2,9 @@ source :rubygems
 source 'http://gems.github.com/'
 
 group :default do
-  gem "devise-links",      "~> 0.1.1"    
-  gem "cancan-rest-links", "~> 0.1.1" 
-  gem "cancan-permits",    "~> 0.1.2" 
+  gem "devise-links",      "~> 0.1.3"    
+  gem "cancan-rest-links", "~> 0.1.3" 
+  gem "cancan-permits",    "~> 0.1.4" 
 
   gem "require_all",       "~> 1.2.0"    
 
