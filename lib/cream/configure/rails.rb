@@ -7,8 +7,7 @@ Rails3::Plugin::Extender.new do
   extend_rails :controller do
     extend_from_module Cream, :role
     extend_from_module Cream::Controller, :ability
-    extend_from_module Cream::Helper, :role, :local_host, :auth_label
-    extend_from_module Cream::Link, :session, :registration, :rest, :session          
+    extend_from_module Cream::Helper, :role, :host, :auth_label
   end  
 
   # extend action_view with methods from some modules

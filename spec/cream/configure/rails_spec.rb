@@ -29,8 +29,7 @@ describe "Rails extension" do
       after_init :controller do
         :controller.should be_extended_with Cream, :role
         :controller.should be_extended_with Cream::Controller, :ability
-        :controller.should be_extended_with Cream::Helper, :role, :local_host, :auth_label
-        :controller.should be_extended_with Cream::Link, :session, :registration, :rest, :session
+        :controller.should be_extended_with Cream::Helper, :role, :host, :auth_label
       end            
       
       init_app_railties :minimal, :view
