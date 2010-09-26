@@ -4,6 +4,8 @@ module Cream::Helper
       @auth_labels ||= translate_labels
     end
 
+    protected
+
     def translate_labels
       ns_actions = 'cream.actions'
       labels = {}
@@ -12,10 +14,6 @@ module Cream::Helper
       end 
       labels[:confirm] = t 'cream.confirm'
       labels           
-    end 
-    
-    def self.included(base)
-      base.helper_method :auth_labels
-    end         
+    end    
   end
 end

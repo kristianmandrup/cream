@@ -20,7 +20,7 @@ describe "Rails extension" do
     it "should extend Action View with Roles helper instance_methods and specific role methods" do
       after_init :view do
         :view.should be_extended_with Cream::View,    :role, :host, :user_action_menu
-        :view.should be_extended_with Cream::Helper,  :role
+        :view.should be_extended_with Cream::Helper,  :role, :auth_label
       end
       
       init_app_railties :minimal, :view
@@ -35,6 +35,10 @@ describe "Rails extension" do
       end            
       
       init_app_railties :minimal, :view
+    end   
+    
+    it "should work with safe_concat" do
+      "abc".html_safe.should == "abc"
     end
   end
 end
