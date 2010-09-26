@@ -16,18 +16,24 @@ require 'cream/role'
 require 'cream/configure'
 
 describe "Rails extension" do
-  describe 'View extension' do
+  describe 'Extensions' do
     it "should extend Action View with Roles helper instance_methods and specific role methods" do
       after_init :view do
         :view.should be_extended_with Cream::View,    :role, :host, :user_action_menu
         :view.should be_extended_with Cream::Helper,  :role
-        # [:admin, :guest].each do |role|
-        #   view.should respond_to? :"for_#{role}"
-        #   view.should respond_to? :"#{role}_area"
-        #   view.should respond_to? :"#{role}?"
-        # end
       end
+      
+      init_app_railties :minimal, :view
+    end
 
+    it "should extend Action Controller" do
+      after_init :controller do
+        :controller.should be_extended_with Cream, :role
+        :controller.should be_extended_with Cream::Controller, :ability
+        :controller.should be_extended_with Cream::Helper, :role, :local_host, :auth_label
+        :controller.should be_extended_with Cream::Link, :session, :registration, :rest, :session
+      end            
+      
       init_app_railties :minimal, :view
     end
   end

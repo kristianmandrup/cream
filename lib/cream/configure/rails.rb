@@ -3,12 +3,13 @@ require 'r3_plugin_toolbox'
 
 Rails3::Plugin::Extender.new do
   # extend action_controller with methods from some modules
-  # extend_rails(:controller) do
-  #   extend_from_module Cream, :role
-  #   extend_from_module Cream::Controller, :ability
-  #   extend_from_module Cream::Helper, :role, :local_host, :auth_label
-  #   extend_from_module Cream::Link, :session, :registration, :rest, :session          
-  # end  
+
+  extend_rails :controller do
+    extend_from_module Cream, :role
+    extend_from_module Cream::Controller, :ability
+    extend_from_module Cream::Helper, :role, :local_host, :auth_label
+    extend_from_module Cream::Link, :session, :registration, :rest, :session          
+  end  
 
   # extend action_view with methods from some modules
   extend_rails :view do
