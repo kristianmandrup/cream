@@ -8,6 +8,11 @@ module Cream::Generators
         :mongoid      => 'rails3-mongoid-devise'                
       }
 
+      # rails generate ...
+      def rgen command
+        execute "rails g #{command}"
+      end        
+
       def execute command
         logger.debug command
         run command
@@ -21,16 +26,33 @@ module Cream::Generators
         options[:logfile]      
       end
 
-      def default_roles
-        options[:default_roles] ? '--default-roles' : '--no-default-roles'
+      def users 
+        extra_users = admin_user? ? :admin : nil
+        @users ||= ([:user] + extra_users).compact
       end
 
       def roles
-        options[:roles].join(' ')
+        @roles ||= options[:roles].join(' ')
+      end
+
+      def roles_generator
+        "#{orm}:roles"
+      end
+
+      def user_generator 
+        active_record? ? "#{orm}:devise" : 'devise'
+      end
+
+      def active_record? 
+        orm == 'active_record'
       end
 
       def orm
         options[:orm]
+      end
+
+      def default_roles?
+        options[:default_roles]
       end
 
       def roles_config?

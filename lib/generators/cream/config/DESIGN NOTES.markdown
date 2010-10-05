@@ -11,6 +11,24 @@ Each of the following should be a module in its own right!
 * Include modules depending on options
 * For each module call the config_[module_name] method, which is responsible for configuring that module! 
 
+## App config
+
+in config/application.rb
+
+If not using Active Record, substitute
+<pre>
+  require 'rails/all'
+</pre>
+  
+  
+With  
+<pre>
+  require "action_controller/railtie"
+  require "action_mailer/railtie"
+  require "active_resource/railtie"
+  require "rails/test_unit/railtie"  
+</pre>
+
 ## Devise Configuration
 
 Gemfile

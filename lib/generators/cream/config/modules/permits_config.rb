@@ -8,7 +8,7 @@ module Cream::Generators
       def configure_permits
         logger.debug "Configure Permits"
         # Run permits generator to generate permit for each role
-        execute "rails g permits --roles #{roles}"
+        rgen "permits --roles #{roles}"
       end           
     end
   end

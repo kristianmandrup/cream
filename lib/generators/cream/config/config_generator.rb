@@ -20,10 +20,10 @@ module Cream::Generators
     source_root File.dirname(__FILE__)
 
     # Role Strategy
-    class_option  :strategy,          :type => :string,   :default => 'role_string',    :desc => "Role strategy to use", 
+    class_option  :strategy,          :type => :string,   :default => 'role_string',    :desc => "Role strategy to use"
 
     # Create Admin user
-    class_option :admin_user,         :type => :boolean,  :default => false,            :desc => "Create admin user",  
+    class_option :admin_user,         :type => :boolean,  :default => false,            :desc => "Create admin user"  
 
     # Roles
     class_option :default_roles,      :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest"
@@ -42,20 +42,25 @@ module Cream::Generators
       configure_gems       
 
       MODULES.each do |name|
-        send :"configure_#{name}"
+        method = "configure_#{name}"
+        send method if respond_to?(method)
       end
     end
 
     # -----------------      
     protected
 
-    MODULES = [:devise] #, :cancan, :roles, :permits, :cream]
+    # configure which helper modules (from /modules subfolder) to include in this Generator!!!
+    
+    MODULES = [:app, :devise, :devise_users, :cancan, :roles, :permits, :cream]
 
-    includes Cream::Generators::Config, :helper, MODULES #, :cancan, :roles, :permits, :cream
+    includes Cream::Generators::Config, :helper, MODULES
 
     include Rails3::Assist::BasicLogger
 
-    use_helpers :model, :controller, :permit
+    # using helpers from rails3_artifactor gem. 
+    # A macro from rails3_assist loads appropriate modules into the class and makes various Rails 3 "mutation helper" methods available
+    use_helpers :model, :controller, :permit, :application
 
     def configure_logger
       logger.add_logfile :logfile => logfile
@@ -64,7 +69,8 @@ module Cream::Generators
 
     def configure_gems
       MODULES.each do |name|
-        send :"#{name}_gems"
+        method = "#{name}_gems"
+        send method if respond_to?(method)
       end
       run "bundle install"
     end

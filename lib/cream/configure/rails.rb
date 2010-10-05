@@ -19,6 +19,10 @@ Rails3::Plugin::Extender.new do
   after :initialize do   
     require_all File.dirname(__FILE__) + '/after_init'
 
+    Rails3.with_configuration do
+      autoload_paths += %W(#{Rails.root}/app/permits)
+    end
+
     # set cream config object
     # Rails3.with_configuration do
     #   cream = Cream::Rails::Config.new :roles => Cream::Role.available
