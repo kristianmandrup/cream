@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.6.2"
+  s.version = "0.6.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2010-09-27}
+  s.date = %q{2010-10-05}
   s.description = %q{Provides assistance for setting up Session, Role and Permission systems for a Rails 3 app. Support for multiple ORMs}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -52,9 +52,11 @@ Gem::Specification.new do |s|
      "lib/cream/view/user_action_menu.rb",
      "lib/generators/cream/config/DESIGN NOTES.markdown",
      "lib/generators/cream/config/config_generator.rb",
+     "lib/generators/cream/config/modules/app_config.rb",
      "lib/generators/cream/config/modules/cancan_config.rb",
      "lib/generators/cream/config/modules/cream_config.rb",
      "lib/generators/cream/config/modules/devise_config.rb",
+     "lib/generators/cream/config/modules/devise_users_config.rb",
      "lib/generators/cream/config/modules/helper.rb",
      "lib/generators/cream/config/modules/permits_config.rb",
      "lib/generators/cream/config/modules/roles_config.rb",
