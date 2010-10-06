@@ -9,7 +9,7 @@ module Cream::Generators
 
       def roles_gems
         gem "roles_#{orm}"
-      end
+      end 
 
       def create_roles
         rgen "#{roles_generator} --strategy #{strategy} --roles #{roles} #{default_roles}"        

@@ -8,7 +8,7 @@ begin
     gem.homepage = "http://github.com/kristianmandrup/devise-assistant"
     gem.authors = ["Kristian Mandrup"]
 
-    gem.add_development_dependency "rspec",             "~> 2.0.0.beta.22" 
+    gem.add_development_dependency "rspec",             ">= 2.0.0.rc" 
     gem.add_development_dependency "generator-spec",    "~> 0.6.5" 
     gem.add_development_dependency "rspec-action_view", "~> 0.3.1"     
     gem.add_development_dependency "rails-app-spec",    "~> 0.2.14"

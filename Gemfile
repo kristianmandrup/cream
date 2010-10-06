@@ -20,7 +20,7 @@ group :default do
 end
 
 group :test do
-  gem "rspec",             "~> 2.0.0.beta.22" 
+  gem "rspec",             ">= 2.0.0.rc" 
   gem "generator-spec",    "~> 0.6.5" 
   gem "rspec-action_view", "~> 0.3.1"     
   gem "rails-app-spec",    "~> 0.2.14"

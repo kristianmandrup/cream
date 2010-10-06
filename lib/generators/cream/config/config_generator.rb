@@ -37,13 +37,21 @@ module Cream::Generators
 
     class_option :logfile,            :type => :string,   :default => nil,              :desc => "Logfile location"
 
+    class_option :app_config,         :type => :boolean,  :default => true,             :desc => "Make Rails app ready for Cream"
+    class_option :cream_config,       :type => :boolean,  :default => true,             :desc => "Configure app with Cream"
+    class_option :devise_config,      :type => :boolean,  :default => true,             :desc => "Configure app with Devise"
+    class_option :devise_user_config, :type => :boolean,  :default => true,             :desc => "Configure app with Devise Users"
+    class_option :cancan_config,      :type => :boolean,  :default => true,             :desc => "Configure app with CanCan"
+    class_option :permits_config,     :type => :boolean,  :default => true,             :desc => "Configure app with Permits"
+    class_option :roles_config,       :type => :boolean,  :default => true,             :desc => "Configure app with Roles"    
+
     def main_flow 
       configure_logger
       configure_gems       
 
       MODULES.each do |name|
         method = "configure_#{name}"
-        send method if respond_to?(method)
+        send method if respond_to?(method) && options[:"#{name}_config"]
       end
     end
 
@@ -70,7 +78,7 @@ module Cream::Generators
     def configure_gems
       MODULES.each do |name|
         method = "#{name}_gems"
-        send method if respond_to?(method)
+        send method if respond_to?(method) && options[:"#{name}_config"]
       end
       run "bundle install"
     end
