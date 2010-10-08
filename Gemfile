@@ -19,7 +19,8 @@ group :default do
   gem "sugar-high",        "~> 0.2.10"      
 end
 
-group :test do
+group :test do    
+  gem 'ffaker',            '~> 0.4.0',    :git => 'http://github.com/kematzy/ffaker.git'
   gem "rspec",             ">= 2.0.0.rc" 
   gem "generator-spec",    "~> 0.6.5" 
   gem "rspec-action_view", "~> 0.3.1"     
