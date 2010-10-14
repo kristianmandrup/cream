@@ -17,7 +17,7 @@ begin
     
     gem.add_dependency "devise-links",      "~> 0.1.4"
     gem.add_dependency "cancan-rest-links", "~> 0.1.3" 
-    gem.add_dependency "cancan-permits",    "~> 0.1.3" 
+    gem.add_dependency "cancan-permits",    "~> 0.2.3" 
 
     gem.add_dependency "devise",            ">= 1.1.2"
     gem.add_dependency "cancan",            "~> 1.3.4" 
