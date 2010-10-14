@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.6.4"
+  s.version = "0.6.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2010-10-07}
+  s.date = %q{2010-10-14}
   s.description = %q{Provides assistance for setting up Session, Role and Permission systems for a Rails 3 app. Support for multiple ORMs}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -17,11 +17,13 @@ Gem::Specification.new do |s|
      "README.markdown"
   ]
   s.files = [
-    ".document",
+    ".bundle/config",
+     ".document",
      ".gitignore",
      ".rspec",
      "Changelog.txt",
      "Gemfile",
+     "Gemfile.lock",
      "LICENSE",
      "README.markdown",
      "Rakefile",
@@ -50,6 +52,8 @@ Gem::Specification.new do |s|
      "lib/cream/view/host_area.rb",
      "lib/cream/view/role_area.rb",
      "lib/cream/view/user_action_menu.rb",
+     "lib/generators/cancan/config/config_generator.rb",
+     "lib/generators/cream/app/app_generator.rb",
      "lib/generators/cream/config/DESIGN NOTES.markdown",
      "lib/generators/cream/config/config_generator.rb",
      "lib/generators/cream/config/modules/app_config.rb",
@@ -63,6 +67,10 @@ Gem::Specification.new do |s|
      "lib/generators/cream/views/haml_util.rb",
      "lib/generators/cream/views/views_generator.rb",
      "lib/generators/cream_refactor.rb",
+     "lib/generators/devise/config/config_generator.rb",
+     "lib/generators/devise/users/users_generator.rb",
+     "lib/generators/permits/config/config_generator.rb",
+     "lib/generators/roles/config/config_generator.rb",
      "log/development.log",
      "sandbox/test.rb",
      "spec/configure_helper.rb",
@@ -75,6 +83,8 @@ Gem::Specification.new do |s|
      "spec/cream/view/host_area_spec.rb",
      "spec/cream/view/role_area_spec.rb",
      "spec/generator_spec_helper.rb",
+     "spec/generators/cancan/config/cancan_config_generator_spec.rb",
+     "spec/generators/cream/app/app_generator_spec.rb",
      "spec/generators/cream/config/CONFIG_GENERATOR_SPEC.markdown",
      "spec/generators/cream/config/devise/existing_devise_users.rb",
      "spec/generators/cream/config/empty_app/default_args_spec.rb",
@@ -84,6 +94,9 @@ Gem::Specification.new do |s|
      "spec/generators/cream/config/roles/roles_spec.rb",
      "spec/generators/cream/shared_examples.rb",
      "spec/generators/cream/views_generator_spec.rb",
+     "spec/generators/devise/config/devise_config_generator_spec.rb",
+     "spec/generators/permits/config/permits_config_generator_spec.rb",
+     "spec/generators/roles/config/roles_config_generator_spec.rb",
      "spec/spec_helper.rb",
      "wiki/CONFIG_GENERATOR.txt",
      "wiki/DESIGN.txt",
@@ -110,6 +123,8 @@ Gem::Specification.new do |s|
      "spec/cream/view/host_area_spec.rb",
      "spec/cream/view/role_area_spec.rb",
      "spec/generator_spec_helper.rb",
+     "spec/generators/cancan/config/cancan_config_generator_spec.rb",
+     "spec/generators/cream/app/app_generator_spec.rb",
      "spec/generators/cream/config/devise/existing_devise_users.rb",
      "spec/generators/cream/config/empty_app/default_args_spec.rb",
      "spec/generators/cream/config/permits/existing_permits_spec.rb",
@@ -118,6 +133,9 @@ Gem::Specification.new do |s|
      "spec/generators/cream/config/roles/roles_spec.rb",
      "spec/generators/cream/shared_examples.rb",
      "spec/generators/cream/views_generator_spec.rb",
+     "spec/generators/devise/config/devise_config_generator_spec.rb",
+     "spec/generators/permits/config/permits_config_generator_spec.rb",
+     "spec/generators/roles/config/roles_config_generator_spec.rb",
      "spec/spec_helper.rb"
   ]
 
@@ -133,7 +151,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<require_all>, ["~> 1.2.0"])
       s.add_runtime_dependency(%q<devise-links>, ["~> 0.1.4"])
       s.add_runtime_dependency(%q<cancan-rest-links>, ["~> 0.1.3"])
-      s.add_runtime_dependency(%q<cancan-permits>, ["~> 0.1.3"])
+      s.add_runtime_dependency(%q<cancan-permits>, ["~> 0.2.3"])
       s.add_runtime_dependency(%q<devise>, [">= 1.1.2"])
       s.add_runtime_dependency(%q<cancan>, ["~> 1.3.4"])
       s.add_runtime_dependency(%q<rails>, ["~> 3.0.0"])
@@ -149,7 +167,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<require_all>, ["~> 1.2.0"])
       s.add_dependency(%q<devise-links>, ["~> 0.1.4"])
       s.add_dependency(%q<cancan-rest-links>, ["~> 0.1.3"])
-      s.add_dependency(%q<cancan-permits>, ["~> 0.1.3"])
+      s.add_dependency(%q<cancan-permits>, ["~> 0.2.3"])
       s.add_dependency(%q<devise>, [">= 1.1.2"])
       s.add_dependency(%q<cancan>, ["~> 1.3.4"])
       s.add_dependency(%q<rails>, ["~> 3.0.0"])
@@ -166,7 +184,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<require_all>, ["~> 1.2.0"])
     s.add_dependency(%q<devise-links>, ["~> 0.1.4"])
     s.add_dependency(%q<cancan-rest-links>, ["~> 0.1.3"])
-    s.add_dependency(%q<cancan-permits>, ["~> 0.1.3"])
+    s.add_dependency(%q<cancan-permits>, ["~> 0.2.3"])
     s.add_dependency(%q<devise>, [">= 1.1.2"])
     s.add_dependency(%q<cancan>, ["~> 1.3.4"])
     s.add_dependency(%q<rails>, ["~> 3.0.0"])
