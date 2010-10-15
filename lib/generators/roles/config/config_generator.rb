@@ -6,14 +6,11 @@ require 'logging_assist'
 
 module Roles
   module Generators 
-    class ConfigGenerator < Rails::Generators::Base
-      extend Rails3::Assist::UseMacro
-        
+    class ConfigGenerator < Rails::Generators::Base        
       desc "Configure Permits"
 
       # ORM to use
       class_option :orm,                :type => :string,   :default => 'active_record',  :desc => "ORM to use"
-
       class_option :logfile,            :type => :string,   :default => nil,              :desc => "Logfile location" 
 
       def configure_roles
@@ -23,6 +20,21 @@ module Roles
       end      
 
       protected
+
+      include Rails3::Assist::BasicLogger
+      extend Rails3::Assist::UseMacro
+      
+      use_helpers :model
+
+      # rails generate ...
+      def rgen command
+        execute "rails g #{command}"
+      end        
+
+      def execute command
+        logger.debug command
+        run command
+      end        
 
       def roles_gems
         gem "roles_#{orm}"
@@ -45,8 +57,6 @@ module Roles
           end
         end        
       end
-
-      protected
 
       def default_roles
         default_roles? ? '--default-roles' : '--no-default-roles'

@@ -49,7 +49,7 @@ module Cream::Generators
         end  
 
         def devise_users?
-          has_user?(:user) && has_user?(:admin)
+          has_devise_user?(:user) && has_devise_user?(:admin)
         end
 
         def has_devise_user? user
@@ -57,7 +57,7 @@ module Cream::Generators
           begin
             read_model(user) =~ /devise/
           rescue Exception => e
-            logger.info "Exception for has_user? #{user}: #{e.message}"
+            logger.info "Exception for #has_devise_user? #{user}: #{e.message}"
             false
           end
         end
@@ -68,18 +68,23 @@ module Cream::Generators
         end
       end   
       
-      module Inherit
-        def self.remove_inheritance user
-          File.remove_from model_file user, :content => /<\s*ActiveRecord::Base/
-        end  
+      module Inherit 
+        self << class        
+          extend Rails3::Assist::UseMacro        
+          use_helpers :model
 
-        def self.inherit_model hash                 
-          subclass    = hash.keys.first
-          superclass  = hash.values.first.to_s.camelize
-          File.replace_content_from model_file subclass, :where => /class Admin/, :with => "class Admin < #{superclass}"
+          def remove_inheritance user
+            File.remove_from model_file user, :content => /<\s*ActiveRecord::Base/
+          end  
+
+          def inherit_model hash                 
+            subclass    = hash.keys.first
+            superclass  = hash.values.first.to_s.camelize
+            File.replace_content_from model_file subclass, :where => /class Admin/, :with => "class Admin < #{superclass}"
+          end
         end
       end
-      
+    
       module Strategy
         self << class
           extend Rails3::Assist::UseMacro        
@@ -91,8 +96,8 @@ module Cream::Generators
               "devise #{*names}"
             end
           end
-          
-          def self.devise_default_strategies
+        
+          def devise_default_strategies
             [:database_authenticatable, :confirmable, :recoverable, :rememberable, :trackable, :validatable]
           end          
         end      

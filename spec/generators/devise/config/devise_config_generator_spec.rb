@@ -1,30 +1,38 @@
 require 'spec_helper'
 
-describe 'Generator' do
-  with_generator do |g, c|
-    g.tests Devise::Generators::ConfigGenerator
-    c.setup
-  end
+LOGFILE = File.dirname(__FILE__) + '/cancan-config.log'
 
-  def check_generated_views folder=nil
-    with_generator do |g, check|
-      if folder
-        g.run_generator folder 
-      else             
-        g.run_generator
-        folder = 'menu'
-      end
-      check.view folder, '_admin_login_items.html.erb', %w{admin_block not_admin_block}
-      check.view folder, '_login_items.html.erb',       %w{user_block  not_user_block}
-      check.view folder, 'registration_items.html.erb', %w{user_block  not_user_block}
+describe 'Generator' do
+  use_helpers :controller, :special
+
+  before :each do              
+    setup_generator :permits_config_generator do
+      tests Permits::Generators::ConfigGenerator
     end    
   end
 
-  it "should create views in default scope 'menu' " do
-    check_generated_views
+  describe "Configure Rails 3 app for use with Devise" do
+    before do    
+      puts "Running generator"
+      
+      orm = :active_record
+      
+      Dir.chdir Rails.root do        
+        @generator = with_generator do |g|
+          arguments = "--orm #{orm} --logfile #{LOGFILE}".args 
+          puts "arguments: #{arguments}"
+          g.run_generator arguments
+        end
+      end
+    end
+  end # before
+
+  it "should configure app for Devise" do
+    # TODO
+    @generator.should add_to_gemfile 'devise'
+
+    @generator.should have_controller :application do |app_controller|  
+      app_controller.should match /before_filter :authenticate_user!/
+    end
   end
-  
-  it "should create views in explicit scope 'login' " do
-    check_generated_views 'login'
-  end  
 end

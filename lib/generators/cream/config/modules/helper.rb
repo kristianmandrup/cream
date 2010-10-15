@@ -64,7 +64,7 @@ module Cream::Generators
       end
 
       def admin_user?
-        options[:admin]
+        options[:admin_user]
       end
 
       def here

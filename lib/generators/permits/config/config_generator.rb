@@ -6,38 +6,42 @@ require 'logging_assist'
 
 module Permits
   module Generators 
-    class ConfigGenerator < Rails::Generators::Base
-      extend Rails3::Assist::UseMacro
-        
+    class ConfigGenerator < Rails::Generators::Base        
       desc "Configure Permits"
 
       # ORM to use
       class_option :orm,                :type => :string,   :default => 'active_record',  :desc => "ORM to use"
-
       class_option :logfile,            :type => :string,   :default => nil,              :desc => "Logfile location" 
 
-      def configure_devise_users
-        @user_helper = UserHelper.new user_generator
-      
-        devise_default_user if !has_model? :user
-      
-        # if User model is NOT configured with devise strategy
-        Strategy.insert_devise_strategy :user, :defaults if !has_devise_user? :user
-      
-        devise_admin_user if admin_user?
-      end
+      def configure_permits
+      	logger.add_logfile :logfile => logfile if logfile
+        logger.debug "Configure Permits"
 
-      protected
+		    permits_gems
+		    permits_initializer
+
+        # Run permits generator to generate permit for each role
+        rgen "permits --roles #{roles}"
+      end           
+
+      protected        
+      
+      include Rails3::Assist::BasicLogger
+      extend Rails3::Assist::UseMacro
+      
+      use_helpers :application
 
       def permits_gems
         gem 'cancan-permits'        
       end 
 
-      def configure_permits
-        logger.debug "Configure Permits"
-        # Run permits generator to generate permit for each role
-        rgen "permits --roles #{roles}"
-      end           
+      def permits_initializer
+        create_initializer_file :permits do 
+          %Q{
+Permits::Application.orm = #{options[:orm]}
+}
+      end		
+      end 
     end
   end
 end

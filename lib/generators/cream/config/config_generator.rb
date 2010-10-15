@@ -71,7 +71,7 @@ module Cream::Generators
     use_helpers :model, :controller, :permit, :application
 
     def configure_logger
-      logger.add_logfile :logfile => logfile
+      logger.add_logfile :logfile => logfile if logfile
       logger.debug 'main flow'
     end
 

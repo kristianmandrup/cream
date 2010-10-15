@@ -2,7 +2,7 @@ module Cream::Generators
   module Config
     module CanCan  
       def cancan_configure
-        configure_cancan_gems 
+        cancan_gems 
         cancan_exception_handling
       end
       
