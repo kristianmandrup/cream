@@ -24,7 +24,7 @@ Rails3::Plugin::Extender.new do
     #    load_paths += %W( #{RAILS_ROOT}/extras ) 
     # end
 
-    ActiveSupport::Dependencies.load_paths << %W(#{Rails.root}/app/permits)
+    ActiveSupport::Dependencies.autoload_paths << %W(#{Rails.root}/app/permits)
 
     # set cream config object
     # Rails3.with_configuration do
