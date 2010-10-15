@@ -18,7 +18,6 @@ Rails3::Plugin::Extender.new do
 
   before :initialize do
     ActiveSupport::Dependencies.autoload_paths += %W(#{Rails.root}/app/permits)
-    puts "#{ActiveSupport::Dependencies.autoload_paths}"
   end
   
   after :initialize do   
