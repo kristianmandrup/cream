@@ -128,8 +128,8 @@ Currently CanCan is supported as the permission system. I have added the concept
 
 Check out [Cancan permits](http://github.com/kristianmandrup/cancan-permits) for more info for how to use Permits.
 
-_Note_: In the future I will add the ability for a given role to have multiple Permits in a PermitSet, so that Permits are stand-alone and not linked to a given role, which
-allows permits to be reused for multiple roles. Stay tuned or join in the effort!
+Cream has ben updated to support my latest version of *Cancan permits*, which now support all the ORMs which cream aims to support and which Roles Generic supports.
+The various players are starting to play together nice! 
 
 ## Generators
 
