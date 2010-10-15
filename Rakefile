@@ -20,7 +20,7 @@ begin
     gem.add_dependency "cancan-permits",    "~> 0.2.3" 
 
     gem.add_dependency "devise",            ">= 1.1.2"
-    gem.add_dependency "cancan",            "~> 1.3.4" 
+    gem.add_dependency "cancan",            "~> 1.4.0" 
     gem.add_dependency "rails",             "~> 3.0.0"
 
     gem.add_dependency "rails3_artifactor", "~> 0.2.5"
