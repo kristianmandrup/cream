@@ -1,5 +1,5 @@
 require 'sugar-high/file'
-require 'sugar-high/modules'
+require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
 require 'logging_assist'
@@ -34,7 +34,7 @@ module Roles
       def execute command
         logger.debug command
         run command
-      end        
+      end
 
       def roles_gems
         gem "roles_#{orm}"

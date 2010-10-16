@@ -1,9 +1,10 @@
-require 'spec_helper'
+require 'generator_spec_helper'
+require_generator :cancan => :config
 
-LOGFILE = File.dirname(__FILE__) + '/cancan-config.log'
+LOGFILE = 'cancan_config.log'
 
 describe 'Generator' do
-  use_helpers :controller, :special
+  use_helpers :controller, :special, :app, :directory, :file
 
   before :each do              
     setup_generator 'config_generator' do
@@ -12,24 +13,24 @@ describe 'Generator' do
   end
 
   describe "Configure Rails 3 app for use with CanCan" do
-    before do    
-      puts "Running generator"
+    before do
       Dir.chdir Rails.root do        
         @generator = with_generator do |g|
           arguments = "--logfile #{LOGFILE}".args 
-          puts "arguments: #{arguments}"
           g.run_generator arguments
         end
       end
     end
-  end # before
 
-  it "should generate a Devise User with only a :guest role using :role_string strategy" do
-    # TODO
-    @generator.should add_to_gem_file 'cancan', 'cancan-rest-links'              
+    it "should add cancan gems" do
+      Rails.root.should have_gems 'cancan', 'cancan-rest-links'
+    end
 
-    @generator.should have_controller :application do |app_controller|  
-      app_controller.should match /rescue_from CanCan::AccessDenied/
+    it "should add CanCan rescue clause to ApplicationController" do
+      Rails.root.should have_controller :application do |app_controller|
+        puts app_controller
+        app_controller.should match /rescue_from CanCan::AccessDenied/
+      end
     end
   end
 end

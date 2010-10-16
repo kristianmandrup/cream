@@ -19,8 +19,8 @@ RSpec.configure do |config|
     create_rails_app
   end
   
-  config.after do
-    remove_rails_app
-  end  
+  # config.after do
+  #   remove_rails_app
+  # end  
 end
 

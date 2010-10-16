@@ -1,30 +1,36 @@
-require 'spec_helper'
+require 'generator_spec_helper'
+require_generator :permits => :config
+
+LOGFILE = File.dirname(__FILE__) + '/permits-config.log'
 
 describe 'Generator' do
-  with_generator do |g, c|
-    g.tests Roles::Generators::Config Generator
-    c.setup
-  end
+  use_helpers :controller, :special
 
-  def check_generated_views folder=nil
-    with_generator do |g, check|
-      if folder
-        g.run_generator folder 
-      else             
-        g.run_generator
-        folder = 'menu'
-      end
-      check.view folder, '_admin_login_items.html.erb', %w{admin_block not_admin_block}
-      check.view folder, '_login_items.html.erb',       %w{user_block  not_user_block}
-      check.view folder, 'registration_items.html.erb', %w{user_block  not_user_block}
+  before :each do              
+    setup_generator :permits_config_generator do
+      tests Permits::Generators::ConfigGenerator
     end    
   end
 
-  it "should create views in default scope 'menu' " do
-    check_generated_views
+  describe "Configure Rails 3 app for use with CanCan Permits" do
+    before do    
+      puts "Running generator"
+      Dir.chdir Rails.root do        
+        @generator = with_generator do |g|
+          arguments = "--roles guest admin --orm active_record --logfile #{LOGFILE}".args 
+          puts "arguments: #{arguments}"
+          g.run_generator arguments
+        end
+      end
+    end
+  end # before
+
+  it "should generate a Devise User with only a :guest role using :role_string strategy" do
+    # TODO
+    @generator.should add_to_gemfile 'roles_active_record'
+
+    @generator.should have_controller :application do |app_controller|  
+      app_controller.should match /rescue_from CanCan::AccessDenied/
+    end
   end
-  
-  it "should create views in explicit scope 'login' " do
-    check_generated_views 'login'
-  end  
 end

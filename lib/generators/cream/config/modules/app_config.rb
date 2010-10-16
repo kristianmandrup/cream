@@ -23,7 +23,7 @@ require "rails/test_unit/railtie"
         # if no :welcome controller
         if !(routes =~ /root\s+:/)
           # create one with an 'index' view.
-          insert_into config_file(:routes) :after => 'do', :content => 'root :to => "welcome#index"'          
+          insert_into config_file(:routes), :after => 'do', :content => 'root :to => "welcome#index"'          
           execute "rails g controller Welcome index"
         end
       end

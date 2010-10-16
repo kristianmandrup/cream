@@ -1,5 +1,5 @@
 require 'sugar-high/file'
-require 'sugar-high/modules'
+require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
 require 'logging_assist'

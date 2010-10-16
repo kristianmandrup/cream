@@ -1,6 +1,7 @@
-require 'spec_helper'
+require 'generator_spec_helper'
+require_generator :devise => :config
 
-LOGFILE = File.dirname(__FILE__) + '/cancan-config.log'
+LOGFILE = File.dirname(__FILE__) + '/devise-config.log'
 
 describe 'Generator' do
   use_helpers :controller, :special

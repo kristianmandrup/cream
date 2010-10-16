@@ -1,6 +1,7 @@
-require 'spec_helper'
+require 'generator_spec_helper'
+require_generator :permits => :config
 
-LOGFILE = File.dirname(__FILE__) + '/cancan-config.log'
+LOGFILE = File.dirname(__FILE__) + '/permits-config.log'
 
 describe 'Generator' do
   use_helpers :controller, :special
@@ -26,7 +27,7 @@ describe 'Generator' do
 
   it "should generate a Devise User with only a :guest role using :role_string strategy" do
     # TODO
-    @generator.should add_to_gem_file 'cancan', 'cancan-rest-links'              
+    @generator.should add_to_gemfile 'cancan', 'cancan-rest-links'              
 
     @generator.should have_controller :application do |app_controller|  
       app_controller.should match /rescue_from CanCan::AccessDenied/
