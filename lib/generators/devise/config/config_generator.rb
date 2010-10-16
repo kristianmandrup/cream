@@ -13,22 +13,11 @@ module Devise
       class_option :orm,                :type => :string,   :default => 'active_record',  :desc => "ORM to use"
       class_option :logfile,            :type => :string,   :default => nil,              :desc => "Logfile location" 
 
-      def configure_devise_users
-        @user_helper = UserHelper.new user_generator
-      
-        devise_default_user if !has_model? :user
-      
-        # if User model is NOT configured with devise strategy
-        Strategy.insert_devise_strategy :user, :defaults if !has_devise_user? :user
-      
-        devise_admin_user if admin_user?
-      end
-
       def configure_devise
       	logger.add_logfile :logfile => logfile if logfile	        
-        
-		    initialize!
-        [Orm, Mailer, Protection].each{|m| m.configure! orm}
+        devise_gems
+		    devise_install
+        [:orm, :mailer, :protection].each{|m| send(:"#{m}_configure!", orm) }
       end
 
       protected
@@ -36,7 +25,11 @@ module Devise
       include Rails3::Assist::BasicLogger
       extend Rails3::Assist::UseMacro
 
-      use_helpers :controller, :application
+      use_helpers :controller, :app, :special, :file
+
+      def logfile
+        options[:logfile]
+      end
 
       def orm
         options[:orm]
@@ -52,11 +45,18 @@ module Devise
         run command
       end        
     
-      def initialize!
-        rgen 'devise_install'        
+      def devise_install
+        logger.debug "initializer_file? #{initializer_file?(:devise)}"
+        return if initializer_file?(:devise) 
+        rgen 'devise:install'
+      end        
+
+      def bundle_install
+        run "bundle install"
       end
 
-      def devise_gems
+      def devise_gems 
+        logger.debug 'devise_gems'
         gem 'devise'
 
         # Devise ORM integration
@@ -74,29 +74,31 @@ module Devise
         else
           say "Orm #{orm} is not currently supported by Cream. You are most welcome to provide a Cream adapter for that ORM ;)"
         end
+        # bundle_install
       end 
 
-      module Protection
-        def self.configure! orm
-          ## Add Devise protection to Application controller:
-          insert_into_controller :application do
-            "before_filter :authenticate_user!"
-          end
+      def protection_configure! orm
+        logger.debug "config protection"            
+        ## Add Devise protection to Application controller:
+        insert_into_controller :application do
+          "before_filter :authenticate_user!"
         end
       end
 
-      module Orm
-        # inside 'config/initializers/devise.rb' change to:
-        # require 'devise/orm/mongo_mapper'
-        def self.configure! orm
-          File.replace_content_from initializer_file(:devise),  :where => /devise\/orm\/w+/, :content =>  "devise/orm/#{orm}"
-        end
+      # inside 'config/initializers/devise.rb' change to:
+      # require 'devise/orm/mongo_mapper'
+      def orm_configure! orm
+        return if orm == :active_record 
+        logger.debug "config orm: #{orm}"
+        found = File.read(initializer_file(:devise)) =~/devise\/orm\/w+/
+        logger.debug "found?: #{found}"
+        
+        File.replace_content_from initializer_file(:devise),  :where => /devise\/orm\/\w+/, :with =>  "devise/orm/#{orm}"
       end
-
-      module Mailer
-        def self.configure! orm
-          insert_application_config "action_mailer.default_url_options = { :host => 'localhost:3000' }"
-        end
+        
+      def mailer_configure! orm
+        logger.debug "config mailer"            
+        insert_application_config "action_mailer.default_url_options = { :host => 'localhost:3000' }"
       end
     end
   end

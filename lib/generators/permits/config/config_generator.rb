@@ -10,8 +10,9 @@ module Permits
       desc "Configure Permits"
 
       # ORM to use
-      class_option :orm,                :type => :string,   :default => 'active_record',  :desc => "ORM to use"
-      class_option :logfile,            :type => :string,   :default => nil,              :desc => "Logfile location" 
+      class_option :orm,      :type => :string,   :default => 'active_record',    :desc => "ORM to use"
+      class_option :roles,    :type => :array,   :default => ['guest', 'admin'],  :desc => "Roles for permits"
+      class_option :logfile,  :type => :string,   :default => nil,                :desc => "Logfile location" 
 
       def configure_permits
       	logger.add_logfile :logfile => logfile if logfile
@@ -29,18 +30,38 @@ module Permits
       include Rails3::Assist::BasicLogger
       extend Rails3::Assist::UseMacro
       
-      use_helpers :application
+      use_helpers :app, :file, :special
+
+      # rails generate ...
+      def rgen command
+        execute "rails g #{command}"
+      end        
+
+      def execute command
+        logger.debug command
+        run command
+      end        
+
+      def logfile
+        options[:logfile]
+      end
+
+      def roles
+        options[:roles]
+      end
+
+      def orm
+        options[:orm]
+      end
 
       def permits_gems
         gem 'cancan-permits'        
       end 
 
       def permits_initializer
-        create_initializer_file :permits do 
-          %Q{
-Permits::Application.orm = #{options[:orm]}
-}
-      end		
+        create_initializer :permits do 
+          "Permits::Ability.orm = :#{options[:orm]}"
+        end
       end 
     end
   end

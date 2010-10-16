@@ -1,10 +1,10 @@
 require 'generator_spec_helper'
 require_generator :permits => :config
 
-LOGFILE = File.dirname(__FILE__) + '/permits-config.log'
+LOGFILE = 'permits-config.log'
 
 describe 'Generator' do
-  use_helpers :controller, :special
+  use_helpers :controller, :special, :file
 
   before :each do              
     setup_generator :permits_config_generator do
@@ -17,20 +17,22 @@ describe 'Generator' do
       puts "Running generator"
       Dir.chdir Rails.root do        
         @generator = with_generator do |g|
-          arguments = "--logfile #{LOGFILE}".args 
-          puts "arguments: #{arguments}"
+          arguments = "--orm mongoid --logfile #{LOGFILE}".args
           g.run_generator arguments
         end
       end
     end
-  end # before
+    
+    describe 'result of permits generator' do
 
-  it "should generate a Devise User with only a :guest role using :role_string strategy" do
-    # TODO
-    @generator.should add_to_gemfile 'cancan', 'cancan-rest-links'              
+      it "should add the gem :cancan-permits" do
+        # TODO
+        Rails.root.should have_gem 'cancan-permits'
+      end
 
-    @generator.should have_controller :application do |app_controller|  
-      app_controller.should match /rescue_from CanCan::AccessDenied/
+      it "should generate a permits initializer file with orm set to mongoid" do      
+        File.read(initializer_file(:permits)).should match /Permits::Application.orm = mongoid/
+      end      
     end
   end
 end
