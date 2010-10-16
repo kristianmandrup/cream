@@ -135,10 +135,17 @@ The various players are starting to play together nice!
 
 The following generators are currently available 
 
-* config - Configure Rails 3 application with devise Session strategies, a Role strategy, valid roles, and Permits
-* views  - Generate partials to display menu items for Session actions such as logout, login etc. 
+* cream:config    - Configure Rails 3 application with Cream
+* cream:users     - Configure Rails 3 application with Cream
+* cream:views     - Generate partials for menu items
 
-The *config* generator should automatically setup up your project with Devise, a Roles strategy of choice a Permission system of choice and all using an ORM of your choice! 
+* permits:config  - Configures app with CanCan Permits
+* cancan:config   - Configures app with CanCan
+* roles:config    - Configures app with Roles
+
+All the above generators now have specs to show how to use them. 
+Note: They have still not been tested in all scenarios with all ORMs, role strategies etc.
+I am sure there are still some issues... so please help uncover these!
 
 Cream will support these ORMs:
 
@@ -147,18 +154,11 @@ Cream will support these ORMs:
 * Mongo Mapper
 * Mongoid 
 
-Status 17 sept, 2010: 
-The latest *generator-spec* and other supporting generator utils I've created (such as rails3_artifactor) should facilitate finishing this generator...
-
-The goal is to make the generator:
-* Configure the Rails 3 app with appropriate gems for the sub-systems 
-* Run various other generators 
-
-The result should be a full (or nearly full) integration of all the sub-systems mentioned for a given Rails 3 app with the ORM of choice.
-
-See [Cream rails 3 app](http://github.com/kristianmandrup/cream-rails3-app) to get an idea of the end goal.
-
 ### Config Generator ###
+
+*Deprecated*
+
+In the future this should be a master generator which calls the other generators in turn.
 
 <code>rails g cream::config --strategy ROLE_STRATEGY [--init-devise] [--admin_user] [--orm] [--roles]</code>
 
