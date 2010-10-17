@@ -1,14 +1,14 @@
 require 'generator_spec_helper'
-require_generator :cream => :config
+require_generator :cream => :full_config
 
-LOGFILE = 'cream-config.log'
+LOGFILE = 'cream-full_config.log'
 
 describe 'Generator' do
   use_helpers :controller, :special, :file, :view
 
   before :each do              
-    setup_generator :cream_app_generator do
-      tests Cream::Generators::ConfigGenerator
+    setup_generator :cream_full_config_generator do
+      tests Cream::Generators::FullConfigGenerator
     end    
   end
 

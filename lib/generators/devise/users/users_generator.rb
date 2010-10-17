@@ -14,7 +14,7 @@ module Devise
       # ORM to use
       class_option :orm,          :type => :string,   :default => 'active_record',  :desc => "ORM to use"
       class_option :logfile,      :type => :string,   :default => nil,              :desc => "Logfile location" 
-      class_option :gems,         :type => :boolean,  :default => true,             :desc => "Add gems to gemfile?"       
+      class_option :gems,         :type => :boolean,  :default => false,            :desc => "Add gems to gemfile?"       
       
       def configure_devise_users      
       	logger.add_logfile :logfile => logfile if logfile
@@ -46,11 +46,11 @@ module Devise
 
       def devise_gems
         gem 'devise'
-        # bundle_install
+        bundle_install 'devise'
       end
 
-      def bundle_install
-        run "bundle install"
+      def bundle_install *gems
+        run "bundle install #{gems.jon(' ')}"
       end
     
       def devise_default_user

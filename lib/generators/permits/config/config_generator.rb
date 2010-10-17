@@ -13,7 +13,7 @@ module Permits
       class_option :orm,      :type => :string,   :default => 'active_record',    :desc => "ORM to use"
       class_option :roles,    :type => :array,    :default => ['guest', 'admin'], :desc => "Roles for permits"
       class_option :logfile,  :type => :string,   :default => nil,                :desc => "Logfile location" 
-      class_option :gems,     :type => :boolean,  :default => true,               :desc => "Add gems to gemfile?"       
+      class_option :gems,     :type => :boolean,  :default => false,              :desc => "Add gems to gemfile?"       
 
       def configure_permits
       	logger.add_logfile :logfile => logfile if logfile
@@ -59,7 +59,12 @@ module Permits
       end
 
       def permits_gems
-        gem 'cancan-permits'        
+        gem 'cancan-permits'
+        bundle_install 'cancan-permits'
+      end
+
+      def bundle_install *gems
+        run "bundle install #{gems.jon(' ')}"
       end
     end
   end

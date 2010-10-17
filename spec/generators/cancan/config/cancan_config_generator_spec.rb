@@ -8,7 +8,7 @@ describe 'Generator' do
 
   before :each do              
     setup_generator 'config_generator' do
-      tests CanCan::Generators::ConfigGenerator
+      tests Cancan::Generators::ConfigGenerator
     end    
   end
 

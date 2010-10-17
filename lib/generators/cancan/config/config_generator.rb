@@ -4,13 +4,13 @@ require 'cream'
 require 'rails3_artifactor'
 require 'logging_assist'
 
-module CanCan
+module Cancan
   module Generators 
     class ConfigGenerator < Rails::Generators::Base        
       desc "Configure CanCan"
 
-      class_option :logfile, :type => :string,   :default => nil,  :desc => "Logfile location"
-      class_option :gems,    :type => :boolean,  :default => true, :desc => "Add gems to gemfile?"       
+      class_option :logfile, :type => :string,   :default => nil,   :desc => "Logfile location"
+      class_option :gems,    :type => :boolean,  :default => false, :desc => "Add gems to gemfile?"       
 
       def cancan_configure
       	logger.add_logfile :logfile => logfile if logfile        
@@ -36,6 +36,11 @@ module CanCan
       def cancan_gems
         gem 'cancan'  
         gem 'cancan-rest-links'
+        bundle_install 'cancan', 'cancan-permits'
+      end
+
+      def bundle_install *gems
+        run "bundle install #{gems.jon(' ')}"
       end
 
       # CanCan access denied exception handling

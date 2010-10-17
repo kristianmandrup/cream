@@ -12,7 +12,7 @@ module Devise
       # ORM to use
       class_option :orm,     :type => :string,   :default => 'active_record',   :desc => "ORM to use"
       class_option :logfile, :type => :string,   :default => nil,               :desc => "Logfile location" 
-      class_option :gems,    :type => :boolean,  :default => true,              :desc => "Add gems to gemfile?"       
+      class_option :gems,    :type => :boolean,  :default => false,             :desc => "Add gems to gemfile?"       
 
       def configure_devise
       	logger.add_logfile :logfile => logfile if logfile	        
@@ -56,30 +56,34 @@ module Devise
         rgen 'devise:install'
       end        
 
-      def bundle_install
-        run "bundle install"
+      def bundle_install *gems
+        run "bundle install #{gems.join(' ')}"
       end
 
       def devise_gems 
         logger.debug 'devise_gems'
         gem 'devise'
 
-        # Devise ORM integration
+        orm_gem = nil
+        # Devise ORM integration        
         case orm.to_sym
         when :mongoid
           say "Please configure Devise for Mongoid as similar to Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
         when :mongo_mapper
+          orm_gem = 'mm-devise'
           gem 'mm-devise'
         when :data_mapper
+          orm_gem = 'dm-devise'
           gem 'dm-devise'
         when :couch_db
+          orm_gem = 'devise_couch'
           gem 'devise_couch'
           say "Please note that Couch DB does not currently have a Roles implementation. Feel free to provide one."
           say "Look at Roles DataMapper (roles_data_mapper) for an example ;)"
         else
           say "Orm #{orm} is not currently supported by Cream. You are most welcome to provide a Cream adapter for that ORM ;)"
         end
-        # bundle_install
+        bundle_install 'devise', orm_gem
       end 
 
       def protection_configure! orm

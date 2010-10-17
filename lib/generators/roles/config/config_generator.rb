@@ -15,10 +15,11 @@ module Roles
       class_option :roles,              :type => :array,    :default => ['guest', 'admin'], :desc => "Valid roles to use"
       class_option :logfile,            :type => :string,   :default => nil,                :desc => "Logfile location" 
       class_option :default_roles,      :type => :boolean,  :default => true,               :desc => "Create default roles :admin and :guest"
-
+      class_option :gems,     :type => :boolean,  :default => false,              :desc => "Add gems to gemfile?"       
+      
       def configure_roles
       	logger.add_logfile :logfile => logfile if logfile
-        roles_gems
+        roles_gems if gems?
         create_roles
         set_valid_roles_cream
         use_roles_strategy        
@@ -30,6 +31,10 @@ module Roles
       extend Rails3::Assist::UseMacro
       
       use_helpers :model, :file
+
+      def gems?
+        options[:gems]        
+      end
 
       def logfile
         options[:logfile]
@@ -62,12 +67,13 @@ module Roles
       end
 
       def roles_gems
-        gem "roles_#{orm}"
-        # bundle_install
+        gem_name = "roles_#{orm}"
+        gem gem_name
+        bundle_install gem_name
       end 
 
-      def bundle_install
-        run "bundle install"
+      def bundle_install *gems
+        run "bundle install #{gems.join(' ')}"
       end
 
       def roles_generator
