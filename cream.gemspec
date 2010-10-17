@@ -145,7 +145,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<rspec>, [">= 2.0.0.rc"])
+      s.add_development_dependency(%q<rspec>, [">= 2.0.0"])
       s.add_development_dependency(%q<generator-spec>, ["~> 0.6.5"])
       s.add_development_dependency(%q<rspec-action_view>, ["~> 0.3.1"])
       s.add_development_dependency(%q<rails-app-spec>, ["~> 0.2.14"])
@@ -156,12 +156,12 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<devise>, [">= 1.1.2"])
       s.add_runtime_dependency(%q<cancan>, ["~> 1.4.0"])
       s.add_runtime_dependency(%q<rails>, ["~> 3.0.0"])
-      s.add_runtime_dependency(%q<rails3_artifactor>, ["~> 0.2.5"])
+      s.add_runtime_dependency(%q<rails3_artifactor>, ["~> 0.2.8"])
       s.add_runtime_dependency(%q<logging_assist>, ["~> 0.1.3"])
       s.add_runtime_dependency(%q<r3_plugin_toolbox>, ["~> 0.3.6"])
-      s.add_runtime_dependency(%q<sugar-high>, ["~> 0.2.10"])
+      s.add_runtime_dependency(%q<sugar-high>, ["~> 0.2.11"])
     else
-      s.add_dependency(%q<rspec>, [">= 2.0.0.rc"])
+      s.add_dependency(%q<rspec>, [">= 2.0.0"])
       s.add_dependency(%q<generator-spec>, ["~> 0.6.5"])
       s.add_dependency(%q<rspec-action_view>, ["~> 0.3.1"])
       s.add_dependency(%q<rails-app-spec>, ["~> 0.2.14"])
@@ -172,13 +172,13 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<devise>, [">= 1.1.2"])
       s.add_dependency(%q<cancan>, ["~> 1.4.0"])
       s.add_dependency(%q<rails>, ["~> 3.0.0"])
-      s.add_dependency(%q<rails3_artifactor>, ["~> 0.2.5"])
+      s.add_dependency(%q<rails3_artifactor>, ["~> 0.2.8"])
       s.add_dependency(%q<logging_assist>, ["~> 0.1.3"])
       s.add_dependency(%q<r3_plugin_toolbox>, ["~> 0.3.6"])
-      s.add_dependency(%q<sugar-high>, ["~> 0.2.10"])
+      s.add_dependency(%q<sugar-high>, ["~> 0.2.11"])
     end
   else
-    s.add_dependency(%q<rspec>, [">= 2.0.0.rc"])
+    s.add_dependency(%q<rspec>, [">= 2.0.0"])
     s.add_dependency(%q<generator-spec>, ["~> 0.6.5"])
     s.add_dependency(%q<rspec-action_view>, ["~> 0.3.1"])
     s.add_dependency(%q<rails-app-spec>, ["~> 0.2.14"])
@@ -189,10 +189,10 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<devise>, [">= 1.1.2"])
     s.add_dependency(%q<cancan>, ["~> 1.4.0"])
     s.add_dependency(%q<rails>, ["~> 3.0.0"])
-    s.add_dependency(%q<rails3_artifactor>, ["~> 0.2.5"])
+    s.add_dependency(%q<rails3_artifactor>, ["~> 0.2.8"])
     s.add_dependency(%q<logging_assist>, ["~> 0.1.3"])
     s.add_dependency(%q<r3_plugin_toolbox>, ["~> 0.3.6"])
-    s.add_dependency(%q<sugar-high>, ["~> 0.2.10"])
+    s.add_dependency(%q<sugar-high>, ["~> 0.2.11"])
   end
 end
 
