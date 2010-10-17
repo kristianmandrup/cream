@@ -19,5 +19,5 @@ require_all File.dirname(__FILE__) + '/cream/helper'
 require_all File.dirname(__FILE__) + '/cream/view'
 require_all File.dirname(__FILE__) + '/cream/rails'
 
-require 'cream/configure'    
+require 'cream/roles_config'    
 

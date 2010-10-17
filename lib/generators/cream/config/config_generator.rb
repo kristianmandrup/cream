@@ -9,12 +9,10 @@ module Cream
   end
 end
 
-require_all File.dirname(__FILE__) + '/modules'
+# require_all File.dirname(__FILE__) + '/modules'
 
 module Cream::Generators 
-  class ConfigGenerator < Rails::Generators::Base
-    extend Rails3::Assist::UseMacro
-        
+  class ConfigGenerator < Rails::Generators::Base        
     desc "Configures Devise and Users" 
 
     source_root File.dirname(__FILE__)
@@ -37,50 +35,89 @@ module Cream::Generators
 
     class_option :logfile,            :type => :string,   :default => nil,              :desc => "Logfile location"
 
-    class_option :app_config,         :type => :boolean,  :default => true,             :desc => "Make Rails app ready for Cream"
-    class_option :cream_config,       :type => :boolean,  :default => true,             :desc => "Configure app with Cream"
-    class_option :devise_config,      :type => :boolean,  :default => true,             :desc => "Configure app with Devise"
-    class_option :devise_user_config, :type => :boolean,  :default => true,             :desc => "Configure app with Devise Users"
-    class_option :cancan_config,      :type => :boolean,  :default => true,             :desc => "Configure app with CanCan"
-    class_option :permits_config,     :type => :boolean,  :default => true,             :desc => "Configure app with Permits"
-    class_option :roles_config,       :type => :boolean,  :default => true,             :desc => "Configure app with Roles"    
+    class_option :configure,          :type => :array,    :default => [],               :desc => "Which generators to run"
 
     def main_flow 
-      configure_logger
-      configure_gems       
-
-      MODULES.each do |name|
-        method = "configure_#{name}"
-        send method if respond_to?(method) && options[:"#{name}_config"]
-      end
+      cream_gems
+      cream_initializer      
     end
 
     # -----------------      
     protected
 
-    # configure which helper modules (from /modules subfolder) to include in this Generator!!!
-    
-    MODULES = [:app, :devise, :devise_users, :cancan, :roles, :permits, :cream]
-
-    includes Cream::Generators::Config, :helper, MODULES
-
     include Rails3::Assist::BasicLogger
+    extend Rails3::Assist::UseMacro
 
-    # using helpers from rails3_artifactor gem. 
-    # A macro from rails3_assist loads appropriate modules into the class and makes various Rails 3 "mutation helper" methods available
-    use_helpers :model, :controller, :permit, :application
+    use_helpers :app, :special, :file
 
-    def configure_logger
-      logger.add_logfile :logfile => logfile if logfile
-      logger.debug 'main flow'
+    def logfile
+      options[:logfile]
     end
 
-    def configure_gems
-      MODULES.each do |name|
-        method = "#{name}_gems"
-        send method if respond_to?(method) && options[:"#{name}_config"]
-      end
+
+    def run_generators
+      # after setting up all gems so other generators are available
+      # run those generators to do the heavy lifting!
+      run_app if configures.include? :app      
+    end
+
+    def run_app
+      rgen "cream:app --orm #{orm}"
+    end
+
+    def orm
+      options[:orm]
+    end
+
+    # rails generate ...
+    def rgen command
+      execute "rails g #{command}"
+    end        
+
+    def execute command
+      logger.debug command
+      run command
+    end
+
+    def bundle_install
       run "bundle install"
+    end
+
+    def configures
+      return [:app, :permits, :roles, :devise] if options[:configure].empty? 
+      options[:configure].map{|c| c.to_sym}
+    end
+
+    def make_generators_available
+      gem 'cancan-permits'
+    end
+
+    ORM_MAP = {
+      :data_mapper  => 'dm-devise',
+      :mongo_mapper => 'mm-devise',
+      :mongoid      => 'rails3-mongoid-devise'                
+    }
+
+    def cream_gems
+      gem_name = ORM_MAP[orm.to_sym]
+      gem gem_name if gem_name
+      gem 'cream'
+      # bundle_install
+    end      
+
+    def cream_initializer
+      create_initializer_file :cream do         
+%Q{Cream.setup do |config|
+  config.roles = #{roles.inspect} 
+end}      
+      end
+    end
+
+    def cream_locale
+      src = File.expand_path "config/locales/en.yml".path.up(2)
+      # src = "config/locales/en.yml"
+      logger.debug "configure_locale, copy from: #{src}"            
+      copy_file src, "config/locales/cream.en.yml"
     end
   end
 end

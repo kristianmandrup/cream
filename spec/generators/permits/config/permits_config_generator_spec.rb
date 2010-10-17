@@ -31,7 +31,7 @@ describe 'Generator' do
       end
 
       it "should generate a permits initializer file with orm set to mongoid" do      
-        File.read(initializer_file(:permits)).should match /Permits::Application.orm = mongoid/
+        File.read(initializer_file(:permits)).should match /Permits::Application.orm = :mongoid/
       end      
     end
   end

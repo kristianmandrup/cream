@@ -11,7 +11,7 @@ module Permits
 
       # ORM to use
       class_option :orm,      :type => :string,   :default => 'active_record',    :desc => "ORM to use"
-      class_option :roles,    :type => :array,   :default => ['guest', 'admin'],  :desc => "Roles for permits"
+      class_option :roles,    :type => :array,    :default => ['guest', 'admin'],  :desc => "Roles for permits"
       class_option :logfile,  :type => :string,   :default => nil,                :desc => "Logfile location" 
 
       def configure_permits
@@ -19,10 +19,9 @@ module Permits
         logger.debug "Configure Permits"
 
 		    permits_gems
-		    permits_initializer
 
         # Run permits generator to generate permit for each role
-        rgen "permits --roles #{roles}"
+        rgen "permits --roles #{roles} --orm #{orm}"
       end           
 
       protected        
@@ -56,13 +55,7 @@ module Permits
 
       def permits_gems
         gem 'cancan-permits'        
-      end 
-
-      def permits_initializer
-        create_initializer :permits do 
-          "Permits::Ability.orm = :#{options[:orm]}"
-        end
-      end 
+      end
     end
   end
 end

@@ -19,12 +19,11 @@ Rails3::Plugin::Extender.new do
   after :initialize do   
     require_all File.dirname(__FILE__) + '/after_init'
 
-    # Rails3.with_configuration do
-    #   autoload_paths += %W(#{Rails.root}/app/permits) 
-    #    load_paths += %W( #{RAILS_ROOT}/extras ) 
-    # end
+    Rails3.with_configuration do
+      load_paths += %W(#{Rails.root}/app/permits)
+    end
 
-    ActiveSupport::Dependencies.load_paths << %W(#{Rails.root}/app/permits)
+    # ActiveSupport::Dependencies.load_paths << %W(#{Rails.root}/app/permits)
 
     # set cream config object
     # Rails3.with_configuration do

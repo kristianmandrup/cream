@@ -16,7 +16,7 @@ RSpec.configure do |config|
   config.mock_with :mocha 
    
   config.before do
-    # create_rails_app
+    create_rails_app
   end
   
   # config.after do
