@@ -22,12 +22,5 @@ Rails3::Plugin::Extender.new do
     Rails3.with_configuration do
       load_paths += %W(#{Rails.root}/app/permits)
     end
-
-    # ActiveSupport::Dependencies.load_paths << %W(#{Rails.root}/app/permits)
-
-    # set cream config object
-    # Rails3.with_configuration do
-    #   cream = Cream::Rails::Config.new :roles => Cream::Role.available
-    # end
-  end  
+  end
 end

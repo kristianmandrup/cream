@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.7.0"
+  s.version = "0.7.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2010-10-16}
+  s.date = %q{2010-10-17}
   s.description = %q{Provides assistance for setting up Session, Role and Permission systems for a Rails 3 app. Support for multiple ORMs}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -38,7 +38,6 @@ Gem::Specification.new do |s|
      "features/role_strategy/clears_role_strategy.feature",
      "init.rb",
      "lib/cream.rb",
-     "lib/cream/configure.rb",
      "lib/cream/configure/after_init/role_config.rb",
      "lib/cream/configure/rails.rb",
      "lib/cream/controller/ability.rb",
@@ -48,6 +47,7 @@ Gem::Specification.new do |s|
      "lib/cream/namespaces.rb",
      "lib/cream/rails/config.rb",
      "lib/cream/role.rb",
+     "lib/cream/roles_config.rb",
      "lib/cream/view/host_area.rb",
      "lib/cream/view/role_area.rb",
      "lib/cream/view/user_action_menu.rb",
@@ -85,13 +85,13 @@ Gem::Specification.new do |s|
      "spec/generators/cancan/config/cancan_config_generator_spec.rb",
      "spec/generators/cream/app/app_generator_spec.rb",
      "spec/generators/cream/config/CONFIG_GENERATOR_SPEC.markdown",
+     "spec/generators/cream/config/cream_config_generator_spec.rb",
      "spec/generators/cream/config/devise/existing_devise_users.rb",
      "spec/generators/cream/config/empty_app/default_args_spec.rb",
      "spec/generators/cream/config/permits/existing_permits_spec.rb",
      "spec/generators/cream/config/permits/no_permits_spec.rb",
      "spec/generators/cream/config/roles/default_roles.rb",
      "spec/generators/cream/config/roles/roles_spec.rb",
-     "spec/generators/cream/shared_examples.rb",
      "spec/generators/cream/views_generator_spec.rb",
      "spec/generators/devise/config/devise_config_generator_spec.rb",
      "spec/generators/devise/users/devise_users_generator_spec.rb",
@@ -125,13 +125,13 @@ Gem::Specification.new do |s|
      "spec/generator_spec_helper.rb",
      "spec/generators/cancan/config/cancan_config_generator_spec.rb",
      "spec/generators/cream/app/app_generator_spec.rb",
+     "spec/generators/cream/config/cream_config_generator_spec.rb",
      "spec/generators/cream/config/devise/existing_devise_users.rb",
      "spec/generators/cream/config/empty_app/default_args_spec.rb",
      "spec/generators/cream/config/permits/existing_permits_spec.rb",
      "spec/generators/cream/config/permits/no_permits_spec.rb",
      "spec/generators/cream/config/roles/default_roles.rb",
      "spec/generators/cream/config/roles/roles_spec.rb",
-     "spec/generators/cream/shared_examples.rb",
      "spec/generators/cream/views_generator_spec.rb",
      "spec/generators/devise/config/devise_config_generator_spec.rb",
      "spec/generators/devise/users/devise_users_generator_spec.rb",

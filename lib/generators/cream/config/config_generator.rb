@@ -37,7 +37,7 @@ module Cream::Generators
 
     class_option :configure,          :type => :array,    :default => [],               :desc => "Which generators to run"
 
-    def main_flow 
+    def main_flow             
       cream_gems
       cream_initializer      
     end
@@ -67,6 +67,19 @@ module Cream::Generators
 
     def orm
       options[:orm]
+    end
+
+    def default_roles?
+      options[:default_roles]
+    end
+
+    def roles         
+      defaults = default_roles? ? ['guest', 'admin'] : [] 
+      options[:roles] + defaults
+    end
+
+    def sym_roles
+      roles.map(&:to_sym)
     end
 
     # rails generate ...
@@ -106,9 +119,9 @@ module Cream::Generators
     end      
 
     def cream_initializer
-      create_initializer_file :cream do         
+      create_initializer :cream do         
 %Q{Cream.setup do |config|
-  config.roles = #{roles.inspect} 
+  config.roles = #{sym_roles.inspect} 
 end}      
       end
     end
