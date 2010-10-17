@@ -11,14 +11,15 @@ module Permits
 
       # ORM to use
       class_option :orm,      :type => :string,   :default => 'active_record',    :desc => "ORM to use"
-      class_option :roles,    :type => :array,    :default => ['guest', 'admin'],  :desc => "Roles for permits"
+      class_option :roles,    :type => :array,    :default => ['guest', 'admin'], :desc => "Roles for permits"
       class_option :logfile,  :type => :string,   :default => nil,                :desc => "Logfile location" 
+      class_option :gems,     :type => :boolean,  :default => true,               :desc => "Add gems to gemfile?"       
 
       def configure_permits
       	logger.add_logfile :logfile => logfile if logfile
         logger.debug "Configure Permits"
 
-		    permits_gems
+		    permits_gems if gems?
 
         # Run permits generator to generate permit for each role
         rgen "permits --roles #{roles} --orm #{orm}"
@@ -30,6 +31,10 @@ module Permits
       extend Rails3::Assist::UseMacro
       
       use_helpers :app, :file, :special
+
+      def gems?
+        options[:gems]        
+      end
 
       # rails generate ...
       def rgen command

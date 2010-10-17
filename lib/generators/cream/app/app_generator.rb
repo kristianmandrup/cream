@@ -10,8 +10,9 @@ module Cream
       desc "Configure Cream App"
 
       # ORM to use
-      class_option :orm,     :type => :string,   :default => 'active_record',  :desc => "ORM to use"
-      class_option :logfile, :type => :string,   :default => nil,              :desc => "Logfile location" 
+      class_option :orm,     :type => :string,   :default => 'active_record',   :desc => "ORM to use"
+      class_option :logfile, :type => :string,   :default => nil,               :desc => "Logfile location" 
+      # class_option :gems,    :type => :boolean,  :default => true,              :desc => "Add gems to gemfile?"       
 
       def configure_application
       	logger.add_logfile :logfile => logfile if logfile

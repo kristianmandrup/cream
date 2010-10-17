@@ -10,12 +10,13 @@ module Devise
       desc "Configure Devise"
 
       # ORM to use
-      class_option :orm,                :type => :string,   :default => 'active_record',  :desc => "ORM to use"
-      class_option :logfile,            :type => :string,   :default => nil,              :desc => "Logfile location" 
+      class_option :orm,     :type => :string,   :default => 'active_record',   :desc => "ORM to use"
+      class_option :logfile, :type => :string,   :default => nil,               :desc => "Logfile location" 
+      class_option :gems,    :type => :boolean,  :default => true,              :desc => "Add gems to gemfile?"       
 
       def configure_devise
       	logger.add_logfile :logfile => logfile if logfile	        
-        devise_gems
+        devise_gems if gems?
 		    devise_install
         [:orm, :mailer, :protection].each{|m| send(:"#{m}_configure!", orm) }
       end
@@ -26,6 +27,10 @@ module Devise
       extend Rails3::Assist::UseMacro
 
       use_helpers :controller, :app, :special, :file
+
+      def gems?
+        options[:gems]        
+      end
 
       def logfile
         options[:logfile]

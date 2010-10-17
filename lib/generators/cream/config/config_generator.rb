@@ -39,7 +39,8 @@ module Cream::Generators
 
     def main_flow             
       cream_gems
-      cream_initializer      
+      cream_initializer
+      run_generators      
     end
 
     # -----------------      
@@ -59,10 +60,34 @@ module Cream::Generators
       # after setting up all gems so other generators are available
       # run those generators to do the heavy lifting!
       run_app if configures.include? :app      
+      run_devise if configures.include? :devise
+      run_cancan if configures.include? :cancan 
+      run_permits if configures.include? :permits
     end
 
     def run_app
       rgen "cream:app --orm #{orm}"
+    end
+
+    def run_devise
+      rgen "devise:config --orm #{orm} --no-gems"
+      rgen "devise:users --orm #{orm} #{admin_user_option} --no-gems"
+    end
+
+    def run_cancan
+      rgen "cancan:config --orm #{orm} --roles #{roles.join(' ')} --no-gems"
+    end
+
+    def run_permits
+      rgen "permits:config --orm #{orm} --roles #{roles.join(' ')} --no-gems"
+    end
+
+    def admin_user_option
+      admin_user? ? '--admin-user' : ''
+    end
+
+    def admin_user?
+      options[:admin_user]
     end
 
     def orm
@@ -101,19 +126,7 @@ module Cream::Generators
       options[:configure].map{|c| c.to_sym}
     end
 
-    def make_generators_available
-      gem 'cancan-permits'
-    end
-
-    ORM_MAP = {
-      :data_mapper  => 'dm-devise',
-      :mongo_mapper => 'mm-devise',
-      :mongoid      => 'rails3-mongoid-devise'                
-    }
-
     def cream_gems
-      gem_name = ORM_MAP[orm.to_sym]
-      gem gem_name if gem_name
       gem 'cream'
       # bundle_install
     end      

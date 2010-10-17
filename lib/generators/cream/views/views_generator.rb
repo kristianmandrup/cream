@@ -1,4 +1,4 @@
-require 'generators/cream/string_ext'
+require 'sugar-high/path'
 require 'generators/views/haml_util'
 
 module Cream

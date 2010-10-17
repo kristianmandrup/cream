@@ -25,7 +25,6 @@ describe 'Generator' do
     describe 'result of Cream config generator' do       
       it "should add cream gem" do
         Rails.root.should have_gem 'cream'
-        Rails.root.should have_gem 'mm-devise'        
       end
 
       # it "should add mongoid devise gem" do

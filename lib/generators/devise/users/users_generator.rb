@@ -10,16 +10,17 @@ module Devise
       desc "Configure Devise with Users"
 
       # Create Admin user
-      class_option :admin_user,         :type => :boolean,  :default => false,            :desc => "Create admin user"  
+      class_option :admin_user,   :type => :boolean,  :default => false,            :desc => "Create admin user"  
       # ORM to use
-      class_option :orm,                :type => :string,   :default => 'active_record',  :desc => "ORM to use"
-      class_option :logfile,            :type => :string,   :default => nil,              :desc => "Logfile location" 
-
+      class_option :orm,          :type => :string,   :default => 'active_record',  :desc => "ORM to use"
+      class_option :logfile,      :type => :string,   :default => nil,              :desc => "Logfile location" 
+      class_option :gems,         :type => :boolean,  :default => true,             :desc => "Add gems to gemfile?"       
+      
       def configure_devise_users      
       	logger.add_logfile :logfile => logfile if logfile
         logger.debug "Configure Devise Users"
 
-        devise_gems
+        devise_gems if gems?
         devise_default_user if !has_model? :user
       
         # # if User model is NOT configured with devise strategy
@@ -34,6 +35,10 @@ module Devise
       include Rails3::Assist::BasicLogger  
 
       use_helpers :model
+
+      def gems?
+        options[:gems]        
+      end
 
       def logfile
         options[:logfile]
