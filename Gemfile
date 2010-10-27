@@ -8,7 +8,7 @@ group :default do
 
   gem "require_all",       "~> 1.2.0"    
 
-  gem "devise",            ">= 1.2.0"    
+  gem "devise",            ">= 1.1.0"    
   gem "cancan",            "~> 1.4.0" 
   gem "rails",             "~> 3.0"
 
