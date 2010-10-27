@@ -14,10 +14,12 @@ require 'sugar-high/kind_of'
 require 'sugar-high/array'
 
 require 'cream/role'    
+
 require_all File.dirname(__FILE__) + '/cream/controller'
 require_all File.dirname(__FILE__) + '/cream/helper'
 require_all File.dirname(__FILE__) + '/cream/view'
 require_all File.dirname(__FILE__) + '/cream/rails'
 
-require 'cream/configure'    
+require 'cream/roles_config'
+
 

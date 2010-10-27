@@ -36,7 +36,7 @@ module Cream
             end
           end
 
-          directory haml_root, "app/views/#{scope || 'devise'}"
+          directory haml_root, "app/views/#{scope || 'cream'}"
         end
       end
     end

@@ -52,13 +52,12 @@ Role-Group support is planned as a future add-on for the roles strategies integr
 
 _Note:_
 You are most welcome to provide "plugins" for any other role frameworks. Please follow the API conventions of Roles generic.
+Update: Currently in the process of expanding the API a little (add, remove, exhange roles) while making it more generic and flexible.
 
 ## Permission systems 
 
 There is support for the [CanCan](http://github.com/ryanb/cancan) permission system. 
-I have created a [Cancan permits](http://github.com/kristianmandrup/cancan-permits) gem that adds the concept of Permits for each role (see below)
-
-I'm considering supporting [Canable](http://github.com/jnunemaker/canable) as well (but only if requested by the community!)
+I have created a [Cancan permits](http://github.com/kristianmandrup/cancan-permits) gem that adds the concept of Permits for each role (see below).
 
 _Note:_
 You are most welcome to provide "plugins" for other permission frameworks!
@@ -112,33 +111,36 @@ The *config* generator will generate a set of Permit files which are placed in '
 
 The project [CanCan REST links](http://github.com/kristianmandrup/cancan-rest-links) provides a convenient way to handle CanCan REST links, using a flexible API.
 
-### Canable
-
-In [Canable](http://github.com/jnunemaker/canable) the permissions are by default defined in the models. 
-I plan to tweak this behavior to enable the same or a similar central permission setup as I use for CanCan.
-In my (somewhat old and degenerate) fork of *Canable*, I have generators to setup the models and user with a *Canable* config. 
-
-_Note_: These generators should be updated to take advantage of my latest generator-spec and other supporting generator assitant gems!
-
-More to follow in the future...
-
 ## Permits
 
-Currently CanCan is supported as the permission system. I have added the concept of Permits linked to Roles. 
+Currently CanCan is supported as the permission system. I have added the concept of Permits (and optionally Licenses) linked to Roles. 
 
 Check out [Cancan permits](http://github.com/kristianmandrup/cancan-permits) for more info for how to use Permits.
 
-Cream has ben updated to support my latest version of *Cancan permits*, which now support all the ORMs which cream aims to support and which Roles Generic supports.
+Cream has ben updated to support my the version of *Cancan permits*, which now support all the ORMs that both Cream and Roles Generic support.
 The various players are starting to play together nice! 
 
 ## Generators
 
 The following generators are currently available 
 
-* config - Configure Rails 3 application with devise Session strategies, a Role strategy, valid roles, and Permits
-* views  - Generate partials to display menu items for Session actions such as logout, login etc. 
+* cream:config    - Configure Rails 3 application with Cream (master generator)
 
-The *config* generator should automatically setup up your project with Devise, a Roles strategy of choice a Permission system of choice and all using an ORM of your choice! 
+Sub-generators
+
+* cream:views     - Generates partials for menu items
+* devise:config   - Configure Rails 3 application with Devise
+* devise:users    - Configure Rails 3 application with Devise users
+* cancan:config   - Configures app with CanCan
+* permits:config  - Configures app with CanCan Permits
+* roles:config    - Configures app with Roles
+
+All the above generators now have specs to show how to use them. 
+Note: These generators have still not been tested in all scenarios with all ORMs, role strategies etc.
+I am sure there are still some issues... so please help uncover these!
+
+In general, the cream:config generator can be seen as a kind of "super generator", in that it should call all the sub-generators in succession to attempt to fully configure
+and applicaiton in one go. 
 
 Cream will support these ORMs:
 
@@ -147,30 +149,28 @@ Cream will support these ORMs:
 * Mongo Mapper
 * Mongoid 
 
-Status 17 sept, 2010: 
-The latest *generator-spec* and other supporting generator utils I've created (such as rails3_artifactor) should facilitate finishing this generator...
-
-The goal is to make the generator:
-* Configure the Rails 3 app with appropriate gems for the sub-systems 
-* Run various other generators 
-
-The result should be a full (or nearly full) integration of all the sub-systems mentioned for a given Rails 3 app with the ORM of choice.
-
-See [Cream rails 3 app](http://github.com/kristianmandrup/cream-rails3-app) to get an idea of the end goal.
-
 ### Config Generator ###
 
-<code>rails g cream::config --strategy ROLE_STRATEGY [--init-devise] [--admin_user] [--orm] [--roles]</code>
+Master cream generator which calls the sub-generators in succession.
+
+<code>rails g cream::config --strategy ROLE_STRATEGY [--admin_user] [--orm ORM] [--roles ROLE1 ROLE2] [--logfile LOGFILE]</code>
 
 * --strategy      : role strategy to use (see *roles_generic* gem)
-* --init-devise   : run devise generator to create devise Users with session/auth strategies
 * --admin-user    : create admin user model with separate devise configuration
 * --orm           : orm to be used
-* --roles         : list of valid roles to use
+* --roles         : list of valid roles and permits to use
 
 Example
 
-<code>rails g cream:config admin_flag --devise --admin --orm AR</code>
+<code>rails g cream:config --strategy admin_flag --admin-user --orm AR</code>
+
+By default creates :guest and :admin roles.
+
+## Sub generators
+
+To view the run options of any of the sub generators, simply type $ rails g [GENERATOR_NAME]
+
+Example: <code>rails g permits:config</code>
 
 ### Views Generator ###
 

@@ -1,30 +1,50 @@
-require 'spec_helper'
+require 'generator_spec_helper'
+require_generator :cream => :app
+
+LOGFILE = 'cream-app-config.log'
 
 describe 'Generator' do
-  with_generator do |g, c|
-    g.tests Cream::Generators::AppGenerator
-    c.setup
-  end
+  use_helpers :controller, :special, :file, :view
 
-  def check_generated_views folder=nil
-    with_generator do |g, check|
-      if folder
-        g.run_generator folder 
-      else             
-        g.run_generator
-        folder = 'menu'
-      end
-      check.view folder, '_admin_login_items.html.erb', %w{admin_block not_admin_block}
-      check.view folder, '_login_items.html.erb',       %w{user_block  not_user_block}
-      check.view folder, 'registration_items.html.erb', %w{user_block  not_user_block}
+  before :each do              
+    setup_generator :cream_app_generator do
+      tests Cream::Generators::AppGenerator
     end    
   end
 
-  it "should create views in default scope 'menu' " do
-    check_generated_views
+  describe "Configure Rails 3 app as a Cream app" do    
+    before do    
+      Dir.chdir Rails.root do        
+        @generator = with_generator do |g|
+          arguments = "--orm mongoid --logfile #{LOGFILE}".args
+          g.run_generator arguments
+        end
+      end
+    end
+
+    describe 'result of app generator' do       
+      it "should replace requirement statements in application file" do      
+        ["action_controller/railtie", "action_mailer/railtie", "active_resource/railtie", "rails/test_unit/railtie"].each do |req|
+          req = Regexp.escape(req)
+          read_application_file.should match /#{req}/
+        end
+      end
+
+      it "should add notice and alert flash displayers to application layout" do
+        [:alert, :notice].each do |name|
+          read_view(:layouts, :application).should match /<%= #{name} %>/
+        end
+      end
+
+      it "should generate Welcome controller" do
+        controller_file?(:welcome).should be_true
+      end
+      
+      it "should add root to routes file" do
+        read_routes_file.should match /root\s+:to\s*=>/
+      end
+    end
   end
-  
-  it "should create views in explicit scope 'login' " do
-    check_generated_views 'login'
-  end  
 end
+
+

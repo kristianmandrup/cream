@@ -15,23 +15,12 @@ Rails3::Plugin::Extender.new do
     extend_from_module Cream::View, :role, :host, :user_action_menu
     extend_from_module Cream::Helper, :role, :auth_label
   end  
-
-  before :initialize do
-    ActiveSupport::Dependencies.autoload_paths += %W(#{Rails.root}/app/permits)
-  end
   
   after :initialize do   
     require_all File.dirname(__FILE__) + '/after_init'
 
-    # Rails3.with_configuration do
-    #   autoload_paths += %W(#{Rails.root}/app/permits) 
-    #    load_paths += %W( #{RAILS_ROOT}/extras ) 
-    # end
-
-
-    # set cream config object
-    # Rails3.with_configuration do
-    #   cream = Cream::Rails::Config.new :roles => Cream::Role.available
-    # end
-  end  
+    Rails3.with_configuration do
+      load_paths += %W(#{Rails.root}/app/permits)
+    end
+  end
 end

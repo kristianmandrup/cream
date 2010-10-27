@@ -1,22 +1,25 @@
 require 'sugar-high/file'
-require 'sugar-high/modules'
+require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
 require 'logging_assist'
 
 module Roles
   module Generators 
-    class ConfigGenerator < Rails::Generators::Base
-      extend Rails3::Assist::UseMacro
-        
-      desc "Configure Permits"
+    class ConfigGenerator < Rails::Generators::Base        
+      desc "Configure Roles"
 
       # ORM to use
-      class_option :orm,                :type => :string,   :default => 'active_record',  :desc => "ORM to use"
-
-      class_option :logfile,            :type => :string,   :default => nil,              :desc => "Logfile location" 
-
+      class_option :orm,                :type => :string,   :default => 'active_record',    :desc => "ORM to use"
+      class_option :strategy,           :type => :string,   :default => 'role_string',      :desc => "Roles strategy to use"
+      class_option :roles,              :type => :array,    :default => ['guest', 'admin'], :desc => "Valid roles to use"
+      class_option :logfile,            :type => :string,   :default => nil,                :desc => "Logfile location" 
+      class_option :default_roles,      :type => :boolean,  :default => true,               :desc => "Create default roles :admin and :guest"
+      class_option :gems,     :type => :boolean,  :default => false,              :desc => "Add gems to gemfile?"       
+      
       def configure_roles
+      	logger.add_logfile :logfile => logfile if logfile
+        roles_gems if gems?
         create_roles
         set_valid_roles_cream
         use_roles_strategy        
@@ -24,29 +27,89 @@ module Roles
 
       protected
 
+      include Rails3::Assist::BasicLogger
+      extend Rails3::Assist::UseMacro
+      
+      use_helpers :model, :file
+
+      def gems?
+        options[:gems]        
+      end
+
+      def logfile
+        options[:logfile]
+      end
+
+      # rails generate ...
+      def rgen command
+        execute "rails g #{command}"
+      end        
+
+      def execute command
+        logger.debug command
+        run command
+      end
+
+      def orm
+        options[:orm]
+      end
+
+      def strategy
+        options[:strategy]
+      end
+
+      def roles
+        options[:roles].join(' ')
+      end
+
+      def default_roles?
+        options[:default_roles]
+      end
+
       def roles_gems
-        gem "roles_#{orm}"
+        gem_name = "roles_#{orm}"
+        gem gem_name
+        bundle_install gem_name
       end 
+
+      def bundle_install *gems
+        run "bundle install #{gems.join(' ')}"
+      end
+
+      def roles_generator
+        "#{orm}:roles"
+      end
 
       def create_roles
         rgen "#{roles_generator} --strategy #{strategy} --roles #{roles} #{default_roles}"        
       end
 
       def set_valid_roles_cream
+        user_exist?
         if initializer_file? :cream
-          replace_in_model_file :user, :where => /valid_roles_are\s+[(.*)]/, :with => 'valid_roles_are Cream.roles'
+          if read_model(:user) =~ /valid_roles_are/
+            replace_in_model_file :user, :where => /valid_roles_are\s+[(.*)]/, :with => 'valid_roles_are Cream.roles'
+          else
+            insert_into_model :user do
+              "valid_roles_are Cream.roles"
+            end
+          end
+        else
+          say "Missing initializer file for cream. Please run Cream config generator to create this initializer"
         end          
       end
 
-      def use_roles_strategy
-        unless read_model_file(:user) =~ /use_roles_strategy/
-          insert_into_model :user do 
-            "use_roles_strategy :admin_flag"
-          end
-        end        
+      def user_exist?
+        raise "User model missing. Please create a User model before running this generator" if !model_file?(:user)
       end
 
-      protected
+      def use_roles_strategy
+        user_exist?        
+        
+        unless read_model(:user) =~ /use_roles_strategy/
+          inject_into_file model_file(:user), "use_roles_strategy :admin_flag\n\n", :before => "class"
+        end        
+      end
 
       def default_roles
         default_roles? ? '--default-roles' : '--no-default-roles'
