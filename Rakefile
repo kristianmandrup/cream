@@ -9,7 +9,7 @@ begin
     gem.authors = ["Kristian Mandrup"]
 
     gem.add_development_dependency "rspec",             ">= 2.0.0" 
-    gem.add_development_dependency "generator-spec",    "~> 0.6.5" 
+    gem.add_development_dependency "generator-spec",    ">= 0.7.0" 
     gem.add_development_dependency "rspec-action_view", ">= 0.3.1"     
     gem.add_development_dependency "rails-app-spec",    ">= 0.3.0"
 
@@ -19,11 +19,11 @@ begin
     gem.add_dependency "cancan-rest-links", ">= 0.1.4" 
     gem.add_dependency "cancan-permits",    ">= 0.2.6" 
 
-    gem.add_dependency "devise",            "~> 1.2.0"
+    gem.add_dependency "devise",            ">= 1.2.0"
     gem.add_dependency "cancan",            "~> 1.4.0" 
-    gem.add_dependency "rails",             "~> 3.0"
+    gem.add_dependency "rails",             ">= 3.0"
 
-    gem.add_dependency "rails3_artifactor", "~> 0.3.0"
+    gem.add_dependency "rails3_artifactor", "~> 0.3.1"
     gem.add_dependency 'logging_assist',    "~> 0.1.6"
 
     gem.add_dependency "r3_plugin_toolbox", ">= 0.3.14" 
