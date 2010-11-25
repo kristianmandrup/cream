@@ -1,3 +1,8 @@
+Nov 25, 2010
+---
+Updated CanCan-Permits dependency to use the latest version 0.3.2.
+Updated the Cream Permits Config generator to use the new cancan:permits and cancan:licenses generators.
+
 September 17, 2010
 ---
 * Renamed 'auth-assistant' to 'cream'

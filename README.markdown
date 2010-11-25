@@ -1,8 +1,8 @@
 # Cream
 
 This project aims to assist you in setting up a complete user login and role permission system for your Rails 3 app.
-It targets [Devise](http://github.com/plataformatec/devise) as the Session system, [CanCan](http://github.com/ryanb/cancan) as the permission system and 
-[Roles](http://github.com/kristianmandrup/roles_generic) as the user Roles system. 
+
+It targets [Devise](http://github.com/plataformatec/devise) as the Authentication system, [CanCan](http://github.com/ryanb/cancan) with Permits and Licenses as the Authorization system and [Roles Generic](http://github.com/kristianmandrup/roles_generic) as the user Roles system. 
 
 The objective of this project is to 
 * Integrate all these sub-systems
@@ -19,11 +19,14 @@ that demonstrates what a final Rails 3 app using Cream will look like. I plan to
 Mongo Mapper as the ORM and default arguments, the generartor should generate a "mirror image" of this template project. You are most welcome to help me in this effort
 or provide suggestions etc. The README of the template project will contain a recipe with the steps to be taken to produce it ;)
 
-NOTE: I have renamed the old 'auth-assistant' project to this project called 'cream'. 
+### Update Nov 25, 2010
 
-## Session systems
+Cream dependency to *cancan-permits* updated to use version 0.3.2.
+Cream Permits Config generator uses new *cancan:permits* and *cancan:licenses* generators.
 
-Cream targets [Devise](http://github.com/plataformatec/devise) as the Session system of choice
+## Authentication systems
+
+Cream targets [Devise](http://github.com/plataformatec/devise) as the Authentication system of choice
 
 * [devise](http://github.com/plataformatec/devise) 
 
@@ -45,6 +48,8 @@ The Roles Generic API has been implemented for the following ORMs
 * [Roles DataMapper](http://github.com/kristianmandrup/roles_data_mapper)
 * [Roles MongoMapper](http://github.com/kristianmandrup/roles_mongo_mapper)
 * [Roles Mongoid](http://github.com/kristianmandrup/roles_for_mongoid)
+* [Roles Mongoid](http://github.com/kristianmandrup/roles_for_mongoid)
+* [Roles Simply Stored](https://github.com/kristianmandrup/roles_simply_stored)
 
 _Role Groups_
 Document DBs such as *Mongo* and *Riak* are good for modeling a role-group hierarchical relationship. 
@@ -52,7 +57,10 @@ Role-Group support is planned as a future add-on for the roles strategies integr
 
 _Note:_
 You are most welcome to provide "plugins" for any other role frameworks. Please follow the API conventions of Roles generic.
-Update: Currently in the process of expanding the API a little (add, remove, exhange roles) while making it more generic and flexible.
+
+_Update:_
+Roles Generic has recently been upgraded with a better API, architecture, framework for testing and more and better functionality. It should also now be more DRY and
+easier/simpler to add more strategies and Datastore adapters.
 
 ## Permission systems 
 
@@ -70,6 +78,7 @@ In general, it should now finally be pretty easy to set up a Rails 3 app, with a
 * Data Mapper
 * Mongo Mapper
 * Mongoid
+* Couch DB
 
 These ORMs are also supported for the Roles strategy system. The Permission system should not have any ORM dependency.
 There are plans to create a top-level generator which sets up your project with all these systems for a given ORM.
@@ -97,6 +106,12 @@ Role strategies can be set up using the [Roles Generic](http://github.com/kristi
 * Data Mapper
 * Mongo Mapper
 * Mongoid
+* Couch DB
+
+### Update
+
+The Role systems for Active Record, Mongoid and MongoMapper have recently been upgraded to take advantage of the new Roles Generic API and archictecture. 
+I hope to soon have time to also upgrade the remaining ORM Role adapters.
 
 ## Permission system 
 
@@ -118,7 +133,11 @@ Currently CanCan is supported as the permission system. I have added the concept
 Check out [Cancan permits](http://github.com/kristianmandrup/cancan-permits) for more info for how to use Permits.
 
 Cream has ben updated to support my the version of *Cancan permits*, which now support all the ORMs that both Cream and Roles Generic support.
-The various players are starting to play together nice! 
+
+For more advanced role/permission scenarios you can create Licenses placed in '/app/licenses/', which are 'permission sets' that can be reused across multiple Permits.
+Note: The gem *cancan-permits* comes with both a *permits* and a *licenses* generator.
+
+See [CanCan permits demo app](https://github.com/kristianmandrup/cancan-permits-demo) for an example of how to use cancan-permits and licenses.
 
 ## Generators
 
