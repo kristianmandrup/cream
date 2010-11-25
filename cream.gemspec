@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.7.3"
+  s.version = "0.7.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2010-10-28}
+  s.date = %q{2010-11-25}
   s.description = %q{Provides assistance for setting up Session, Role and Permission systems for a Rails 3 app. Support for multiple ORMs}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -130,10 +130,10 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<require_all>, ["~> 1.2.0"])
       s.add_runtime_dependency(%q<devise-links>, [">= 0.1.4"])
       s.add_runtime_dependency(%q<cancan-rest-links>, [">= 0.1.4"])
-      s.add_runtime_dependency(%q<cancan-permits>, [">= 0.2.7"])
+      s.add_runtime_dependency(%q<cancan-permits>, [">= 0.3.2"])
       s.add_runtime_dependency(%q<devise>, [">= 1.2.0"])
-      s.add_runtime_dependency(%q<cancan>, ["~> 1.4.0"])
-      s.add_runtime_dependency(%q<rails>, [">= 3.0"])
+      s.add_runtime_dependency(%q<cancan>, [">= 1.4.0"])
+      s.add_runtime_dependency(%q<rails>, [">= 3.0.1"])
       s.add_runtime_dependency(%q<rails3_artifactor>, ["~> 0.3.1"])
       s.add_runtime_dependency(%q<logging_assist>, ["~> 0.1.6"])
       s.add_runtime_dependency(%q<r3_plugin_toolbox>, [">= 0.3.14"])
@@ -146,10 +146,10 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<require_all>, ["~> 1.2.0"])
       s.add_dependency(%q<devise-links>, [">= 0.1.4"])
       s.add_dependency(%q<cancan-rest-links>, [">= 0.1.4"])
-      s.add_dependency(%q<cancan-permits>, [">= 0.2.7"])
+      s.add_dependency(%q<cancan-permits>, [">= 0.3.2"])
       s.add_dependency(%q<devise>, [">= 1.2.0"])
-      s.add_dependency(%q<cancan>, ["~> 1.4.0"])
-      s.add_dependency(%q<rails>, [">= 3.0"])
+      s.add_dependency(%q<cancan>, [">= 1.4.0"])
+      s.add_dependency(%q<rails>, [">= 3.0.1"])
       s.add_dependency(%q<rails3_artifactor>, ["~> 0.3.1"])
       s.add_dependency(%q<logging_assist>, ["~> 0.1.6"])
       s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.3.14"])
@@ -163,10 +163,10 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<require_all>, ["~> 1.2.0"])
     s.add_dependency(%q<devise-links>, [">= 0.1.4"])
     s.add_dependency(%q<cancan-rest-links>, [">= 0.1.4"])
-    s.add_dependency(%q<cancan-permits>, [">= 0.2.7"])
+    s.add_dependency(%q<cancan-permits>, [">= 0.3.2"])
     s.add_dependency(%q<devise>, [">= 1.2.0"])
-    s.add_dependency(%q<cancan>, ["~> 1.4.0"])
-    s.add_dependency(%q<rails>, [">= 3.0"])
+    s.add_dependency(%q<cancan>, [">= 1.4.0"])
+    s.add_dependency(%q<rails>, [">= 3.0.1"])
     s.add_dependency(%q<rails3_artifactor>, ["~> 0.3.1"])
     s.add_dependency(%q<logging_assist>, ["~> 0.1.6"])
     s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.3.14"])

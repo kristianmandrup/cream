@@ -16,7 +16,7 @@ begin
     gem.add_dependency "require_all",       "~> 1.2.0"
     
     gem.add_dependency "devise-links",      ">= 0.1.4"
-    gem.add_dependency "cancan-rest-links", ">= 0.1.4" 
+    gem.add_dependency "cancan-rest-links", ">= 0.1.5" 
     gem.add_dependency "cancan-permits",    ">= 0.3.2" 
 
     gem.add_dependency "devise",            ">= 1.2.0"
@@ -26,7 +26,7 @@ begin
     gem.add_dependency "rails3_artifactor", "~> 0.3.1"
     gem.add_dependency 'logging_assist',    "~> 0.1.6"
 
-    gem.add_dependency "r3_plugin_toolbox", ">= 0.3.14" 
+    gem.add_dependency "r3_plugin_toolbox", ">= 0.4.0" 
     gem.add_dependency "sugar-high",        "~> 0.3.0"
            
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
