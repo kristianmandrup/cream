@@ -12,7 +12,7 @@ describe Cream::View::Role do
   
   describe '#area' do
     it "should display the div with hello" do
-      with_engine do |e, view|
+      view_engine do |e, view|
 
         res = e.run_template do 
           %{<%= area :class => 'red' do %>
@@ -25,7 +25,7 @@ describe Cream::View::Role do
     end
 
     it "should display the div with hello when localhost block nested inside" do
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:localhost?).returns true
         
         res = e.run_template do 
@@ -39,7 +39,7 @@ describe Cream::View::Role do
     end
 
     it "should display the div with hello when nested within localhost block" do
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:localhost?).returns true
         
         res = e.run_template do 
@@ -58,7 +58,7 @@ describe Cream::View::Role do
   
   describe '#area_for_roles' do              
     it "should display an area for :admin" do        
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:has_role?).with([:admin]).returns true
 
         res = e.run_template do 
@@ -69,7 +69,7 @@ describe Cream::View::Role do
     end
   
     it "should not display an area for user not :admin" do        
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:has_role?).with([:admin]).returns false
 
         res = e.run_template do 
@@ -82,7 +82,7 @@ describe Cream::View::Role do
 
   describe '#area_not_for_roles' do              
     it "should not display an area for user :admin" do        
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:has_role?).with([:admin]).returns true
         res = e.run_template do 
           %{<%= area_not_for_roles(:admin) { 'hello' } %>}
@@ -92,7 +92,7 @@ describe Cream::View::Role do
     end
   
     it "should display an area for user not :admin" do        
-      with_engine do |e, view|
+      view_engine do |e, view|
         # he is not admin    
         view.stubs(:has_role?).with([:admin]).returns false
 
@@ -107,7 +107,7 @@ describe Cream::View::Role do
   # context 'method auto-generated when Rails initialize based on registered roles' do
   #   describe '#guest_area' do              
   #     it "should display an Admin area for :admin" do        
-  #       with_engine do |e, view|
+  #       view_engine do |e, view|
   #         view.stubs(:has_role?).with([:admin]).returns true
   # 
   #         res = e.run_template do 
@@ -118,7 +118,7 @@ describe Cream::View::Role do
   #     end
   # 
   #     it "should not display a Admin area for user not :admin" do        
-  #       with_engine do |e, view|
+  #       view_engine do |e, view|
   #         view.stubs(:has_role?).with([:admin]).returns false
   # 
   #         res = e.run_template do 

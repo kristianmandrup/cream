@@ -24,6 +24,11 @@ or provide suggestions etc. The README of the template project will contain a re
 Cream dependency to *cancan-permits* updated to use version 0.3.2.
 Cream Permits Config generator uses new *cancan:permits* and *cancan:licenses* generators.
 
+Currently to activate Cream in a rails app, insert this line in a Rails initializer.
+<code>
+  require 'cream/configure/rails'  
+</code>
+
 ## Authentication systems
 
 Cream targets [Devise](http://github.com/plataformatec/devise) as the Authentication system of choice

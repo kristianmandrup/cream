@@ -143,7 +143,7 @@ module Cream
       end
 
       def cream_locale
-        src = File.expand_path "config/locales/en.yml".path.up(2)
+        src = File.expand_path "config/locales/cream.en.yml".path.up(2)
         # src = "config/locales/en.yml"
         logger.debug "configure_locale, copy from: #{src}"            
         copy_file src, "config/locales/cream.en.yml"

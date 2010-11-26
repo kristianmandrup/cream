@@ -1,4 +1,4 @@
-*Auth assistant* supports single and multiple role strategies. Currently groups are not supported. 
+*Cream* supports single and multiple role strategies. Currently groups are not supported. 
 
 Note: Maybe roles support could be integrated in the future using an existing solution for roles and groups? 
 

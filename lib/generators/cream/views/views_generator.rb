@@ -4,7 +4,7 @@ require 'generators/views/haml_util'
 module Cream
   module Generators
     class ViewsGenerator < Rails::Generators::Base
-      desc "Copies all AuthAssist views to your application."
+      desc "Copies all Cream views to your application."
   
       argument :scope, :required => false, :default => nil, :desc => "The scope to copy views to"
   

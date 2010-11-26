@@ -10,7 +10,7 @@ describe Cream::View::Host do
   
   describe '#for_localhost' do
     it "should display localhost guarded content for localhost browser agent" do
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:localhost?).returns true
 
         res = e.run_template do 
@@ -24,7 +24,7 @@ describe Cream::View::Host do
     end
 
     it "should NOT display localhost guarded content for NON-localhost browser agent" do
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:localhost?).returns false
     
         res = e.run_template do 
@@ -37,7 +37,7 @@ describe Cream::View::Host do
 
   describe '#for_public' do
     it "should display public content for public browser agent" do
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:publichost?).returns true
   
         res = e.run_template do 
@@ -48,7 +48,7 @@ describe Cream::View::Host do
     end
   
     it "should display public content for public browser agent" do
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:publichost?).returns false
     
         res = e.run_template do 

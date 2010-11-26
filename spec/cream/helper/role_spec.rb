@@ -9,7 +9,7 @@ describe Cream::Helper::Role do
     describe '#guest_area' do              
 
       # it "should execute an Admin guarded block for :admin" do        
-      #   with_engine do |e, view|
+      #   view_engine do |e, view|
       #     view.stubs(:has_role?).with([:admin]).returns true
       # 
       #     res = e.run_template do 
@@ -20,7 +20,7 @@ describe Cream::Helper::Role do
       # end
       #   
       # it "should not execute an Admin guarded block for user not :admin" do        
-      #   with_engine do |e, view|
+      #   view_engine do |e, view|
       #     view.stubs(:has_role?).with([:admin]).returns false
       # 
       #     res = e.run_template do 
@@ -35,7 +35,7 @@ describe Cream::Helper::Role do
   context 'admin user' do  
     describe '#for_roles' do                    
       it "display an :admin only block" do        
-        with_engine do |e, view|
+        view_engine do |e, view|
           view.stubs(:has_role?).with([:admin]).returns true
 
           res = e.run_template do 
@@ -46,7 +46,7 @@ describe Cream::Helper::Role do
       end
       
       it "should not display a :guest only block" do
-        with_engine do |e, view|
+        view_engine do |e, view|
           view.stubs(:has_role?).with([:guest]).returns false
 
           res = e.run_template do 
@@ -59,7 +59,7 @@ describe Cream::Helper::Role do
   
     describe '#not_for_roles' do              
       it "should not display a block not for :admin" do        
-        with_engine do |e, view|
+        view_engine do |e, view|
           view.stubs(:has_role?).with([:admin]).returns true
 
           res = e.run_template do 
@@ -70,7 +70,7 @@ describe Cream::Helper::Role do
       end
     
       it "should display a div block not for :guest" do        
-        with_engine do |e, view|
+        view_engine do |e, view|
           view.stubs(:has_role?).with([:guest]).returns false
 
           res = e.run_template do 
@@ -88,7 +88,7 @@ describe Cream::Helper::Role do
         user = stub()
         user.stubs(:has_role?).with([:admin]).returns true
 
-        with_engine do |e, view|
+        view_engine do |e, view|
           view.stubs(:current_user).returns user
 
           res = e.run_template do 
@@ -102,7 +102,7 @@ describe Cream::Helper::Role do
         user = stub()
         user.stubs(:has_role?).with([:guest]).returns false
 
-        with_engine do |e, view|
+        view_engine do |e, view|
           view.stubs(:current_user).returns user
           res = e.run_template do 
             %{<%= has_role?(:guest) %> }
@@ -119,7 +119,7 @@ describe Cream::Helper::Role do
         user = stub()
         user.stubs(:has_roles?).with([:admin, :guest]).returns true
 
-        with_engine do |e, view|
+        view_engine do |e, view|
           view.stubs(:current_user).returns user
           res = e.run_template do 
             %{<%= has_roles?(:admin, :guest) %> }
@@ -132,7 +132,7 @@ describe Cream::Helper::Role do
         user = stub()
         user.stubs(:has_roles?).with([:unknown, :guest]).returns false
 
-        with_engine do |e, view|
+        view_engine do |e, view|
           view.stubs(:current_user).returns user
           res = e.run_template do 
             %{<%= has_roles?(:unknown, :guest) %> }
@@ -147,7 +147,7 @@ describe Cream::Helper::Role do
     it "should return false, since the user is NOT the owner of the post, but an other user" do
       user = stub()
       other_user = stub()
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:current_user).returns user
         @post.stubs(:owner).returns other_user
         
@@ -160,7 +160,7 @@ describe Cream::Helper::Role do
 
     it "should return true, since the user is the owner of the post (default :owner relation)" do
       user = stub()
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:current_user).returns user
         @post.stubs(:owner).returns user
         
@@ -173,7 +173,7 @@ describe Cream::Helper::Role do
 
     it "should return true, since the user is the owner of the post using custom ownership relation :maker" do
       user = stub()
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:current_user).returns user
         @post.stubs(:maker).returns user
         

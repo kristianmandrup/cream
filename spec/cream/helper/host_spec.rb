@@ -11,7 +11,7 @@ describe Cream::Helper::Host do
       request = stub()
       request.stubs(:host).returns 'localhost'        
       
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:request).returns request
 
         res = e.run_template do 
@@ -25,7 +25,7 @@ describe Cream::Helper::Host do
       request = stub()
       request.stubs(:host).returns '127.0.0.1'        
 
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:request).returns request
 
         res = e.run_template do 
@@ -41,7 +41,7 @@ describe Cream::Helper::Host do
       request = stub()
       request.stubs(:host).returns 'localhost'        
 
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:request).returns request
 
         res = e.run_template do 
@@ -55,7 +55,7 @@ describe Cream::Helper::Host do
       request = stub()
       request.stubs(:host).returns '214.353.343.222'        
 
-      with_engine do |e, view|
+      view_engine do |e, view|
         view.stubs(:request).returns request
 
         res = e.run_template do 

@@ -1,6 +1,6 @@
 require 'configure_helper'
 
-require 'cream/configure'
+require 'cream/configure/rails'
 
 class Role  
   attr_accessor :name
@@ -19,7 +19,7 @@ describe "Rails extension" do
     it "should extend Action View with Roles helper instance_methods and specific role methods" do
       after_init :view do
         :view.should be_extended_with Cream::View,    :role, :host, :user_action_menu
-        :view.should be_extended_with Cream::Helper,  :role, :auth_label
+        :view.should be_extended_with Cream::Helper,  :role
       end
       
       init_app_railties :minimal, :view
@@ -29,7 +29,7 @@ describe "Rails extension" do
       after_init :controller do
         :controller.should be_extended_with Cream, :role
         :controller.should be_extended_with Cream::Controller, :ability
-        :controller.should be_extended_with Cream::Helper, :role, :host, :auth_label
+        :controller.should be_extended_with Cream::Helper, :role, :host
       end            
       
       init_app_railties :minimal, :view
