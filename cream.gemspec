@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.7.4"
+  s.version = "0.7.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2010-11-25}
+  s.date = %q{2010-11-26}
   s.description = %q{Provides assistance for setting up Session, Role and Permission systems for a Rails 3 app. Support for multiple ORMs}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
      "app/views/auth_assist/menu/_admin_login_items.html.erb",
      "app/views/auth_assist/menu/_login_items.html.erb",
      "app/views/auth_assist/menu/_registration_items.html.erb",
-     "config/locales/en.yml",
+     "config/locales/cream.en.yml",
      "cream.gemspec",
      "features/FEATURE_NOTES.txt",
      "features/permission/adds_permission.feature",
@@ -41,7 +41,6 @@ Gem::Specification.new do |s|
      "lib/cream/configure/after_init/role_config.rb",
      "lib/cream/configure/rails.rb",
      "lib/cream/controller/ability.rb",
-     "lib/cream/helper/authlabels.rb",
      "lib/cream/helper/host.rb",
      "lib/cream/helper/role.rb",
      "lib/cream/namespaces.rb",
@@ -64,7 +63,6 @@ Gem::Specification.new do |s|
      "log/development.log",
      "sandbox/test.rb",
      "spec/configure_helper.rb",
-     "spec/cream/configure/cream_setup_spec.rb",
      "spec/cream/configure/rails_custom_roles_spec.rb",
      "spec/cream/configure/rails_role_spec.rb",
      "spec/cream/configure/rails_user_roles_spec.rb",
@@ -98,7 +96,6 @@ Gem::Specification.new do |s|
   s.summary = %q{Integrates Devise, Roles and CanCan with Permits for a Rails 3 app}
   s.test_files = [
     "spec/configure_helper.rb",
-     "spec/cream/configure/cream_setup_spec.rb",
      "spec/cream/configure/rails_custom_roles_spec.rb",
      "spec/cream/configure/rails_role_spec.rb",
      "spec/cream/configure/rails_user_roles_spec.rb",
