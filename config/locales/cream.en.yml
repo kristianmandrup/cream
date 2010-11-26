@@ -1,0 +1,16 @@
+en:
+  cream:
+    confirm: 'Are you sure?'
+    actions:
+      rest:  
+        index: "Index"
+        new: "New"
+        edit: "Edit"
+        delete: "Delete"
+        show: "Show"
+      auth:
+        sign_in: "Sign in"
+        sign_out: "Sign out"
+        sign_up: "Sign up"
+        edit_registration: "Edit registration"
+      
