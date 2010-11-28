@@ -1,33 +1,38 @@
 # Cream
 
-This project aims to assist you in setting up a complete user login and role permission system for your Rails 3 app.
+This project aims to assist you in setting up a complete Authentication and Authorization system for your Rails 3 app.
 
-It targets [Devise](http://github.com/plataformatec/devise) as the Authentication system, [CanCan](http://github.com/ryanb/cancan) with Permits and Licenses as the Authorization system and [Roles Generic](http://github.com/kristianmandrup/roles_generic) as the user Roles system. 
+It targets
+
+* [Devise](http://github.com/plataformatec/devise) - Authorization
+* [CanCan](http://github.com/ryanb/cancan) - Authentication
+* [Roles Generic](http://github.com/kristianmandrup/roles_generic) - Roles
+
+For more advanced Authorization configuration, cream uses cancan-permits to enabel use of Permits and Licenses.
+The gems *devise-links* and *cancan-rest-links* provide view helpers to facilitate working with authentication links and model REST links with permission logic.
+Cream itself provides generators to easily configure your Rails 3 app with these gems and also includes various view and controller helpers to guard view or controller logic. The project targets a collection of common ORMs for Rails, for both Relational and Document based datastores. 
 
 The objective of this project is to 
+
 * Integrate all these sub-systems
-* Provide a generator that can auto-configure your Rails 3 app with these sub-systems for a given ORM
+* Provide generators that can auto-configure your Rails 3 app with these sub-systems for a given ORM
+
+_UPDATE_: Finally all dependency issues have been resolved for all gems used so that cream can be installed again without failure! Sorry for the long waiting!
+
+## TODO
+
+The old Demo app [Cream rails 3 app](http://github.com/kristianmandrup/cream-rails3-app) is out of date and needs to be updated!
+Any help to create a Demo app is greatly appreciated.
 
 ## Status
 
-This project and the gems it assembles should all mostly work. I am currently going through all the supporting gems, making sure dependencies 
-are updated and that they use the latest APIs of the other gems and all specs pass. Stay tuned!
-The config generators is currently under construction and needs some fine-tuning to bring all the gems together.
+[CanCan permits demo](https://github.com/kristianmandrup/cancan-permits-demo) is a recent Rails 3 app I created to demonstrate configuration of a Rails 3 app using
+*cancan-permits* and *cancan-rest-links*. I will build on this in the near future to provide a full Rails 3 app with all the cream features enabled. 
+Stay tuned! Or even better, help me create such template/tutorial projects ;)
 
-I have now also started a new project called [Cream rails 3 app](http://github.com/kristianmandrup/cream-rails3-app) which is to be a template Rails 3 project 
-that demonstrates what a final Rails 3 app using Cream will look like. I plan to use this as a template for the Cream config generator, making sure that given
-Mongo Mapper as the ORM and default arguments, the generartor should generate a "mirror image" of this template project. You are most welcome to help me in this effort
-or provide suggestions etc. The README of the template project will contain a recipe with the steps to be taken to produce it ;)
+### Update Nov 28, 2010
 
-### Update Nov 25, 2010
-
-Cream dependency to *cancan-permits* updated to use version 0.3.2.
-Cream Permits Config generator uses new *cancan:permits* and *cancan:licenses* generators.
-
-Currently to activate Cream in a rails app, insert this line in a Rails initializer.
-<code>
-  require 'cream/configure/rails'  
-</code>
+Finally cream again installs from a clean base without any dependency problems :) I just switched to Ruby 1.9.3-dev and tested cream from a clean ruby gems.
 
 ## Authentication systems
 
@@ -38,6 +43,14 @@ Cream targets [Devise](http://github.com/plataformatec/devise) as the Authentica
 ### Devise links
 
 The project [devise links](http://github.com/kristianmandrup/devise-links) adds more convenience for creating view links to trigger Devise session actions.
+
+## Authorization system
+
+There is support for the [CanCan](http://github.com/ryanb/cancan) Authorization system. 
+I have created a [Cancan permits](http://github.com/kristianmandrup/cancan-permits) gem that adds the concept of Permits for each role (see below).
+
+_Note:_
+You are most welcome to provide "plugins" for other permission frameworks!
 
 ## Roles
 
@@ -67,26 +80,21 @@ _Update:_
 Roles Generic has recently been upgraded with a better API, architecture, framework for testing and more and better functionality. It should also now be more DRY and
 easier/simpler to add more strategies and Datastore adapters.
 
-## Permission systems 
-
-There is support for the [CanCan](http://github.com/ryanb/cancan) permission system. 
-I have created a [Cancan permits](http://github.com/kristianmandrup/cancan-permits) gem that adds the concept of Permits for each role (see below).
-
-_Note:_
-You are most welcome to provide "plugins" for other permission frameworks!
-
 ## ORMs
 
-In general, it should now finally be pretty easy to set up a Rails 3 app, with a full Session system, Permission system linked to a Role strategy system using any ORM. Devise supports the following ORMS:
+In general, it should now finally be pretty easy to set up a Rails 3 app, with a full Authentication and an Authorization system linked to a Role system using one of the following supported Cream ORMs. 
 
+Relational DB:
 * Active Record
 * Data Mapper
-* Mongo Mapper
-* Mongoid
+
+Document datastores:
+* Mongo DB
+** Mongo Mapper
+** Mongoid
 * Couch DB
 
-These ORMs are also supported for the Roles strategy system. The Permission system should not have any ORM dependency.
-There are plans to create a top-level generator which sets up your project with all these systems for a given ORM.
+These ORMs are also supported for the CanCan Permits and Roles systems. 
 
 ## Installation and configuration ##
 
@@ -97,12 +105,6 @@ This gem has been designed for Rails 3 only.
 Insert <pre>gem 'cream'</pre> in your Rails 3 Gemfile
 <pre>$ bundle install</pre>
 
-### Install as plugin
-
-In the near future...
-
-<code>rails plugin install http://github.com/kristianmandrup/cream.git</code>
-
 ## Role system
 
 Role strategies can be set up using the [Roles Generic](http://github.com/kristianmandrup/roles_generic) gem or any of the ORM specific roles gems such as [Roles - Active Record](http://github.com/kristianmandrup/roles_active_record). There are currently Roles implementations for the following ORMs:
@@ -111,36 +113,32 @@ Role strategies can be set up using the [Roles Generic](http://github.com/kristi
 * Data Mapper
 * Mongo Mapper
 * Mongoid
-* Couch DB
+* Couch DB (via SimplyStored)
 
 ### Update
 
-The Role systems for Active Record, Mongoid and MongoMapper have recently been upgraded to take advantage of the new Roles Generic API and archictecture. 
-I hope to soon have time to also upgrade the remaining ORM Role adapters.
+The Role systems all ORMs (except SimplyStored which is in progress) have recently been upgraded to take advantage of a new Roles Generic API and archictecture. 
 
-## Permission system 
+## CanCan
 
-The only Permission system currently supported is *CanCan*.
+Role based authorization for [CanCan](http://github.com/ryanb/cancan) can be done by creating a *Permit* class for each role. 
 
-### CanCan
+### Permits
 
-Role based authorization for [CanCan](http://github.com/ryanb/cancan) is currently done by creating *Permits* for each role. 
 A *Permit* lets a user in a given role do certain actions as defined in the Permit. 
+A Permit can also reuse permission logic in the form of Licenses for a more fine grained design if needed. 
 
-The *config* generator will generate a set of Permit files which are placed in '/app/permits'. You can then edit the Permits to suit your needs.
+CanCan Permits comes with generators to generate Permit files which are placed in '/app/permits'. You can then edit the Permits to suit your needs.
 
 The project [CanCan REST links](http://github.com/kristianmandrup/cancan-rest-links) provides a convenient way to handle CanCan REST links, using a flexible API.
 
-## Permits
-
-Currently CanCan is supported as the permission system. I have added the concept of Permits (and optionally Licenses) linked to Roles. 
-
 Check out [Cancan permits](http://github.com/kristianmandrup/cancan-permits) for more info for how to use Permits.
 
-Cream has ben updated to support my the version of *Cancan permits*, which now support all the ORMs that both Cream and Roles Generic support.
+*Cancan permits* support all the ORMs that both Devise and Roles Generic support.
 
-For more advanced role/permission scenarios you can create Licenses placed in '/app/licenses/', which are 'permission sets' that can be reused across multiple Permits.
-Note: The gem *cancan-permits* comes with both a *permits* and a *licenses* generator.
+### Licenses
+
+For more advanced authorization scenarios you can create reusable permission logic in license classed that are placed in '/app/licenses/'. A License can be reused in multiple Permits. 
 
 See [CanCan permits demo app](https://github.com/kristianmandrup/cancan-permits-demo) for an example of how to use cancan-permits and licenses.
 
@@ -159,19 +157,26 @@ Sub-generators
 * permits:config  - Configures app with CanCan Permits
 * roles:config    - Configures app with Roles
 
-All the above generators now have specs to show how to use them. 
-Note: These generators have still not been tested in all scenarios with all ORMs, role strategies etc.
-I am sure there are still some issues... so please help uncover these!
+* cancan:restlinks - create REST links locale file 
+* devise:links - create devise links locale file (should maybe be renamed authlinks?)
 
-In general, the cream:config generator can be seen as a kind of "super generator", in that it should call all the sub-generators in succession to attempt to fully configure
-and applicaiton in one go. 
+All the above generators have specs included in cream that demonstrate how to use them and should verify that they work as expected. 
 
-Cream will support these ORMs:
+In general, the cream:config generator can be seen as a kind of "super generator", in that it should call all the sub-generators in succession to fully configure
+the Rails 3 app in one go. I need more people to test this out to see how well it works. I am sure there are still a few bugs and issues here... 
 
+Cream target these ORMs:
+
+Relational DB (SQL)
 * Active Record
 * Data Mapper
+
+Mongo Mapper (NoSQL Document store)
 * Mongo Mapper
 * Mongoid 
+
+Couch DB (NoSQL Document store)
+* SimplyStored ()
 
 ### Config Generator ###
 
