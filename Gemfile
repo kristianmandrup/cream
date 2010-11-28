@@ -2,13 +2,13 @@ source :rubygems
 source 'http://gems.github.com/'
 
 group :default do
-  gem "devise-links",      "~> 0.1.4"    
-  gem "cancan-rest-links", ">= 0.1.5" 
-  gem "cancan-permits",    ">= 0.3.2" 
+  gem "devise-links",      "~> 0.2.0"    
+  gem "cancan-rest-links", ">= 0.2.0" 
+  gem "cancan-permits",    ">= 0.3.4" 
 
   gem "require_all",       "~> 1.2.0"    
 
-  gem "devise",            ">= 1.2.0"    
+  gem "devise",            ">= 1.1.5"    
   gem "cancan",            ">= 1.4.0" 
   gem "rails",             ">= 3.0.1"
 
