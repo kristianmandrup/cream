@@ -16,7 +16,12 @@ module Devise
 
       def configure_devise
       	logger.add_logfile :logfile => logfile if logfile	        
-        devise_gems if gems?
+      	if gems?
+      	  devise_gems
+    	  else
+      	  say "WARNING: Not configuring devise gems for #{orm}", :yellow
+    	  end
+         
 		    devise_install
         [:orm, :mailer, :protection].each{|m| send(:"#{m}_configure!", orm) }
       end
@@ -59,16 +64,13 @@ module Devise
         rgen 'devise:install'
       end        
 
-      def bundle_install *gems
-        run "bundle install #{gems.join(' ')}"
-      end
-
-      def add_gem name
-        gem name if !has_gem? name
+      def bundle_install #*gems
+        # run "bundle install #{gems.join(' ')}"
+        run "bundle install"
       end
 
       def devise_gems 
-        logger.debug "Configuring devise gems for #{orm}"
+        say "Configuring devise gems for #{orm}", :green
         add_gem 'devise'
 
         orm_gem = nil
@@ -76,9 +78,9 @@ module Devise
         case orm.to_sym
         when :mongoid
           say "Please configure Devise for Mongoid similar to Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
-          add_gem 'mongoid'
-          bundle_install
-          rgen "mongoid:devise"
+          add_gem 'mongoid', '2.0.0.beta.19'
+          add_gem 'bson_ext', '1.1.4'
+          # copy_mongoid_config                    
         when :mongo_mapper
           orm_gem = 'mm-devise'
           add_gem 'mm-devise'
@@ -93,7 +95,11 @@ module Devise
         else
           say "Orm #{orm} is not currently supported by Cream. You are most welcome to provide a Cream adapter for that ORM ;)"
         end
-        bundle_install 'devise', orm_gem
+        bundle_install #'devise', orm_gem
+        if orm.to_sym == :mongoid
+          rgen 'mongoid:config'
+          rgen "devise mongoid" 
+        end
       end 
 
       def protection_configure! orm
@@ -110,15 +116,22 @@ module Devise
         return if orm == 'active_record'
         logger.debug "Configuring orm: [#{orm}]"
         
-        if devise_initializer?
-          if has_devise_orm_statement? && !has_statement?(orm_replacement)
-            File.replace_content_from devise_initializer,  :where => orm_statement, :with => orm_replacement
-          else
-            say "WARNING: devise/orm statement not found in devise.rb initializer", :yellow
-          end
-        else
+        if !devise_initializer?        
           say "WARNING: initializer/devise.rb not found", :yellow
+          return
         end
+          
+        if !has_statement?(orm_replacement)
+          logger.debug "require 'devise/orm/#{orm}' already in devise.rb initializer"
+          return
+        end
+
+        if !has_devise_orm_statement?
+          say "WARNING: devise/orm statement not found in devise.rb initializer", :yellow
+          return
+        end
+        
+        File.replace_content_from devise_initializer,  :where => orm_statement, :with => orm_replacement
       end
         
       def mailer_configure! orm
@@ -127,6 +140,29 @@ module Devise
       end
       
       private
+     
+      def add_gem_version name, version
+        if !has_gem_version?(name, version)
+          logger.debug "Adding gem: #{name}, #{version}"
+          gem(name, version) 
+        else
+          logger.debug "gem: #{name}, #{version} already in Gemfile"
+        end        
+      end
+
+      def add_gem name, version = nil
+        add_gem_version(name, version) and return if version
+        if !has_gem? name
+          logger.debug "Adding gem: #{name}"
+          gem name
+        else
+          logger.debug "gem: #{name} already in Gemfile"          
+        end
+      end
+
+      # def copy_mongoid_config
+      #   file File.dirname(__FILE__) + '/mongoid.yml', 'config/mongoid.yml'        
+      # end
 
       def gems?
         options[:gems]        
@@ -145,7 +181,7 @@ module Devise
       end
 
       def has_statement? statement
-        devise_initializer_content =~ statement
+        devise_initializer_content =~ /#{Regexp.escape(statement)}/
       end
 
       def has_devise_orm_replacement?

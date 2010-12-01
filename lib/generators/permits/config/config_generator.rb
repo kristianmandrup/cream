@@ -61,11 +61,11 @@ module Permits
 
       def permits_gems
         gem 'cancan-permits'
-        bundle_install 'cancan-permits'
+        bundle_install # 'cancan-permits'
       end
 
-      def bundle_install *gems
-        run "bundle install #{gems.jon(' ')}"
+      def bundle_install #*gems
+        run "bundle install" # #{gems.jon(' ')}"
       end
     end
   end

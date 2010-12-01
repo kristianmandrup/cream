@@ -46,11 +46,11 @@ module Devise
 
       def devise_gems
         gem 'devise'
-        bundle_install 'devise'
+        bundle_install # 'devise'
       end
 
-      def bundle_install *gems
-        run "bundle install #{gems.jon(' ')}"
+      def bundle_install #*gems
+        run "bundle install" # #{gems.jon(' ')}"
       end
     
       def devise_default_user

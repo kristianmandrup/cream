@@ -65,7 +65,7 @@ module Cream
 
       def run_devise
         # rgen "devise:config --orm #{orm} --no-gems"
-        rgen "devise:config --orm #{orm} --no-gems"
+        rgen "devise:config --orm #{orm}"
         rgen "devise:users --orm #{orm} #{admin_user_option} --no-gems"
       end
 
@@ -74,7 +74,7 @@ module Cream
       end
 
       def run_roles
-        rgen "roles:config --orm #{orm} --roles #{roles.join(' ')} --strategy #{strategy} --no-gems"
+        rgen "roles:config --orm #{orm} --roles #{roles.join(' ')} --strategy #{strategy}"
       end
 
       def run_permits
@@ -140,8 +140,8 @@ module Cream
       def cream_initializer
         create_initializer :cream do         
   %Q{Cream.setup do |config|
-    config.roles = #{sym_roles.inspect} 
-  end}      
+  config.roles = #{sym_roles.inspect} 
+end}      
         end
       end
 

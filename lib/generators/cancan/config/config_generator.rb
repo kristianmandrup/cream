@@ -36,19 +36,21 @@ module Cancan
       def cancan_gems
         gem 'cancan'  
         gem 'cancan-rest-links'
-        bundle_install 'cancan', 'cancan-permits'
+        bundle_install #'cancan', 'cancan-permits'
       end
 
-      def bundle_install *gems
-        run "bundle install #{gems.jon(' ')}"
+      def bundle_install #*gems
+        run "bundle install" # #{gems.jon(' ')}"
       end
 
       # CanCan access denied exception handling
       def cancan_exception_handling
-        logger.debug "Rescue exists? #{rescue_exists?}"
-        return if rescue_exists?        
-  
-        logger.debug "Insert rescue into application controller"
+        if rescue_exists?
+          logger.debug "CanCan rescue statement already exists"
+          return
+        end
+        
+        logger.debug "Insert cancan rescue statement into application controller"
         insert_into_controller :application, :after => "ActionController::Base\n" do
           %{
   rescue_from CanCan::AccessDenied do |exception|
@@ -60,7 +62,7 @@ module Cancan
       end
        
       def rescue_exists? 
-        File.read(controller_file :application) =~ /rescue_from CanCan::AccessDenied/
+        !(File.read(controller_file :application) =~ /rescue_from CanCan::AccessDenied/).nil?
       end
     end
   end
