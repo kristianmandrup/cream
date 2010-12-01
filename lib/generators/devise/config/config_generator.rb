@@ -28,18 +28,6 @@ module Devise
 
       use_helpers :controller, :app, :special, :file
 
-      def gems?
-        options[:gems]        
-      end
-
-      def logfile
-        options[:logfile]
-      end
-
-      def orm
-        options[:orm]
-      end
-
       # rails generate ...
       def rgen command
         execute "rails g #{command}"
@@ -57,6 +45,10 @@ module Devise
       def devise_initializer? 
         initializer_file?(:devise)
       end        
+
+      def devise_initializer_content 
+        File.new(devise_initializer).read
+      end
     
       def devise_install        
         if devise_initializer?
@@ -117,10 +109,10 @@ module Devise
       def orm_configure! orm
         return if orm == 'active_record'
         logger.debug "Configuring orm: [#{orm}]"
+        
         if devise_initializer?
-          orm_found = File.new(devise_initializer).read =~/devise\/orm\/w+/
-          if orm_found
-            File.replace_content_from initializer_file(:devise),  :where => /devise\/orm\/\w+/, :with =>  "devise/orm/#{orm}"
+          if has_devise_orm_statement? && !has_statement?(orm_replacement)
+            File.replace_content_from devise_initializer,  :where => orm_statement, :with => orm_replacement
           else
             say "WARNING: devise/orm statement not found in devise.rb initializer", :yellow
           end
@@ -133,6 +125,40 @@ module Devise
         logger.debug "Configuring: devise mailer"            
         insert_application_config "action_mailer.default_url_options = { :host => 'localhost:3000' }"
       end
+      
+      private
+
+      def gems?
+        options[:gems]        
+      end
+
+      def logfile
+        options[:logfile]
+      end
+
+      def orm
+        options[:orm]
+      end
+      
+      def has_devise_orm_statement?
+        devise_initializer_content =~ orm_statement
+      end
+
+      def has_statement? statement
+        devise_initializer_content =~ statement
+      end
+
+      def has_devise_orm_replacement?
+        has_statement? orm_replacement
+      end
+
+      def orm_statement   
+        /devise\/orm\/\w+/
+      end
+
+      def orm_replacement 
+        "devise/orm/#{orm}"
+      end      
     end
   end
 end
