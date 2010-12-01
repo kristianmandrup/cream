@@ -69,7 +69,7 @@ module Devise
       end
 
       def gems_mongo_db
-        add_gem 'bson_ext', '1.1.4'
+        add_gem 'bson_ext', '>= 1.1.4'
       end
             
       def devise_gems 
@@ -80,7 +80,7 @@ module Devise
         case orm.to_sym
         when :mongoid
           say "Please configure Devise for Mongoid similar to Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
-          add_gem 'mongoid', '2.0.0.beta.19'
+          add_gem 'mongoid', '>= 2.0.0'
           gems_mongo_db
         when :mongo_mapper
           add_gem 'mm-devise'
@@ -145,14 +145,18 @@ module Devise
       def add_gem_version name, version
         if !has_gem_version?(name, version)
           logger.debug "Adding gem: #{name}, #{version}"
-          gem(name, version) 
+          gem name, :version => version
         else
           logger.debug "gem: #{name}, #{version} already in Gemfile"
         end        
       end
 
       def add_gem name, version = nil
-        add_gem_version(name, version) and return if version
+        if version
+          add_gem_version name, version 
+          return 
+        end
+        
         if !has_gem? name
           logger.debug "Adding gem: #{name}"
           gem name
