@@ -64,38 +64,39 @@ module Devise
         rgen 'devise:install'
       end        
 
-      def bundle_install #*gems
-        # run "bundle install #{gems.join(' ')}"
+      def bundle_install
         run "bundle install"
       end
 
+      def gems_mongo_db
+        add_gem 'bson_ext', '1.1.4'
+      end
+            
       def devise_gems 
         say "Configuring devise gems for #{orm}", :green
         add_gem 'devise'
 
-        orm_gem = nil
         # Devise ORM integration        
         case orm.to_sym
         when :mongoid
           say "Please configure Devise for Mongoid similar to Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
           add_gem 'mongoid', '2.0.0.beta.19'
-          add_gem 'bson_ext', '1.1.4'
-          # copy_mongoid_config                    
+          gems_mongo_db
         when :mongo_mapper
-          orm_gem = 'mm-devise'
           add_gem 'mm-devise'
+          gems_mongo_db          
         when :data_mapper
-          orm_gem = 'dm-devise'
           add_gem 'dm-devise'
         when :couch_db
-          orm_gem = 'devise_couch'
           add_gem 'devise_couch'
           say "Please note that Couch DB does not currently have a Roles implementation. Feel free to provide one."
           say "Look at Roles DataMapper (roles_data_mapper) for an example ;)"
         else
           say "Orm #{orm} is not currently supported by Cream. You are most welcome to provide a Cream adapter for that ORM ;)"
         end
-        bundle_install #'devise', orm_gem
+        clean_gemfile
+        
+        bundle_install
         if orm.to_sym == :mongoid
           rgen 'mongoid:config'
           rgen "devise mongoid" 
@@ -159,10 +160,6 @@ module Devise
           logger.debug "gem: #{name} already in Gemfile"          
         end
       end
-
-      # def copy_mongoid_config
-      #   file File.dirname(__FILE__) + '/mongoid.yml', 'config/mongoid.yml'        
-      # end
 
       def gems?
         options[:gems]        
