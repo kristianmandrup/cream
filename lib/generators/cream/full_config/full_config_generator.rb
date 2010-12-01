@@ -129,9 +129,12 @@ module Cream
         options[:configure].map{|c| c.to_sym}
       end
 
+
       def cream_gems
-        gem 'cream'
-        # bundle_install
+        if !has_gem? :cream
+          gem 'cream' 
+          # bundle_install
+        end
       end      
 
       def cream_initializer

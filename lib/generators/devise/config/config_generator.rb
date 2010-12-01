@@ -12,7 +12,7 @@ module Devise
       # ORM to use
       class_option :orm,     :type => :string,   :default => 'active_record',   :desc => "ORM to use"
       class_option :logfile, :type => :string,   :default => nil,               :desc => "Logfile location" 
-      class_option :gems,    :type => :boolean,  :default => false,             :desc => "Add gems to gemfile?"       
+      class_option :gems,    :type => :boolean,  :default => true,              :desc => "Add gems to gemfile?"       
 
       def configure_devise
       	logger.add_logfile :logfile => logfile if logfile	        
@@ -49,10 +49,21 @@ module Devise
         logger.debug command
         run command
       end        
+
+      def devise_initializer 
+        initializer_file(:devise)
+      end
+
+      def devise_initializer? 
+        initializer_file?(:devise)
+      end        
     
-      def devise_install
-        logger.debug "initializer_file? #{initializer_file?(:devise)}"
-        return if initializer_file?(:devise) 
+      def devise_install        
+        if devise_initializer?
+          logger.debug "initializers/devise.rb was found so devise:install will not be run"
+          return 
+        end
+        logger.debug "initializers/devise.rb was NOT found so devise:install will now be run" 
         rgen 'devise:install'
       end        
 
@@ -60,24 +71,31 @@ module Devise
         run "bundle install #{gems.join(' ')}"
       end
 
+      def add_gem name
+        gem name if !has_gem? name
+      end
+
       def devise_gems 
-        logger.debug 'devise_gems'
-        gem 'devise'
+        logger.debug "Configuring devise gems for #{orm}"
+        add_gem 'devise'
 
         orm_gem = nil
         # Devise ORM integration        
         case orm.to_sym
         when :mongoid
-          say "Please configure Devise for Mongoid as similar to Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
+          say "Please configure Devise for Mongoid similar to Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
+          add_gem 'mongoid'
+          bundle_install
+          rgen "mongoid:devise"
         when :mongo_mapper
           orm_gem = 'mm-devise'
-          gem 'mm-devise'
+          add_gem 'mm-devise'
         when :data_mapper
           orm_gem = 'dm-devise'
-          gem 'dm-devise'
+          add_gem 'dm-devise'
         when :couch_db
           orm_gem = 'devise_couch'
-          gem 'devise_couch'
+          add_gem 'devise_couch'
           say "Please note that Couch DB does not currently have a Roles implementation. Feel free to provide one."
           say "Look at Roles DataMapper (roles_data_mapper) for an example ;)"
         else
@@ -87,7 +105,7 @@ module Devise
       end 
 
       def protection_configure! orm
-        logger.debug "config protection"            
+        logger.debug "Configuring: devise authentication filter"
         ## Add Devise protection to Application controller:
         insert_into_controller :application do
           "before_filter :authenticate_user!"
@@ -97,16 +115,22 @@ module Devise
       # inside 'config/initializers/devise.rb' change to:
       # require 'devise/orm/mongo_mapper'
       def orm_configure! orm
-        return if orm == :active_record 
-        logger.debug "config orm: #{orm}"
-        found = File.read(initializer_file(:devise)) =~/devise\/orm\/w+/
-        logger.debug "found?: #{found}"
-        
-        File.replace_content_from initializer_file(:devise),  :where => /devise\/orm\/\w+/, :with =>  "devise/orm/#{orm}"
+        return if orm == 'active_record'
+        logger.debug "Configuring orm: [#{orm}]"
+        if devise_initializer?
+          orm_found = File.new(devise_initializer).read =~/devise\/orm\/w+/
+          if orm_found
+            File.replace_content_from initializer_file(:devise),  :where => /devise\/orm\/\w+/, :with =>  "devise/orm/#{orm}"
+          else
+            say "WARNING: devise/orm statement not found in devise.rb initializer", :yellow
+          end
+        else
+          say "WARNING: initializer/devise.rb not found", :yellow
+        end
       end
         
       def mailer_configure! orm
-        logger.debug "config mailer"            
+        logger.debug "Configuring: devise mailer"            
         insert_application_config "action_mailer.default_url_options = { :host => 'localhost:3000' }"
       end
     end
