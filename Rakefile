@@ -12,6 +12,8 @@ begin
     gem.add_development_dependency "generator-spec",    ">= 0.7.0" 
     gem.add_development_dependency "rspec-action_view", ">= 0.3.1"     
     gem.add_development_dependency "rails-app-spec",    ">= 0.3.0"
+    gem.add_development_dependency "devise-spec",       ">= 0.1.3"    
+    gem.add_development_dependency "roles-spec",       ">= 0.1.3"    
 
     gem.add_dependency "require_all",       "~> 1.2.0"
     
