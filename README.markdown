@@ -18,14 +18,18 @@ The objective of this project is to
 * Provide generators that can auto-configure your Rails 3 app with these sub-systems for a given ORM
 
 _UPDATE_: 1. Dec 2010
-Finally all dependency issues have been resolved.
-I have tested the 'full_config' generator in a fresh Rails 3.0.3 app and it seems to be working, at least with ORM = 'mongoid' now. 
-Time to check with the other ORMs as well and make fixes where needed.
+Rhe 'full_config' generator ha snow been tested in a fresh Rails 3.0.3 app and works with the following orms:
+* active_record
+* mongoid
 
-## TODO
+I will shortly go through the other ORMs and create Rails 3 demo apps for each with instructions.
 
-The old Demo app [Cream rails 3 app](http://github.com/kristianmandrup/cream-rails3-app) is out of date and needs to be updated!
-Any help to create a Demo app is greatly appreciated.
+## Rails 3 demo apps with Cream
+
+The following Rails 3 demo apps use Cream 0.7.7 and above and were created Dec 1. 2010
+
+* [Cream app with Active Record](https://github.com/kristianmandrup/cream-app-active_record) 
+* [Cream app with Mongoid](https://github.com/kristianmandrup/cream-app-mongoid) 
 
 ## Status
 
@@ -117,6 +121,10 @@ Role strategies can be set up using the [Roles Generic](http://github.com/kristi
 * Mongo Mapper
 * Mongoid
 * Couch DB (via SimplyStored)
+
+_Note_: 
+Roles for SimplyStored is "shaky" and works only with the admin_flag strategy. I won't develop more on this particular ORM adapter until requested to do so.
+If you need to use Roles with Couch DB, please help implement this adapter, maybe using another (better?) object-mapping solution for Couch DB.
 
 ### Update
 
