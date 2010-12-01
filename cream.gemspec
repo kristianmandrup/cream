@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.7.6"
+  s.version = "0.7.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2010-11-28}
+  s.date = %q{2010-12-01}
   s.description = %q{Provides assistance for setting up Session, Role and Permission systems for a Rails 3 app. Support for multiple ORMs}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -26,9 +26,9 @@ Gem::Specification.new do |s|
     "README.markdown",
     "Rakefile",
     "VERSION",
-    "app/views/auth_assist/menu/_admin_login_items.html.erb",
-    "app/views/auth_assist/menu/_login_items.html.erb",
-    "app/views/auth_assist/menu/_registration_items.html.erb",
+    "app/views/cream/menu/_admin_login_items.html.erb",
+    "app/views/cream/menu/_login_items.html.erb",
+    "app/views/cream/menu/_registration_items.html.erb",
     "config/locales/cream.en.yml",
     "cream.gemspec",
     "features/FEATURE_NOTES.txt",
