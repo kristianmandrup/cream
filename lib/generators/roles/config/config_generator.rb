@@ -21,8 +21,8 @@ module Roles
       	logger.add_logfile :logfile => logfile if logfile
         roles_gems if gems?
         create_roles
-        set_valid_roles_cream
-        use_roles_strategy        
+        use_roles_strategy
+        set_valid_roles_cream                
       end      
 
       protected
@@ -92,7 +92,7 @@ module Roles
         user_exist?
         if initializer_file? :cream
           if read_model(:user) =~ /valid_roles_are/
-            replace_in_model_file :user, :where => /valid_roles_are\s+[(.*)]/, :with => 'valid_roles_are Cream.roles'
+            replace_in_model :user, :where => /valid_roles_are\s+[(.*)]/, :with => 'valid_roles_are Cream.roles'
           else
             insert_into_model :user do
               "valid_roles_are Cream::Role.available"
