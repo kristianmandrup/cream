@@ -26,11 +26,13 @@ module Cream
 
       class_option :configure,      :type => :array,    :default => [],               :desc => "Which generators to run"
       class_option :gems,           :type => :boolean,  :default => true,             :desc => "Add gems to gemfile?"       
+      class_option :migrations,     :type => :boolean,  :default => false,            :desc => "Autorun database migrations?", :aliases => '-m'
 
       def main_flow             
         cream_initializer
         cream_gems if gems?
-        run_generators      
+        run_generators
+        run_migrations if run_migrations?      
       end
 
       # -----------------      
@@ -40,6 +42,10 @@ module Cream
       extend Rails3::Assist::UseMacro
 
       use_helpers :app, :special, :file
+
+      def run_migrations?
+        options[:migrations]
+      end
 
       def logfile
         options[:logfile]
@@ -57,6 +63,11 @@ module Cream
         run_cancan if configures.include? :cancan 
         run_roles if configures.include? :roles
         run_permits if configures.include? :permits
+      end
+
+      def run_migrations
+        return if orm != 'active_record'
+        execute "rake db:migrate"
       end
 
       def run_app
