@@ -30,6 +30,7 @@ The following Rails 3 demo apps use Cream 0.7.7 and above and were created Dec 1
 
 * [Cream app with Active Record](https://github.com/kristianmandrup/cream-app-active_record) 
 * [Cream app with Mongoid](https://github.com/kristianmandrup/cream-app-mongoid) 
+* [Cream app with Mongo Mapper](https://github.com/kristianmandrup/cream-app-mongo_mapper) 
 
 ## Status
 
