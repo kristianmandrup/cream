@@ -17,7 +17,10 @@ The objective of this project is to
 * Integrate all these sub-systems
 * Provide generators that can auto-configure your Rails 3 app with these sub-systems for a given ORM
 
-_UPDATE_: Finally all dependency issues have been resolved for all gems used so that cream can be installed again without failure! Sorry for the long waiting!
+_UPDATE_: 1. Dec 2010
+Finally all dependency issues have been resolved.
+I have tested the 'full_config' generator in a fresh Rails 3.0.3 app and it seems to be working, at least with ORM = 'mongoid' now. 
+Time to check with the other ORMs as well and make fixes where needed.
 
 ## TODO
 
