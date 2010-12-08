@@ -80,7 +80,7 @@ module Devise
         case orm.to_sym
         when :mongoid
           say "Please configure Devise for Mongoid similar to Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
-          add_gem 'mongoid', '>= 2.0.0'
+          add_gem 'mongoid', '>= 2.0.0.beta.20'
           gems_mongo_db
         when :mongo_mapper
           add_gem 'mm-devise'
