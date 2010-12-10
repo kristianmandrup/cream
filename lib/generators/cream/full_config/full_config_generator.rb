@@ -30,7 +30,7 @@ module Cream
 
       def main_flow             
         cream_initializer
-        cream_gems if gems?
+        # cream_gems if gems?
         run_generators
         run_migrations if run_migrations?      
       end
@@ -141,12 +141,11 @@ module Cream
       end
 
 
-      def cream_gems
-        if !has_gem? :cream
-          gem 'cream' 
-          # bundle_install
-        end
-      end      
+      # def cream_gems
+      #   if !has_gem? :cream
+      #     gem 'cream' 
+      #   end
+      # end      
 
       def cream_initializer
         create_initializer :cream do         
