@@ -92,14 +92,20 @@ easier/simpler to add more strategies and Datastore adapters.
 
 In general, it should now finally be pretty easy to set up a Rails 3 app, with a full Authentication and an Authorization system linked to a Role system using one of the following supported Cream ORMs. 
 
-Relational DB:
+Relational Database mappers
+
 * Active Record
 * Data Mapper
 
 Document datastores:
-* Mongo DB
-** Mongo Mapper
-** Mongoid
+
+Mongo DB:
+
+* Mongo Mapper
+* Mongoid
+
+Others:
+
 * Couch DB
 
 These ORMs are also supported for the CanCan Permits and Roles systems. 
@@ -124,16 +130,12 @@ Role strategies can be set up using the [Roles Generic](http://github.com/kristi
 * Couch DB (via SimplyStored)
 
 _Note_: 
-Roles for SimplyStored is "shaky" and works only with the admin_flag strategy. I won't develop more on this particular ORM adapter until requested to do so.
-If you need to use Roles with Couch DB, please help implement this adapter, maybe using another (better?) object-mapping solution for Couch DB.
-
-### Update
-
-The Role systems all ORMs (except SimplyStored which is in progress) have recently been upgraded to take advantage of a new Roles Generic API and archictecture. 
+Roles for *SimplyStored* is currently incomplete and works only with the *admin_flag* strategy. I won't develop more on this particular ORM adapter until requested to do so.
+If you need to use Roles with Couch DB, please help implement this adapter, maybe using an alternative (better?) object-mapping solution for Couch DB.
 
 ## CanCan
 
-Role based authorization for [CanCan](http://github.com/ryanb/cancan) can be done by creating a *Permit* class for each role. 
+Role based authorization for [CanCan](http://github.com/ryanb/cancan) can be achieved by creating a *Permit* class for each role. 
 
 ### Permits
 
@@ -156,21 +158,25 @@ See [CanCan permits demo app](https://github.com/kristianmandrup/cancan-permits-
 
 ## Generators
 
-The following generators are currently available 
+The following generators are currently available:
 
-* cream:config    - Configure Rails 3 application with Cream (master generator)
+Main generator: 
 
-Sub-generators
+* cream:full_config    - Configure Rails 3 application with Cream (master generator)
 
-* cream:views     - Generates partials for menu items
+Config generators:
+
 * devise:config   - Configure Rails 3 application with Devise
 * devise:users    - Configure Rails 3 application with Devise users
 * cancan:config   - Configures app with CanCan
 * permits:config  - Configures app with CanCan Permits
 * roles:config    - Configures app with Roles
 
-* cancan:restlinks - create REST links locale file 
-* devise:links - create devise links locale file (should maybe be renamed authlinks?)
+Other generators:
+
+* cancan:restlinks - Create REST links locale file 
+* devise:links - Create devise links locale file (should maybe be renamed authlinks?)
+* cream:views     - Generates partials for menu items
 
 All the above generators have specs included in cream that demonstrate how to use them and should verify that they work as expected. 
 
@@ -180,15 +186,18 @@ the Rails 3 app in one go. I need more people to test this out to see how well i
 Cream target these ORMs:
 
 Relational DB (SQL)
+
 * Active Record
 * Data Mapper
 
 Mongo Mapper (NoSQL Document store)
+
 * Mongo Mapper
 * Mongoid 
 
 Couch DB (NoSQL Document store)
-* SimplyStored ()
+
+* SimplyStored
 
 ### Config Generator ###
 
@@ -217,7 +226,7 @@ Example: <code>rails g permits:config</code>
 
 Moves 'user menu' partials views into app/views/_user_menu
 
-<code>rails g cream::views [scope] [--haml]</code>
+<code>rails g cream:views [scope] [--haml]</code>
 
 * scope  : The scope folder under views to copy the partials to, fx 'admin'
 * --haml : Use HAML as template language
