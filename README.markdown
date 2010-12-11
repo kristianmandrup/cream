@@ -1,6 +1,9 @@
 # Cream
 
-This project aims to assist you in setting up a complete Authentication and Authorization system for your Rails 3 app.
+This project aims to assist you in setting up a complete Authentication and Authorization system for your Rails 3 app and supports multiple ORMs.
+Just run the *full_config* generator with arguments specifying: roles available, the role strategy to use and the ORM to target and you are set to go.
+
+_Note_: Cream leverages an extensive set of framework components I have created specifically to make it much easier/faster to create Rails 3 plugins and spec/test them, using more natural DSLs. Look into the code to see the magic!
 
 Cream targets smooth integration of the following systems:
 
@@ -9,13 +12,13 @@ Cream targets smooth integration of the following systems:
 * [Roles Generic](http://github.com/kristianmandrup/roles_generic) - Roles
 
 For more advanced Authorization configuration, cream uses *cancan-permits* to enable use of *Permits* and *Licenses*.
-The gems *devise-links* and *cancan-rest-links* provide view helpers to facilitate working with authentication links and model REST links with permission logic.
-Cream itself provides generators to easily configure your Rails 3 app with these gems and also includes various view and controller helpers to guard view or controller logic. The project targets a collection of common ORMs for Rails, for both Relational and Document based datastores. 
+The gems *devise-links* and *cancan-rest-links* provide view helpers to facilitate working with authentication links and to enable REST links with permission logic.
+Cream itself provides generators to easily configure your Rails 3 app with these gems and also includes various view and controller helpers to guard specific view and/or controller logic with permission requirements. Cream targets a set of common ORMs for Rails for Relational and Document based datastores. 
 
-The objective of this project is to 
+The objectives of this project:
 
 * Integrate all these sub-systems
-* Provide generators that can auto-configure your Rails 3 app with these sub-systems for a given ORM
+* Provide generators that can auto-configure your Rails 3 app with these systems for a given ORM
 
 ## Rails 3 demo apps with Cream
 
@@ -53,7 +56,6 @@ The Roles Generic API has been implemented for the following ORMs
 * [Roles Active Record](http://github.com/kristianmandrup/roles_active_record)
 * [Roles DataMapper](http://github.com/kristianmandrup/roles_data_mapper)
 * [Roles MongoMapper](http://github.com/kristianmandrup/roles_mongo_mapper)
-* [Roles Mongoid](http://github.com/kristianmandrup/roles_for_mongoid)
 * [Roles Mongoid](http://github.com/kristianmandrup/roles_for_mongoid)
 * [Roles Simply Stored](https://github.com/kristianmandrup/roles_simply_stored)
 
@@ -180,7 +182,7 @@ Couch DB (NoSQL Document store)
 
 Master cream generator which calls the sub-generators in succession.
 
-<code>rails g cream::config --strategy ROLE_STRATEGY [--admin_user] [--orm ORM] [--roles ROLE1 ROLE2] [--logfile LOGFILE]</code>
+<code>rails g cream:full_config --strategy ROLE_STRATEGY [--admin_user] [--orm ORM] [--roles ROLE1 ROLE2] [--logfile LOGFILE]</code>
 
 * --strategy      : role strategy to use (see *roles_generic* gem)
 * --admin-user    : create admin user model with separate devise configuration
@@ -189,7 +191,7 @@ Master cream generator which calls the sub-generators in succession.
 
 Example
 
-<code>rails g cream:config --strategy admin_flag --admin-user --orm AR</code>
+<code>rails g cream:full_config --strategy admin_flag --admin-user --orm AR</code>
 
 By default creates :guest and :admin roles.
 
