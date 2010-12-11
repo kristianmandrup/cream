@@ -30,9 +30,7 @@ The following Rails 3 demo apps use Cream 0.7.7 and above and were created aroun
 
 ## Authentication systems
 
-Cream targets [Devise](http://github.com/plataformatec/devise) as the Authentication system of choice
-
-* [devise](http://github.com/plataformatec/devise) 
+Cream targets [devise](http://github.com/plataformatec/devise) as the Authentication system of choice
 
 ### Devise links
 
@@ -45,13 +43,9 @@ I have created a [Cancan permits](http://github.com/kristianmandrup/cancan-permi
 
 ## Roles
 
-I have developed a flexible *Generic Roles* strategy system.
+I have developed a flexible [Roles Generic](http://github.com/kristianmandrup/roles_generic) system which is used as the basis for the default Role system.
 
-* [Generic Role Strategies](http://github.com/kristianmandrup/roles_generic)
-
-Roles for popular ORMs
-
-The Roles Generic API has been implemented for the following ORMs
+The *Roles Generic API* has been implemented for the following ORMs
 
 * [Roles Active Record](http://github.com/kristianmandrup/roles_active_record)
 * [Roles DataMapper](http://github.com/kristianmandrup/roles_data_mapper)
@@ -59,31 +53,29 @@ The Roles Generic API has been implemented for the following ORMs
 * [Roles Mongoid](http://github.com/kristianmandrup/roles_for_mongoid)
 * [Roles Simply Stored](https://github.com/kristianmandrup/roles_simply_stored)
 
-_Role Groups_
-Document DBs such as *Mongo* and *Riak* are good for modeling a role-group hierarchical relationship. 
+_Note_: Any role system can be substituted as long as you have a method #has_role? on the user which returns true or false given a string or symbol that identifies the role.
+
+### Role Groups
+
+Document DBs such as *Mongo* and *Riak* are ideal for modeling a role-group hierarchical relationship. 
 Role-Group support is planned as a future add-on for the roles strategies integration. (Any assistance appreciated!)
 
 ## ORMs
 
 In general, it should now finally be pretty easy to set up a Rails 3 app, with a full Authentication and an Authorization system linked to a Role system using one of the following supported Cream ORMs. 
 
-Relational Database mappers
+Relational DB:
 
 * Active Record
 * Data Mapper
 
-Document datastores:
-
-Mongo DB:
+Document stores:
 
 * Mongo Mapper
 * Mongoid
-
-Others:
-
 * Couch DB
 
-These ORMs are also supported for the CanCan Permits and Roles systems. 
+These ORMs are also supported for the *CanCan Permits* and *Roles* systems. 
 
 ## Installation and configuration ##
 
@@ -96,17 +88,7 @@ Insert <pre>gem 'cream'</pre> in your Rails 3 Gemfile
 
 ## Role system
 
-Role strategies can be set up using the [Roles Generic](http://github.com/kristianmandrup/roles_generic) gem or any of the ORM specific roles gems such as [Roles - Active Record](http://github.com/kristianmandrup/roles_active_record). There are currently Roles implementations for the following ORMs:
-
-* Active Record
-* Data Mapper
-* Mongo Mapper
-* Mongoid
-* Couch DB (via SimplyStored)
-
-_Note_: 
-Roles for *SimplyStored* is currently incomplete and works only with the *admin_flag* strategy. I won't develop more on this particular ORM adapter until requested to do so.
-If you need to use Roles with Couch DB, please help implement this adapter, maybe using an alternative (better?) object-mapping solution for Couch DB.
+Role strategies can be set up using the [Roles Generic](http://github.com/kristianmandrup/roles_generic) gem or any of the ORM specific roles gems such as [Roles Active Record](http://github.com/kristianmandrup/roles_active_record). 
 
 ## CanCan
 
@@ -123,7 +105,7 @@ The project [CanCan REST links](http://github.com/kristianmandrup/cancan-rest-li
 
 Check out [Cancan permits](http://github.com/kristianmandrup/cancan-permits) for more info for how to use Permits.
 
-*Cancan permits* support all the ORMs that both Devise and Roles Generic support.
+*Cancan permits* support all the ORMs that both Devise and Roles support.
 
 ### Permits Editor
 
@@ -154,31 +136,15 @@ Config generators:
 Other generators:
 
 * cancan:restlinks - Create REST links locale file 
-* devise:links - Create devise links locale file (should maybe be renamed authlinks?)
-* cream:views     - Generates partials for menu items
+* devise:links - Create devise links locale file (rename to authlinks?)
+* cream:views - Generates partials for menu items
 
-All the above generators have specs included in cream that demonstrate how to use them and should verify that they work as expected. 
+All the above generators have specs included in cream that demonstrate how to use them and should verify that they work as expected (Note: some of the generator specs may be outdated!?). 
 
-In general, the cream:config generator can be seen as a kind of "super generator", in that it should call all the sub-generators in succession to fully configure
-the Rails 3 app in one go. I need more people to test this out to see how well it works. I am sure there are still a few bugs and issues here... 
+In general, the *cream:full_config* generator can be seen as a kind of "super generator", in that it should call all the sub-generators in succession to fully configure
+the Rails 3 app in one go. 
 
-Cream target these ORMs:
-
-Relational DB (SQL)
-
-* Active Record
-* Data Mapper
-
-Mongo Mapper (NoSQL Document store)
-
-* Mongo Mapper
-* Mongoid 
-
-Couch DB (NoSQL Document store)
-
-* SimplyStored
-
-### Config Generator ###
+### Full Config Generator ###
 
 Master cream generator which calls the sub-generators in succession.
 
@@ -209,6 +175,8 @@ Moves 'user menu' partials views into app/views/_user_menu
 
 * scope  : The scope folder under views to copy the partials to, fx 'admin'
 * --haml : Use HAML as template language
+
+_Note_: This *views* generator is based on a similar generator from the devise project. It might be removed in the near future as these menu items would make more sense as simple view helpers (suggestions?).
 
 ## Note on Patches/Pull Requests ##
  
