@@ -2,13 +2,13 @@
 
 This project aims to assist you in setting up a complete Authentication and Authorization system for your Rails 3 app.
 
-It targets
+Cream targets smooth integration of the following systems:
 
 * [Devise](http://github.com/plataformatec/devise) - Authorization
 * [CanCan](http://github.com/ryanb/cancan) - Authentication
 * [Roles Generic](http://github.com/kristianmandrup/roles_generic) - Roles
 
-For more advanced Authorization configuration, cream uses cancan-permits to enabel use of Permits and Licenses.
+For more advanced Authorization configuration, cream uses *cancan-permits* to enable use of *Permits* and *Licenses*.
 The gems *devise-links* and *cancan-rest-links* provide view helpers to facilitate working with authentication links and model REST links with permission logic.
 Cream itself provides generators to easily configure your Rails 3 app with these gems and also includes various view and controller helpers to guard view or controller logic. The project targets a collection of common ORMs for Rails, for both Relational and Document based datastores. 
 
@@ -17,30 +17,13 @@ The objective of this project is to
 * Integrate all these sub-systems
 * Provide generators that can auto-configure your Rails 3 app with these sub-systems for a given ORM
 
-_UPDATE_: 1. Dec 2010
-Rhe 'full_config' generator ha snow been tested in a fresh Rails 3.0.3 app and works with the following orms:
-* active_record
-* mongoid
-
-I will shortly go through the other ORMs and create Rails 3 demo apps for each with instructions.
-
 ## Rails 3 demo apps with Cream
 
-The following Rails 3 demo apps use Cream 0.7.7 and above and were created Dec 1. 2010
+The following Rails 3 demo apps use Cream 0.7.7 and above and were created around Dec 1. 2010
 
 * [Cream app with Active Record](https://github.com/kristianmandrup/cream-app-active_record) 
 * [Cream app with Mongoid](https://github.com/kristianmandrup/cream-app-mongoid) 
 * [Cream app with Mongo Mapper](https://github.com/kristianmandrup/cream-app-mongo_mapper) 
-
-## Status
-
-[CanCan permits demo](https://github.com/kristianmandrup/cancan-permits-demo) is a recent Rails 3 app I created to demonstrate configuration of a Rails 3 app using
-*cancan-permits* and *cancan-rest-links*. I will build on this in the near future to provide a full Rails 3 app with all the cream features enabled. 
-Stay tuned! Or even better, help me create such template/tutorial projects ;)
-
-### Update Nov 28, 2010
-
-Finally cream again installs from a clean base without any dependency problems :) I just switched to Ruby 1.9.3-dev and tested cream from a clean ruby gems.
 
 ## Authentication systems
 
@@ -56,9 +39,6 @@ The project [devise links](http://github.com/kristianmandrup/devise-links) adds 
 
 There is support for the [CanCan](http://github.com/ryanb/cancan) Authorization system. 
 I have created a [Cancan permits](http://github.com/kristianmandrup/cancan-permits) gem that adds the concept of Permits for each role (see below).
-
-_Note:_
-You are most welcome to provide "plugins" for other permission frameworks!
 
 ## Roles
 
@@ -80,13 +60,6 @@ The Roles Generic API has been implemented for the following ORMs
 _Role Groups_
 Document DBs such as *Mongo* and *Riak* are good for modeling a role-group hierarchical relationship. 
 Role-Group support is planned as a future add-on for the roles strategies integration. (Any assistance appreciated!)
-
-_Note:_
-You are most welcome to provide "plugins" for any other role frameworks. Please follow the API conventions of Roles generic.
-
-_Update:_
-Roles Generic has recently been upgraded with a better API, architecture, framework for testing and more and better functionality. It should also now be more DRY and
-easier/simpler to add more strategies and Datastore adapters.
 
 ## ORMs
 
@@ -149,6 +122,10 @@ The project [CanCan REST links](http://github.com/kristianmandrup/cancan-rest-li
 Check out [Cancan permits](http://github.com/kristianmandrup/cancan-permits) for more info for how to use Permits.
 
 *Cancan permits* support all the ORMs that both Devise and Roles Generic support.
+
+### Permits Editor
+
+I have recently created a [Permits editor](http://github.com/kristianmandrup/permits_editor) application that demonstrates how you can let the user edit the Permits, Licenses and even individual User permissions directly as part of an admin section of the web app. The *Permits editor* updates yaml files that are now part of the *cancan-permits* infrastructure (if present and registered).
 
 ### Licenses
 
