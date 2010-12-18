@@ -3,6 +3,7 @@ require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
 require 'logging_assist'
+require 'active_support'
 
 module Cream
   module Generators
@@ -45,7 +46,7 @@ module Cream
       use_helpers :app, :special, :file
 
       def validate_orm
-         if !valid_orms.include?(orm.lowercase.to_sym)
+         if !valid_orms.include?(orm)
            say "ORM #{orm} is not currently supported. Please use one of: #{valid_orms}", :red
            false
          end
@@ -114,7 +115,7 @@ module Cream
       end
 
       def orm
-        @orm ||= get_orm options[:orm].lowercase.to_sym
+        @orm ||= get_orm options[:orm].underscore.to_sym
       end
 
       def valid_orms
