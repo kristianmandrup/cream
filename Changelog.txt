@@ -1,3 +1,7 @@
+Dec 18, 2010
+---
+Improved ORM validation and handling 
+
 Dec 8, 2010
 ---
 Set mongoid dependency to >= 2.0.0.beta.20 (issue 5)

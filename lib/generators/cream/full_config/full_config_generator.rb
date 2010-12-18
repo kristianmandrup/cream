@@ -28,7 +28,8 @@ module Cream
       class_option :gems,           :type => :boolean,  :default => true,             :desc => "Add gems to gemfile?"       
       class_option :migrations,     :type => :boolean,  :default => false,            :desc => "Autorun database migrations?", :aliases => '-m'
 
-      def main_flow             
+      def main_flow 
+        return nil if !validate_orm            
         cream_initializer
         # cream_gems if gems?
         run_generators
@@ -42,6 +43,14 @@ module Cream
       extend Rails3::Assist::UseMacro
 
       use_helpers :app, :special, :file
+
+      def validate_orm
+         if !valid_orms.include?(orm.lowercase.to_sym)
+           say "ORM #{orm} is not currently supported. Please use one of: #{valid_orms}", :red
+           false
+         end
+         true
+      end
 
       def run_migrations?
         options[:migrations]
@@ -105,7 +114,31 @@ module Cream
       end
 
       def orm
-        options[:orm]
+        @orm ||= get_orm options[:orm].lowercase.to_sym
+      end
+
+      def valid_orms
+        active_record + data_mapper + mongo_mapper + [:couch_db, :mongoid]
+      end
+
+      def active_record
+        [:ar, :active_record]
+      end
+
+      def mongo_mapper
+        [:mm, :mongo_mapper]
+      end
+
+      def data_mapper
+        [:dm, :data_mapper]
+      end
+
+      def get_orm orm_name
+        return :active_record if active_record.include? orm_name
+        return :mongo_mapper if mongo_mapper.include? orm_name
+        return :data_mapper if data_mapper.include? orm_name
+        return :couch_db if orm_name == :couch_db
+        return :mongoid if orm_name == :mongoid
       end
 
       def default_roles?

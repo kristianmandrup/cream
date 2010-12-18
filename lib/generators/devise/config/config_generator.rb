@@ -71,6 +71,18 @@ module Devise
       def gems_mongo_db
         add_gem 'bson_ext', '>= 1.1.4'
       end
+
+      def is_active_record?
+        [:ar, :active_record].include? orm.to_sym
+      end
+
+      def is_mongo_mapper?
+        [:mm, :mongo_mapper].include? orm.to_sym
+      end
+
+      def is_data_mapper?
+        [:dm, :data_mapper].include? orm.to_sym
+      end
             
       def devise_gems 
         say "Configuring devise gems for #{orm}", :green
@@ -78,19 +90,24 @@ module Devise
 
         # Devise ORM integration        
         case orm.to_sym
+        when is_active_record?
+          say "Configuring for Active Record"
+        when is_mongo_mapper?
+          say "Configuring for Mongo Mapper"
+          add_gem 'mm-devise'
+          gems_mongo_db          
+        when is_data_mapper?
+          say "Configuring for Data Mapper"
+          add_gem 'dm-devise'
         when :mongoid
+          say "Configuring for Mongoid"
           say "Please configure Devise for Mongoid similar to Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
           add_gem 'mongoid', '>= 2.0.0.beta.20'
           gems_mongo_db
-        when :mongo_mapper
-          add_gem 'mm-devise'
-          gems_mongo_db          
-        when :data_mapper
-          add_gem 'dm-devise'
         when :couch_db
+          say "Configuring for Couch DB"
           add_gem 'devise_couch'
-          say "Please note that Couch DB does not currently have a Roles implementation. Feel free to provide one."
-          say "Look at Roles DataMapper (roles_data_mapper) for an example ;)"
+          say "Please note that Couch DB does not currently have a complete Roles implementation. Please help implement strategies for this adapter."
         else
           say "Orm #{orm} is not currently supported by Cream. You are most welcome to provide a Cream adapter for that ORM ;)"
         end

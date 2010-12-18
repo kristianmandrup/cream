@@ -2,7 +2,7 @@ source :rubygems
 source 'http://gems.github.com/'
 
 group :default do
-  gem "devise-links",      "~> 0.2.0"    
+  gem "devise-links",      ">= 0.2.0"    
   gem "cancan-rest-links", ">= 0.2.0" 
   gem "cancan-permits",    ">= 0.3.4" 
 
@@ -12,7 +12,7 @@ group :default do
   gem "cancan",            ">= 1.4.0" 
   gem "rails",             ">= 3.0.1"
 
-  gem "rails3_artifactor", "~> 0.3.0"
+  gem "rails3_artifactor", ">= 0.3.2"
   gem 'logging_assist',    "~> 0.1.6"
 
   gem "r3_plugin_toolbox", ">= 0.4.0" 
