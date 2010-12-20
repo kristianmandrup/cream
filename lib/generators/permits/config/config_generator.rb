@@ -52,7 +52,7 @@ module Permits
       end
 
       def roles
-        options[:roles].join(' ')
+        options[:roles]
       end
 
       def roles_list

@@ -115,7 +115,7 @@ module Cream
       end
 
       def orm
-        @orm ||= get_orm options[:orm].underscore.to_sym
+        @orm ||= get_orm options[:orm].to_s.underscore.to_sym
       end
 
       def valid_orms
