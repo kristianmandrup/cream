@@ -22,7 +22,7 @@ module Permits
 		    permits_gems if gems?
 
         # Run permits generator to generate permit for each role
-        rgen "cancan:permits --roles #{roles} --orm #{orm}"
+        rgen "cancan:permits --roles #{roles_list} --orm #{orm}"
         rgen "cancan:licenses"
       end           
 
@@ -52,7 +52,11 @@ module Permits
       end
 
       def roles
-        options[:roles]
+        options[:roles].join(' ')
+      end
+
+      def roles_list
+        roles.join(' ')
       end
 
       def orm

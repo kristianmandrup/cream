@@ -10,9 +10,10 @@ module Devise
       desc "Configure Devise"
 
       # ORM to use
-      class_option :orm,     :type => :string,   :default => 'active_record',   :desc => "ORM to use"
-      class_option :logfile, :type => :string,   :default => nil,               :desc => "Logfile location" 
-      class_option :gems,    :type => :boolean,  :default => true,              :desc => "Add gems to gemfile?"       
+      class_option :orm,          :type => :string,   :default => 'active_record',   :desc => "ORM to use"
+      class_option :logfile,      :type => :string,   :default => nil,               :desc => "Logfile location" 
+      class_option :gems,         :type => :boolean,  :default => true,              :desc => "Add gems to gemfile?"
+      class_option :admin_user,   :type => :boolean,  :default => false,             :desc => "Setup for admin user"  
 
       def configure_devise
       	logger.add_logfile :logfile => logfile if logfile	        
@@ -23,7 +24,7 @@ module Devise
     	  end
          
 		    devise_install
-        [:orm, :mailer, :protection].each{|m| send(:"#{m}_configure!", orm) }
+        [:orm, :mailer, :protection, :routes].each{|m| send(:"#{m}_configure!", orm) }
       end
 
       protected
@@ -119,6 +120,22 @@ module Devise
           rgen "devise mongoid" 
         end
       end 
+
+      def routes_configure!
+        insert_into_routes do
+          "devise_for #{model_routes}"
+        end
+      end
+
+      def admin_user?
+        options[:admin_user]
+      end
+
+      def model_routes
+        return ':users, :admins' if admin_user?
+        ':users'
+      end
+        
 
       def protection_configure! orm
         logger.debug "Configuring: devise authentication filter"

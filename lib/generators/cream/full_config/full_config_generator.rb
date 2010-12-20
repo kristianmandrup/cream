@@ -86,7 +86,7 @@ module Cream
 
       def run_devise
         # rgen "devise:config --orm #{orm} --no-gems"
-        rgen "devise:config --orm #{orm}"
+        rgen "devise:config --orm #{orm} #{admin_user_option}"
         rgen "devise:users --orm #{orm} #{admin_user_option} --no-gems"
       end
 
@@ -95,11 +95,11 @@ module Cream
       end
 
       def run_roles
-        rgen "roles:config --orm #{orm} --roles #{roles.join(' ')} --strategy #{strategy}"
+        rgen "roles:config --orm #{orm} --roles #{roles_list} --strategy #{strategy}"
       end
 
       def run_permits
-        rgen "permits:config --orm #{orm} --roles #{roles.join(' ')} --no-gems"
+        rgen "permits:config --orm #{orm} --roles #{roles_list} --no-gems"
       end
 
       def admin_user_option
@@ -144,6 +144,10 @@ module Cream
 
       def default_roles?
         options[:default_roles]
+      end
+
+      def roles_list
+        roles.join(' ')
       end
 
       def roles         
