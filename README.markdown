@@ -20,6 +20,8 @@ The objectives of this project:
 * Integrate all these sub-systems
 * Provide generators that can auto-configure your Rails 3 app with these systems for a given ORM
 
+For more information also see the [Cream Wiki](https://github.com/kristianmandrup/cream/wiki), which includes Cream status notes and a complete listing and usage examples of the latest Roles Generic API.
+
 ## Rails 3 demo apps with Cream
 
 The following Rails 3 demo apps use Cream 0.7.7 and above and were created around Dec 1. 2010
