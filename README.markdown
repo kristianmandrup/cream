@@ -20,7 +20,7 @@ The objectives of this project:
 * Integrate all these sub-systems
 * Provide generators that can auto-configure your Rails 3 app with these systems for a given ORM
 
-For more information also see the [Cream Wiki](https://github.com/kristianmandrup/cream/wiki), which includes Cream status notes and a complete listing and usage examples of the latest Roles Generic API.
+For more information also see the [Cream Wiki](https://github.com/kristianmandrup/cream/wiki), which includes Cream status notes and a complete listing and usage examples of the latest Roles Generic API. There is now also an overview of the full Cream API, which contains various helper methods to facilitate working with users, sessions, roles and permissions in both your views and controllers. Please let me know of other areas that you think should be covered in the Wiki or on this main page ;) 
 
 ## Rails 3 demo apps with Cream
 
@@ -66,7 +66,7 @@ Role-Group support is planned as a future add-on for the roles strategies integr
 
 In general, it should now finally be pretty easy to set up a Rails 3 app, with a full Authentication and an Authorization system linked to a Role system using one of the following supported Cream ORMs. 
 
-Relational DB:
+Relational Databases:
 
 * Active Record
 * Data Mapper
@@ -81,7 +81,7 @@ These ORMs are also supported for the *CanCan Permits* and *Roles* systems.
 
 ## Installation and configuration ##
 
-This gem has been designed for Rails 3 only.
+This gem has been designed for Rails 3 and Ruby 1.9 only. Some users have notified me that it doesn't work on Ruby 1.8.7, so be advised!
 
 ### Install gems
 
@@ -111,7 +111,7 @@ Check out [Cancan permits](http://github.com/kristianmandrup/cancan-permits) for
 
 ### Permits Editor
 
-I have recently created a [Permits editor](http://github.com/kristianmandrup/permits_editor) application that demonstrates how you can let the user edit the Permits, Licenses and even individual User permissions directly as part of an admin section of the web app. The *Permits editor* updates yaml files that are now part of the *cancan-permits* infrastructure (if present and registered).
+I have recently created a [Permits editor](http://github.com/kristianmandrup/permits_editor) application that demonstrates how you can let the user edit the Permits, Licenses and even individual User permissions directly as part of an admin section of the web app. The *Permits editor* updates yaml files that are now part of the *cancan-permits* infrastructure (if present and registered). I plan to refactor the Permits Editor into a [mountable app](http://piotrsarnacki.com/2010/12/21/mountable-apps-tutorial/) when I have the time.
 
 ### Licenses
 
@@ -138,10 +138,10 @@ Config generators:
 Other generators:
 
 * cancan:restlinks - Create REST links locale file 
-* devise:links - Create devise links locale file (rename to authlinks?)
-* cream:views - Generates partials for menu items
+* devise:links - Create devise links locale file (should I rename this to authlinks?)
+* cream:views - Generates partials for menu items (outdated)
 
-All the above generators have specs included in cream that demonstrate how to use them and should verify that they work as expected (Note: some of the generator specs may be outdated!?). 
+All the above generators have specs included in cream that demonstrate how to use them and should verify that they work as expected.
 
 In general, the *cream:full_config* generator can be seen as a kind of "super generator", in that it should call all the sub-generators in succession to fully configure
 the Rails 3 app in one go. 
@@ -169,7 +169,7 @@ To view the run options of any of the sub generators, simply type $ rails g [GEN
 
 Example: <code>rails g permits:config</code>
 
-### Views Generator ###
+### Cream Views Generator ###
 
 Moves 'user menu' partials views into app/views/_user_menu
 
