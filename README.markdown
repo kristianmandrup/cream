@@ -22,6 +22,10 @@ The objectives of this project:
 
 For more information also see the [Cream Wiki](https://github.com/kristianmandrup/cream/wiki), which includes Cream status notes and a complete listing and usage examples of the latest Roles Generic API. There is now also an overview of the full Cream API, which contains various helper methods to facilitate working with users, sessions, roles and permissions in both your views and controllers. Please let me know of other areas that you think should be covered in the Wiki or on this main page ;) 
 
+## Cream user group
+
+The [Cream user group](http://groups.google.com/group/rails-cream) is a google group where you can ask Cream related questions, provide suggestions etc. to the Cream community.
+
 ## Rails 3 demo apps with Cream
 
 The following Rails 3 demo apps use Cream 0.7.7 and above and were created around Dec 1. 2010
