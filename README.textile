@@ -151,8 +151,7 @@ Other generators:
 
 All the above generators have specs included in cream that demonstrate how to use them and should verify that they work as expected.
 
-In general, the *cream:full_config* generator can be seen as a kind of "super generator", in that it should call all the sub-generators in succession to fully configure
-the Rails 3 app in one go. 
+The *cream:full_config* generator should call all the sub-generators in succession to fully configure the Rails 3 app according to your preferences. 
 
 h3. Full Config Generator
 
