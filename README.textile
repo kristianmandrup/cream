@@ -3,8 +3,6 @@ h1. Cream
 This project aims to assist you in setting up a complete Authentication and Authorization system for your Rails 3 app and supports multiple ORMs.
 Just run the *full_config* generator with arguments specifying: roles available, the role strategy to use and the ORM to target and you are set to go.
 
-_Note_: Cream leverages an extensive set of framework components I have created specifically to make it much easier/faster to create Rails 3 plugins and spec/test them, using more natural DSLs. Look into the code to see the magic!
-
 Cream targets smooth integration of the following systems:
 
 * "Devise":http://github.com/plataformatec/devise - Authentication
@@ -21,6 +19,8 @@ The objectives of this project:
 * Provide generators that can auto-configure your Rails 3 app with these systems for a given ORM
 
 For more information also see the "Cream Wiki":https://github.com/kristianmandrup/cream/wiki, which includes Cream status notes and a complete listing and usage examples of the latest *Roles Generic API*. The wiki also contains an overview of the full Cream API, which contains various helper methods to facilitate working with Users, Sessions, Roles and Permissions in both your views and controllers. Please let me know of other areas that you think should be covered in the Wiki or on this main page ;) 
+
+_Note_: Cream leverages an extensive set of framework components I have created specifically to make it much easier/faster to create Rails 3 plugins and spec/test them, using more natural DSLs. Look into the code to see the magic!
 
 h2. Cream user group
 
@@ -83,7 +83,7 @@ Document stores:
 
 These ORMs are also supported for the *CanCan Permits* and *Roles* systems. 
 
-h2. Installation and configuration ##
+h2. Installation and configuration
 
 This gem has been designed for Rails 3 and Ruby 1.9 only. Some users have notified me that it doesn't work on Ruby 1.8.7, so be advised!
 
@@ -175,7 +175,7 @@ To view the run options of any of the sub generators, simply type $ rails g [GEN
 
 Example: <code>rails g permits:config</code>
 
-h3. Cream Views Generator ###
+h3. Cream Views Generator
 
 Moves 'user menu' partials views into app/views/_user_menu
 
@@ -184,7 +184,7 @@ Moves 'user menu' partials views into app/views/_user_menu
 * scope  : The scope folder under views to copy the partials to, fx 'admin'
 * --haml : Use HAML as template language
 
-_Note_: This *views* generator is based on a similar generator from the devise project. It might be removed in the near future as these menu items would make more sense as simple view helpers (suggestions welcome).
+The *views* generator is based on a similar generator from the devise project. This generator might be removed in the near future, as the menu items would make more sense as simple view helpers (suggestions welcome).
 
 h2. Note on Patches/Pull Requests
  
