@@ -7,7 +7,7 @@ _Note_: Cream leverages an extensive set of framework components I have created 
 
 Cream targets smooth integration of the following systems:
 
-* "Devise":http://github.com/plataformatec/devise) - Authentication
+* "Devise":http://github.com/plataformatec/devise - Authentication
 * "CanCan":http://github.com/ryanb/cancan - Authorization
 * "Roles Generic":http://github.com/kristianmandrup/roles_generic - Roles
 
@@ -59,7 +59,7 @@ The *Roles Generic API* has been implemented for the following ORMs
 * "Roles Mongoid":http://github.com/kristianmandrup/roles_for_mongoid
 * "Roles Simply Stored":https://github.com/kristianmandrup/roles_simply_stored
 
-_Note_: Any role system can be substituted as long as you have a method #has_role? on the user which returns true or false given a string or symbol that identifies the role.
+Any role system can be substituted as long as you have a method #has_role? on the user which returns true or false given a string or symbol that identifies the role.
 
 h3. Role Groups
 
