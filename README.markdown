@@ -7,8 +7,8 @@ _Note_: Cream leverages an extensive set of framework components I have created 
 
 Cream targets smooth integration of the following systems:
 
-* [Devise](http://github.com/plataformatec/devise) - Authorization
-* [CanCan](http://github.com/ryanb/cancan) - Authentication
+* [Devise](http://github.com/plataformatec/devise) - Authentication
+* [CanCan](http://github.com/ryanb/cancan) - Authorization
 * [Roles Generic](http://github.com/kristianmandrup/roles_generic) - Roles
 
 For more advanced Authorization configuration, cream uses *cancan-permits* to enable use of *Permits* and *Licenses*.
