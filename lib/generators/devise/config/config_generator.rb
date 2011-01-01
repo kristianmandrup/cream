@@ -121,7 +121,7 @@ module Devise
         end
       end 
 
-      def routes_configure! orm
+      def routes_configure! orm=nil
         insert_into_routes do
           "devise_for #{model_routes}"
         end
@@ -137,7 +137,7 @@ module Devise
       end
         
 
-      def protection_configure! orm
+      def protection_configure! orm=nil
         logger.debug "Configuring: devise authentication filter"
         ## Add Devise protection to Application controller:
         insert_into_controller :application do
@@ -169,7 +169,7 @@ module Devise
         File.replace_content_from devise_initializer,  :where => orm_statement, :with => orm_replacement
       end
         
-      def mailer_configure! orm
+      def mailer_configure! orm=nil
         logger.debug "Configuring: devise mailer"            
         insert_application_config "action_mailer.default_url_options = { :host => 'localhost:3000' }"
       end

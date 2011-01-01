@@ -1,3 +1,9 @@
+0.8.4 - Jan 1, 2011
+-----
+Fixed argument error in #routes_configure! in devise:config generator
+(Also fixed minor bug in 'rails3_assist' gem to allow block as argument in order to insert content into the routes file.
+Now the full_config generator should run just fine again!
+
 Dec 18, 2010
 ---
 Improved ORM validation and handling 
