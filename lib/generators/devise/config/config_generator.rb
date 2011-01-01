@@ -121,7 +121,7 @@ module Devise
         end
       end 
 
-      def routes_configure!
+      def routes_configure! orm
         insert_into_routes do
           "devise_for #{model_routes}"
         end
