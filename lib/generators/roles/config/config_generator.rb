@@ -19,6 +19,10 @@ module Roles
       
       def configure_roles
       	logger.add_logfile :logfile => logfile if logfile
+
+        # make the artifactor model methods behave according to selected orm! - this is a macro
+      	self.class.use_orm :"#{orm}"
+
         roles_gems if gems?
         create_roles
         use_roles_strategy
@@ -93,7 +97,7 @@ module Roles
         if initializer_file? :cream
           if read_model(:user) =~ /valid_roles_are/
             replace_in_model :user, :where => /valid_roles_are\s+[(.*)]/, :with => 'valid_roles_are Cream.roles'
-          else
+          else            
             insert_into_model :user do
               "valid_roles_are Cream::Role.available"
             end
@@ -108,11 +112,11 @@ module Roles
       end
 
       def use_roles_strategy
-        user_exist?        
+        # user_exist?        
         
-        unless read_model(:user) =~ /use_roles_strategy/
-          inject_into_file model_file(:user), "use_roles_strategy :#{strategy}\n\n", :before => "class"
-        end        
+        # unless read_model(:user) =~ /use_roles_strategy/
+        #   inject_into_file model_file(:user), "use_roles_strategy :#{strategy}\n\n", :before => "class"
+        # end        
       end
 
       def default_roles
