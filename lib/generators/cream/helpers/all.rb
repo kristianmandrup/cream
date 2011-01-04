@@ -1,0 +1,1 @@
+require_all File.dirname(__FILE__)

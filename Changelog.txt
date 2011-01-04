@@ -1,3 +1,7 @@
+0.8.5 - Jan 4, 2011
+-----
+Major refactoring to extract common logic in generators in order to make the logic more transparent and more stable and consistent!
+
 0.8.4 - Jan 1, 2011
 -----
 Fixed argument error in #routes_configure! in devise:config generator

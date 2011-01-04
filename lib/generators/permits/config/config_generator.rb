@@ -3,6 +3,7 @@ require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
 require 'logging_assist'
+require 'generators/cream/helpers/all'
 
 module Permits
   module Generators 
@@ -10,8 +11,10 @@ module Permits
       desc "Configure Permits"
 
       # ORM to use
-      class_option :orm,      :type => :string,   :default => 'active_record',    :desc => "ORM to use"
-      class_option :roles,    :type => :array,    :default => ['guest', 'admin'], :desc => "Roles for permits"
+      class_option :orm,            :type => :string,   :default => 'active_record',    :desc => "ORM to use"
+      class_option :roles,          :type => :array,    :desc => "Roles for permits"
+      class_option :default_roles,  :type => :boolean,  :default => true,  :desc => "Create default roles :admin and :guest"      
+
       class_option :logfile,  :type => :string,   :default => nil,                :desc => "Logfile location" 
       class_option :gems,     :type => :boolean,  :default => false,              :desc => "Add gems to gemfile?"       
 
@@ -29,47 +32,14 @@ module Permits
       protected        
       
       include Rails3::Assist::BasicLogger
-      extend Rails3::Assist::UseMacro
+
+      include Cream::GeneratorHelper::Orm
+      include Cream::GeneratorHelper::Executor
+      include Cream::GeneratorHelper::Args
       
-      use_helpers :app, :file, :special
-
-      def gems?
-        options[:gems]        
-      end
-
-      # rails generate ...
-      def rgen command
-        execute "rails g #{command}"
-      end        
-
-      def execute command
-        logger.debug command
-        run command
-      end        
-
-      def logfile
-        options[:logfile]
-      end
-
-      def roles
-        options[:roles]
-      end
-
-      def roles_list
-        roles.join(' ')
-      end
-
-      def orm
-        options[:orm]
-      end
-
       def permits_gems
         gem 'cancan-permits'
         bundle_install # 'cancan-permits'
-      end
-
-      def bundle_install #*gems
-        run "bundle install" # #{gems.jon(' ')}"
       end
     end
   end

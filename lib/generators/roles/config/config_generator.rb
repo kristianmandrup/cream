@@ -3,6 +3,7 @@ require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
 require 'logging_assist'
+require 'generators/cream/helpers/all'
 
 module Roles
   module Generators 
@@ -15,17 +16,20 @@ module Roles
       class_option :roles,              :type => :array,    :default => ['guest', 'admin'], :desc => "Valid roles to use"
       class_option :logfile,            :type => :string,   :default => nil,                :desc => "Logfile location" 
       class_option :default_roles,      :type => :boolean,  :default => true,               :desc => "Create default roles :admin and :guest"
-      class_option :gems,               :type => :boolean,  :default => true,              :desc => "Add gems to gemfile?"       
+      class_option :gems,               :type => :boolean,  :default => true,               :desc => "Add gems to gemfile?"       
       
       def configure_roles
       	logger.add_logfile :logfile => logfile if logfile
 
         # make the artifactor model methods behave according to selected orm! - this is a macro
-      	self.class.use_orm :"#{orm}"
+        set_orm      	
 
         roles_gems if gems?
+
+        # run the orm specific Roles generator
         create_roles
-        use_roles_strategy
+
+        # setup User to use the roles registered with Cream
         set_valid_roles_cream                
       end      
 
@@ -33,46 +37,12 @@ module Roles
 
       include Rails3::Assist::BasicLogger
       extend Rails3::Assist::UseMacro
+
+      include Cream::GeneratorHelper::Orm
+      include Cream::GeneratorHelper::Executor
+      include Cream::GeneratorHelper::Args
       
       use_helpers :model, :file
-
-      def gems?
-        options[:gems]        
-      end
-
-      def logfile
-        options[:logfile]
-      end
-
-      # rails generate ...
-      def rgen command
-        execute "rails g #{command}"
-      end        
-
-      def execute command
-        logger.debug command
-        run command
-      end
-
-      def orm
-        options[:orm]
-      end
-
-      def strategy
-        options[:strategy]
-      end
-
-      def roles
-        options[:roles].join(' ')
-      end
-
-      def default_roles?
-        options[:default_roles]
-      end
-
-      def add_gem name
-        gem name if !has_gem? name
-      end
 
       def roles_gems
         gem_name = "roles_#{orm}"
@@ -80,26 +50,19 @@ module Roles
         bundle_install #gem_name
       end 
 
-      def bundle_install #*gems
-        run "bundle install"  #{gems.join(' ')}
-      end
-
-      def roles_generator
-        "#{orm}:roles"
-      end
-
       def create_roles
-        rgen "#{roles_generator} User --strategy #{strategy} --roles #{roles} #{default_roles}"        
+        rgen "#{roles_generator} User --strategy #{strategy} --roles #{roles_list} #{default_roles_option}"        
       end
 
       def set_valid_roles_cream
-        user_exist?
+        user_exist_check
+
         if initializer_file? :cream
-          if read_model(:user) =~ /valid_roles_are/
-            replace_in_model :user, :where => /valid_roles_are\s+[(.*)]/, :with => 'valid_roles_are Cream.roles'
+          if read_model(user_class) =~ /valid_roles_are/
+            replace_in_model user_class, :where => /valid_roles_are\s+[(.*)]/, :with => cream_valid_roles_statement
           else            
-            insert_into_model :user do
-              "valid_roles_are Cream::Role.available"
+            insert_into_model user_class do
+              cream_valid_roles_statement
             end
           end
         else
@@ -107,19 +70,21 @@ module Roles
         end          
       end
 
-      def user_exist?
-        raise "User model missing. Please create a User model before running this generator" if !model_file?(:user)
+      private
+
+      def user_exist_check
+        raise "ERROR: User model missing. Please create a User model before running this generator" if !has_user_model?
       end
 
-      def use_roles_strategy
-        # user_exist?        
-        
-        # unless read_model(:user) =~ /use_roles_strategy/
-        #   inject_into_file model_file(:user), "use_roles_strategy :#{strategy}\n\n", :before => "class"
-        # end        
+      def roles_generator
+        "#{orm}:roles"
       end
 
-      def default_roles
+      def cream_valid_roles_statement
+        "valid_roles_are Cream::Role.available"
+      end
+
+      def default_roles_option
         default_roles? ? '--default-roles' : '--no-default-roles'
       end      
     end

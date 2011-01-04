@@ -4,6 +4,7 @@ require 'cream'
 require 'rails3_artifactor'
 require 'logging_assist'
 require 'active_support'
+require 'generators/cream/helpers/all'
 
 module Cream
   module Generators
@@ -28,44 +29,38 @@ module Cream
 
       class_option :logfile,        :type => :string,   :default => nil,              :desc => "Logfile location"
 
-      class_option :configure,      :type => :array,    :default => [],               :desc => "Which generators to run"
+      class_option :configure,      :type => :array,    :default => [],               :desc => "Finetune which generators to run: app, permits, roles, devise, cancan"
       class_option :gems,           :type => :boolean,  :default => true,             :desc => "Add gems to gemfile?"       
       class_option :migrations,     :type => :boolean,  :default => false,            :desc => "Autorun database migrations?", :aliases => '-m'
 
       def main_flow 
-        return nil if !validate_orm            
+        return nil if !validate_orm
         cream_initializer
-        # cream_gems if gems?
+
         run_generators
-        run_migrations if run_migrations?      
+        run_migrations if run_migrations?
       end
 
-      # -----------------      
+      # -----------------
       protected
 
       include Rails3::Assist::BasicLogger
       extend Rails3::Assist::UseMacro
 
+      include Cream::GeneratorHelper::Orm
+      include Cream::GeneratorHelper::Executor
+      include Cream::GeneratorHelper::Args
+
       use_helpers :app, :special, :file
 
-      def validate_orm
-         if !valid_orms.include?(orm)
-           say "ORM #{orm} is not currently supported. Please use one of: #{valid_orms}", :red
-           false
-         end
-         true
-      end
-
-      def run_migrations?
-        options[:migrations]
-      end
-
-      def logfile
-        options[:logfile]
-      end
-
-      def gems?
-        options[:gems]        
+      # use this to define which part of the app this generator should configure (which sub-generators to run!)
+      def configures
+        return default_configures if options[:configure].empty? 
+        options[:configure].map{|c| c.to_sym}
+      end      
+      
+      def default_configures
+        [:app, :permits, :roles, :devise, :cancan]
       end
 
       def run_generators
@@ -103,90 +98,7 @@ module Cream
       def run_permits
         rgen "permits:config --orm #{orm} --roles #{roles_list} --no-gems"
       end
-
-      def admin_user_option
-        admin_user? ? '--admin-user' : ''
-      end
-
-      def strategy
-        options[:strategy]
-      end        
-
-      def admin_user?
-        options[:admin_user]
-      end
-
-      def orm
-        @orm ||= get_orm options[:orm].to_s.underscore.to_sym
-      end
-
-      def valid_orms
-        active_record + data_mapper + mongo_mapper + [:couch_db, :mongoid]
-      end
-
-      def active_record
-        [:ar, :active_record]
-      end
-
-      def mongo_mapper
-        [:mm, :mongo_mapper]
-      end
-
-      def data_mapper
-        [:dm, :data_mapper]
-      end
-
-      def get_orm orm_name
-        return :active_record if active_record.include? orm_name
-        return :mongo_mapper if mongo_mapper.include? orm_name
-        return :data_mapper if data_mapper.include? orm_name
-        return :couch_db if orm_name == :couch_db
-        return :mongoid if orm_name == :mongoid
-      end
-
-      def default_roles?
-        options[:default_roles]
-      end
-
-      def roles_list
-        roles.join(' ')
-      end
-
-      def roles         
-        defaults = default_roles? ? ['guest', 'admin'] : [] 
-        options[:roles] + defaults
-      end
-
-      def sym_roles
-        roles.map(&:to_sym)
-      end
-
-      # rails generate ...
-      def rgen command
-        execute "rails g #{command}"
-      end        
-
-      def execute command
-        logger.debug command
-        run command
-      end
-
-      def bundle_install
-        run "bundle install"
-      end
-
-      def configures
-        return [:app, :permits, :roles, :devise, :cancan] if options[:configure].empty? 
-        options[:configure].map{|c| c.to_sym}
-      end
-
-
-      # def cream_gems
-      #   if !has_gem? :cream
-      #     gem 'cream' 
-      #   end
-      # end      
-
+      
       def cream_initializer
         create_initializer :cream do         
   %Q{Cream.setup do |config|
@@ -201,6 +113,13 @@ end}
         logger.debug "configure_locale, copy from: #{src}"            
         copy_file src, "config/locales/cream.en.yml"
       end
+      
+      private
+
+      def run_migrations?
+        options[:migrations]
+      end
+      
     end
   end
 end
