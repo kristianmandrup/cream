@@ -1,0 +1,1 @@
+Perhaps the most powerful part of Cream is the set of generators that work to configure your application for your requirements. 
