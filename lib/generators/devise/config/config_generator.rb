@@ -9,11 +9,13 @@ module Devise
     class ConfigGenerator < Rails::Generators::Base        
       desc "Configure Devise"
 
+      argument :user_class,   :type => :string,  :default => 'User', :desc => "User class"
+
       # ORM to use
       class_option :orm,          :type => :string,   :default => 'active_record',   :desc => "ORM to use"
       class_option :logfile,      :type => :string,   :default => nil,               :desc => "Logfile location" 
       class_option :gems,         :type => :boolean,  :default => true,              :desc => "Add gems to gemfile?"
-      class_option :admin_user,   :type => :boolean,  :default => false,             :desc => "Setup for admin user"  
+      class_option :admin_user,   :type => :boolean,  :default => false,             :desc => "Setup for admin user"
 
       def configure_devise
       	logger.add_logfile :logfile => logfile if logfile	        
@@ -24,7 +26,7 @@ module Devise
     	  end
          
 		    devise_install
-        [:orm, :mailer, :protection, :routes].each{|m| send(:"#{m}_configure!", orm) }
+        [:orm, :mailer, :protection].each{|m| send(:"#{m}_configure!", orm) }
       end
 
       protected
@@ -72,34 +74,26 @@ module Devise
       def gems_mongo_db
         add_gem 'bson_ext', '>= 1.1.4'
       end
-
-      def is_active_record?
-        [:ar, :active_record].include? orm.to_sym
-      end
-
-      def is_mongo_mapper?
-        [:mm, :mongo_mapper].include? orm.to_sym
-      end
-
-      def is_data_mapper?
-        [:dm, :data_mapper].include? orm.to_sym
-      end
             
       def devise_gems 
         say "Configuring devise gems for #{orm}", :green
         add_gem 'devise'
 
         # Devise ORM integration        
-        case orm.to_sym
-        when is_active_record?
-          say "Configuring for Active Record"
-        when is_mongo_mapper?
+        say "Configuring for Active Record" if is_active_record?
+          
+        if is_mongo_mapper?
           say "Configuring for Mongo Mapper"
           add_gem 'mm-devise'
           gems_mongo_db          
-        when is_data_mapper?
+        end
+
+        if is_data_mapper?
           say "Configuring for Data Mapper"
           add_gem 'dm-devise'
+        end
+        
+        case orm_sym
         when :mongoid
           say "Configuring for Mongoid"
           say "Please configure Devise for Mongoid similar to Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
@@ -108,34 +102,28 @@ module Devise
         when :couch_db
           say "Configuring for Couch DB"
           add_gem 'devise_couch'
-          say "Please note that Couch DB does not currently have a complete Roles implementation. Please help implement strategies for this adapter."
+          say "WARNÍNG: Couch DB does not currently have a complete Roles implementation (admin_flag only). Please help implement the Roles strategy adapter.", :yellow
         else
-          say "Orm #{orm} is not currently supported by Cream. You are most welcome to provide a Cream adapter for that ORM ;)"
+          say "ERROR: The orm '#{orm}' is not currently supported by Cream. Please provide a Cream adapter it", :red
         end
         clean_gemfile
         
         bundle_install
-        if orm.to_sym == :mongoid
+        if orm_sym == :mongoid
           rgen 'mongoid:config'
           rgen "devise mongoid" 
         end
       end 
-
-      def routes_configure! orm=nil
-        insert_into_routes do
-          "devise_for #{model_routes}"
-        end
-      end
 
       def admin_user?
         options[:admin_user]
       end
 
       def model_routes
-        return ':users, :admins' if admin_user?
-        ':users'
+        arg = "#{user_class.pluralize.underscore}"        
+        arg << ", :admins" if admin_user?
+        arg
       end
-        
 
       def protection_configure! orm=nil
         logger.debug "Configuring: devise authentication filter"
@@ -207,8 +195,24 @@ module Devise
         options[:logfile]
       end
 
+      def orm_sym
+        orm.underscore.to_sym
+      end        
+
       def orm
         options[:orm]
+      end
+
+      def is_active_record?
+        [:ar, :active_record].include? orm_sym
+      end
+
+      def is_mongo_mapper?
+        [:mm, :mongo_mapper].include? orm_sym
+      end
+
+      def is_data_mapper?
+        [:dm, :data_mapper].include? orm_sym
       end
       
       def has_devise_orm_statement?

@@ -14,7 +14,10 @@ module Cream
       class_option  :strategy,      :type => :string,   :default => 'role_string',    :desc => "Role strategy to use"
 
       # Create Admin user
-      class_option :admin_user,     :type => :boolean,  :default => false,            :desc => "Create admin user"  
+      class_option :user_class,       :type => :string,   :default => 'User',           :desc => "User class"
+      class_option :admin_class,      :type => :string,   :default => nil,              :desc => "Admin user class"
+      class_option :role_class,       :type => :string,   :default => 'Role',           :desc => "Role class"
+      class_option :user_role_class,  :type => :string,   :default => 'UserRole',       :desc => "UserRole class"
 
       # Roles
       class_option :default_roles,  :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest"
@@ -85,9 +88,8 @@ module Cream
       end
 
       def run_devise
-        # rgen "devise:config --orm #{orm} --no-gems"
-        rgen "devise:config --orm #{orm} #{admin_user_option}"
-        rgen "devise:users --orm #{orm} #{admin_user_option} --no-gems"
+        rgen "devise:config #{user_class} --orm #{orm} #{admin_user_option}"
+        rgen "devise:users --orm #{orm} --roles #{roles_list} #{admin_user_option} --no-gems"
       end
 
       def run_cancan
