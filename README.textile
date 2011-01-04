@@ -127,6 +127,13 @@ For more advanced authorization scenarios you can create reusable permission log
 
 See "CanCan permits demo app":https://github.com/kristianmandrup/cancan-permits-demo for an example of how to use cancan-permits and licenses.
 
+h2. Role specific Customization of Routing and User classes
+
+Please see "Customizing Routes and User classes for Roles":https://github.com/kristianmandrup/cream/wiki/Customizing-Routes-and-User-classes-for-Roles 
+
+The generator now generates initial Routes configuration for each role in order to facilitate Registration page customization for each role if needed.
+A User subclass is now generated for each role by default in order to allow more User customization and for the above mentioned routing customization to function.  
+
 h2. Generators
 
 The following generators are currently available:
