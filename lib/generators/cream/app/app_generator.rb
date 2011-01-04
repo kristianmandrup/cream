@@ -15,7 +15,9 @@ module Cream
 
       def configure_application
       	logger.add_logfile :logfile => logfile if logfile
-        app_orm
+
+        app_orm unless orm.to_sym == :active_record
+
         app_routes
         app_layout
       end
@@ -44,8 +46,7 @@ module Cream
         run command
       end
 
-      def app_orm
-        return if orm == 'active_record'
+      def app_orm        
         File.replace_content_from application_file,  :where => "require 'rails/all'" do 
         %q{
 require "action_controller/railtie"
@@ -61,8 +62,8 @@ require "rails/test_unit/railtie"
         # if no :welcome controller
         if !(routes =~ /root\s+:/)
           # create one with an 'index' view.
-          File.insert_into routes_file, :after => 'do', :content => 'root :to => "welcome#index"'          
           rgen "controller Welcome index"
+          File.insert_into routes_file, :after => 'do', :content => 'root :to => "welcome#index"'
         end
       end
       

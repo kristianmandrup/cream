@@ -49,6 +49,7 @@ module Cream
 
       def execute_generator
         cream_initializer
+        # cream_locale
         run_generators
         run_migrations if run_migrations?
       end
@@ -109,8 +110,7 @@ end}
 
       def cream_locale
         src = File.expand_path "config/locales/cream.en.yml".path.up(2)
-        # src = "config/locales/en.yml"
-        logger.debug "configure_locale, copy from: #{src}"            
+        logger.debug "Generate Cream locale file"            
         copy_file src, "config/locales/cream.en.yml"
       end
       

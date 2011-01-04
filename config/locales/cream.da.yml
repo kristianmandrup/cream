@@ -1,0 +1,16 @@
+en:
+  cream:
+    confirm: 'Er du sikker?'
+    actions:
+      rest:  
+        index: "Indeks"
+        new: "Ny"
+        edit: "Rediger"
+        delete: "Slet"
+        show: "Vis"
+      auth:
+        sign_in: "Log ind"
+        sign_out: "Log ud"
+        sign_up: "Registrer"
+        edit_registration: "Rediger brugerdata"
+      
