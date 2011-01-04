@@ -42,7 +42,7 @@ module Devise
       use_helpers :controller, :app, :special, :file
 
       include DeviseConfigGenerator::AppHelper
-      include DeviseConfigGenerator::GemsHelper
+      include DeviseConfigGenerator::GemHelper
     
       def devise_install        
         if devise_initializer?

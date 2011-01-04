@@ -12,22 +12,31 @@ module DeviseUserGenerator
       end
     end
 
-    def routes_for_roles
-      roles_routes = roles.each do |role|
-        %Q{
-devise_for :#{role.pluralize}, :class_name => '#{role.classify}'
-as :#{role} do
-  match "/#{role.pluralize}/sign_up" => "devise/registrations#new", :as => :#{role}_signup
-end
-}
-      end
-    
+    def routes_for_roles    
       say customize_note, :green
     
-      routes_customize_comment + roles_routes
+      routes_customize_comment << roles_routes
     end
 
+    def roles_except *names
+      roles.reject {|r| names.include? r.to_sym }
+    end
+
+    def roles_routes 
+      roles_except(:guest).map do |role|
+        next if read_routes_file =~ /devise_for :#{role.pluralize}/
+        %Q{
+  devise_for :#{role.pluralize}, :class_name => '#{role.classify}'
+  as :#{role} do
+    match "/#{role.pluralize}/sign_up" => "devise/registrations#new", :as => :#{role}_signup
+  end
+  }
+      end.join("\n")
+    end
+    
+
     def routes_customize_comment
+      return "" if read_routes_file =~ /customize controller action/
       %q{
 # customize controller action if needed to render individual registration form for each role    
 # Example:

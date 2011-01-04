@@ -11,7 +11,7 @@ module Cream
 
       def roles         
         defaults = default_roles? ? ['guest', 'admin'] : [] 
-        options[:roles] + defaults
+        (options[:roles] + defaults).flat_uniq
       end
       
       def has_user_model?

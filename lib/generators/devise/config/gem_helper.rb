@@ -26,7 +26,7 @@ module DeviseConfigGenerator
 
     def configure_gems_mongoid
       say "Configuring for Mongoid"
-      say "Please configure Devise for Mongoid similar to Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
+      # say "Please configure Devise for Mongoid similar to Rails 3 example app: http://github.com/fortuity/rails3-mongoid-devise"
       add_gem 'mongoid', '>= 2.0.0.beta.20'
       gems_mongo_db
     end
@@ -34,7 +34,7 @@ module DeviseConfigGenerator
     def configure_gems_couch_db
       say "Configuring for Couch DB"
       add_gem 'devise_couch'
-      say "WARNÍNG: Couch DB does not currently have a complete Roles implementation (admin_flag only). Please help implement the Roles strategy adapter.", :yellow
+      say "WARNING: Couch DB does not currently have a complete Roles implementation (admin_flag only). Please help implement the Roles strategy adapter.", :yellow
     end
 
     def add_gem_version name, version

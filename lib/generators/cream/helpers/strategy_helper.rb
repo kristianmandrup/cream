@@ -2,7 +2,7 @@ module Cream
   module GeneratorHelper
     module Strategy 
       def validate_strategy
-         if !valid_strategies.include?(strategy)
+         if !valid_strategies.include?(strategy.to_sym)
            say "ERROR: Strategy '#{strategy}' is not currently supported by Cream. Please use one of: #{valid_strategies_list}", :red
            return false
          end

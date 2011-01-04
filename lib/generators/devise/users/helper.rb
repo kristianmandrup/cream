@@ -2,7 +2,7 @@ module DeviseUserGenerator
   module Helper
     def devise_strategies
       {
-        :default  => [:database_authenticatable, :confirmable, :recoverable, :rememberable, :trackable, :validatable]
+        :default  => [:database_authenticatable, :confirmable, :recoverable, :rememberable, :trackable, :validatable],
         :admin    => [:database_authenticatable, :confirmable, :recoverable, :rememberable, :trackable, :validatable]
       }
     end
@@ -57,8 +57,8 @@ module DeviseUserGenerator
       admin_class.to_s.classify
     end
                 
-    def create_user_model
-      rgen "#{user_generator} #{user_class}"
+    def create_user_model name
+      rgen "#{user_generator} #{name}"
     end  
   end
 end
