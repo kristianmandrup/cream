@@ -1,6 +1,6 @@
 module Cream
   module GeneratorHelper
-    module Orm 
+    module Args 
       def logfile
         options[:logfile]
       end
@@ -32,6 +32,10 @@ module Cream
 
       def gems?
         options[:gems]        
+      end
+
+      def document_store?
+        [:mongoid, :mongo_mapper, :couch_db].include? orm
       end
 
       def active_record? 

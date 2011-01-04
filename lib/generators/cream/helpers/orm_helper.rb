@@ -3,14 +3,18 @@ module Cream
     module Orm 
       def validate_orm
          if !valid_orms.include?(orm)
-           say "ERROR: ORM #{orm} is not currently supported. Please use one of: #{valid_orms}", :red
-           false
+           say "ERROR: ORM #{orm} is not currently supported. Please use one of: #{valid_orms_list}", :red
+           return false
          end
          true
       end
       
       def orm
         @orm ||= get_orm options[:orm].to_s.underscore.to_sym
+      end
+
+      def valid_orms_list
+        valid_orms.map(&:to_s).join(', ')
       end
 
       def valid_orms

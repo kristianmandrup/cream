@@ -33,12 +33,8 @@ module Cream
       class_option :gems,           :type => :boolean,  :default => true,             :desc => "Add gems to gemfile?"       
       class_option :migrations,     :type => :boolean,  :default => false,            :desc => "Autorun database migrations?", :aliases => '-m'
 
-      def main_flow 
-        return nil if !validate_orm
-        cream_initializer
-
-        run_generators
-        run_migrations if run_migrations?
+      def main 
+        execute_generator if validate_orm && validate_strategy
       end
 
       # -----------------
@@ -47,11 +43,15 @@ module Cream
       include Rails3::Assist::BasicLogger
       extend Rails3::Assist::UseMacro
 
-      include Cream::GeneratorHelper::Orm
-      include Cream::GeneratorHelper::Executor
-      include Cream::GeneratorHelper::Args
+      include Cream::GeneratorHelper
 
       use_helpers :app, :special, :file
+
+      def execute_generator
+        cream_initializer
+        run_generators
+        run_migrations if run_migrations?
+      end
 
       # use this to define which part of the app this generator should configure (which sub-generators to run!)
       def configures
