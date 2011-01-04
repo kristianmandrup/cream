@@ -16,7 +16,7 @@ module Cream
       def configure_application
       	logger.add_logfile :logfile => logfile if logfile
 
-        app_orm unless orm.to_sym == :active_record
+        app_orm unless active_record?
 
         app_routes
         app_layout
