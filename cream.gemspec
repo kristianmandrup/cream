@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.8.5"
+  s.version = "0.8.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2011-01-03}
+  s.date = %q{2011-01-04}
   s.description = %q{Provides assistance for setting up Session, Role and Permission systems for a Rails 3 app. Support for multiple ORMs}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -52,10 +52,19 @@ Gem::Specification.new do |s|
     "lib/generators/cancan/config/config_generator.rb",
     "lib/generators/cream/app/app_generator.rb",
     "lib/generators/cream/full_config/full_config_generator.rb",
+    "lib/generators/cream/helpers/all.rb",
+    "lib/generators/cream/helpers/args_helper.rb",
+    "lib/generators/cream/helpers/execute_helper.rb",
+    "lib/generators/cream/helpers/orm_helper.rb",
+    "lib/generators/cream/helpers/strategy_helper.rb",
     "lib/generators/cream/views/haml_util.rb",
     "lib/generators/cream/views/views_generator.rb",
     "lib/generators/cream_refactor.rb",
+    "lib/generators/devise/config/app_helper.rb",
     "lib/generators/devise/config/config_generator.rb",
+    "lib/generators/devise/config/gem_helper.rb",
+    "lib/generators/devise/users/helper.rb",
+    "lib/generators/devise/users/routes_helper.rb",
     "lib/generators/devise/users/users_generator.rb",
     "lib/generators/permits/config/config_generator.rb",
     "lib/generators/roles/config/config_generator.rb",
