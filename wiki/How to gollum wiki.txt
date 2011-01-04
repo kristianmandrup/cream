@@ -1,0 +1,13 @@
+Start server
+
+$ gollum
+
+Go to home page
+
+http://localhost:4567
+
+Edit individual page: "Cream-generators-overview"
+
+http://localhost:4567/edit/Cream-generators-overview
+
+Enjoy!
