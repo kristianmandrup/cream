@@ -1,4 +1,9 @@
-0.8.5 - Jan 4, 2011
+0.8.6 - Jan 4, 2011
+-----
+Completed major refactoring to streamline generators and DRY things up!
+Needs more testing using alternative class names etc.
+
+0.8.5 - Jan 3, 2011
 -----
 Major refactoring to extract common logic in generators in order to make the logic more transparent and more stable and consistent!
 
