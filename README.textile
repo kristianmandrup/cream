@@ -45,6 +45,13 @@ h2. Cream user group
 
 The "Cream user group":http://groups.google.com/group/rails-cream is a google group where you can ask Cream related questions, provide suggestions etc. to the Cream community.
 
+h2. Inspiration and Ideas
+
+_Tony Amoyal_ has written a two part series on how to setup a fully integrated Devise/CanCan solution with Roles. You might want to take a look at this for further customization needs. It might also provide food for thought for suggestions on improvements to the Cream framework ;) 
+
+"Part I":http://www.tonyamoyal.com/2010/07/28/rails-authentication-with-devise-and-cancan-customizing-devise-controllers/
+"Part II":http://www.tonyamoyal.com/2010/09/29/rails-authentication-with-devise-and-cancan-part-2-restful-resources-for-administrators/
+
 h2. Rails 3 demo apps with Cream
 
 The following Rails 3 demo apps use Cream 0.7.7 and above and were created around Dec 1. 2010
