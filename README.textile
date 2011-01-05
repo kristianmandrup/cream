@@ -64,6 +64,20 @@ h2. Authentication systems
 
 Cream targets "Devise":http://github.com/plataformatec/devise as the Authentication system of choice
 
+Devise Configuration options:
+
+1. Database Authenticatable: encrypts and stores a password in the database to validate the authenticity of an user while signing in. The authentication can be done both through POST requests or HTTP Basic Authentication.
+2. Token Authenticatable: signs in an user based on an authentication token (also known as “single access token”). The token can be given both through query string or HTTP Basic Authentication.
+3. Oauthable: adds OAuth2 support
+4. Confirmable: sends emails with confirmation instructions and verifies whether an account is already confirmed during sign in.
+5. Recoverable: resets the user password and sends reset instructions.
+6. Registerable: handles signing up users through a registration process, also allowing them to edit and destroy their account.
+7. Rememberable: manages generating and clearing a token for remembering the user from a saved cookie.
+8. Trackable: tracks sign in count, timestamps and IP address.
+9. Timeoutable: expires sessions that have no activity in a specified period of time.
+10. Validatable: provides validations of email and password. It’s optional and can be customized, so you’re able to define your own validations.
+11. Lockable: locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
+
 h3. Devise links
 
 The project "devise links":http://github.com/kristianmandrup/devise-links adds more convenience for creating view links to trigger Devise session actions.
