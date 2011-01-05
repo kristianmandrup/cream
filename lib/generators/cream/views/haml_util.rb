@@ -24,11 +24,10 @@ module Cream
         require 'tmpdir'
         html_root = "#{self.class.source_root}/cream"
 
-        Dir.mktmpdir("cream-haml.") do |haml_root|
-          Dir["#{html_root}/**/*"].each do |path|
-            relative_path = path.sub(html_root, "")
+        Dir.mktmpdir("cream-haml.") do |haml_root|           
+          Dir["#{html_root}/**/*"].each do |path|  
+            relative_path = path.sub(html_root, "")            
             source_path   = (haml_root + relative_path).sub(/erb$/, "haml")
-
             if File.directory?(path)
               FileUtils.mkdir_p(source_path)
             else
