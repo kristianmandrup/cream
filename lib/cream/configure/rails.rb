@@ -1,6 +1,8 @@
 require 'active_support/railtie'
 require 'r3_plugin_toolbox'
 
+require_all File.dirname(__FILE__) + '/after_init'
+
 Rails3::Plugin::Extender.new do
   # extend action_controller with methods from some modules
 
@@ -16,11 +18,12 @@ Rails3::Plugin::Extender.new do
     extend_from_module Cream::Helper, :role
   end  
   
-  after :initialize do   
-    require_all File.dirname(__FILE__) + '/after_init'
-
-    # Rails3.with_configuration do
-    #   load_paths += %W(#{Rails.root}/app/permits)
+  after :initialize do    
+    load File.dirname(__FILE__) + '/after_init/role_config.rb'
+    # 
+    # extend_rails :view do
+    #   extend_from_module Cream::View, :role
+    #   extend_from_module Cream::Helper, :role
     # end
   end
 end

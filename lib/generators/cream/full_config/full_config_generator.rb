@@ -27,6 +27,7 @@ module Cream
       # ORM to use
       class_option :orm,            :type => :string,   :default => 'active_record',  :desc => "ORM to use"
 
+      class_option :locales,        :type => :array,    :default => ['all'],          :desc => "List of locales - 'all' means ALL locales"
       class_option :logfile,        :type => :string,   :default => nil,              :desc => "Logfile location"
 
       class_option :configure,      :type => :array,    :default => [],               :desc => "Finetune which generators to run: app, permits, roles, devise, cancan"
@@ -49,7 +50,7 @@ module Cream
 
       def execute_generator
         cream_initializer
-        # cream_locale
+        cream_locales if locales
         run_generators
         run_migrations if run_migrations?
       end
@@ -104,22 +105,34 @@ module Cream
         create_initializer :cream do         
   %Q{Cream.setup do |config|
   config.roles = #{sym_roles.inspect} 
-end}      
+end
+
+require 'cream/configure/rails'
+}      
         end
       end
 
-      def cream_locale
-        src = File.expand_path "config/locales/cream.en.yml".path.up(2)
-        logger.debug "Generate Cream locale file"            
-        copy_file src, "config/locales/cream.en.yml"
+      def locales
+        options[:locales]
+      end
+
+      def supported_locales
+        [:en, :da]
+      end
+
+      def cream_locales
+        (supported_locales - locales).each do |locale|
+          src = File.expand_path "config/locales/cream.#{locale}.yml".path.up(2)
+          logger.debug "Generate Cream locale file"            
+          copy_file src, "config/locales/cream.#{locale}.yml"
+        end
       end
       
       private
 
       def run_migrations?
         options[:migrations]
-      end
-      
+      end      
     end
   end
 end

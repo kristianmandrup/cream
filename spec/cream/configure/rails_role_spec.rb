@@ -29,7 +29,7 @@ describe "Rails extension" do
       after_init :controller do
         :controller.should be_extended_with Cream, :role
         :controller.should be_extended_with Cream::Controller, :ability
-        :controller.should be_extended_with Cream::Helper, :role, :host
+        :controller.should be_extended_with Cream::Helper, :role, :host        
       end            
       
       init_app_railties :minimal, :view

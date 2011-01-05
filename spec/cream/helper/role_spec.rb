@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'cream/helper/role'
+require 'cream/configure/rails'
 
 describe Cream::Helper::Role do
   
@@ -8,27 +9,27 @@ describe Cream::Helper::Role do
   context 'method auto-generated when Rails initialize based on registered roles' do
     describe '#guest_area' do              
 
-      # it "should execute an Admin guarded block for :admin" do        
-      #   view_engine do |e, view|
-      #     view.stubs(:has_role?).with([:admin]).returns true
-      # 
-      #     res = e.run_template do 
-      #       %{<%= for_admin { 'hello' } %>}
-      #     end        
-      #     res.should match /hello/
-      #   end
-      # end
-      #   
-      # it "should not execute an Admin guarded block for user not :admin" do        
-      #   view_engine do |e, view|
-      #     view.stubs(:has_role?).with([:admin]).returns false
-      # 
-      #     res = e.run_template do 
-      #       %{<%= for_admin { 'hello' } %>}
-      #     end        
-      #     res.should be_empty
-      #   end
-      # end
+      it "should execute an Admin guarded block for :admin" do        
+        view_engine do |e, view|
+          view.stubs(:has_role?).with([:admin]).returns true
+      
+          res = e.run_template do 
+            %{<%= for_admin { 'hello' } %>}
+          end        
+          res.should match /hello/
+        end
+      end
+        
+      it "should not execute an Admin guarded block for user not :admin" do        
+        view_engine do |e, view|
+          view.stubs(:has_role?).with([:admin]).returns false
+      
+          res = e.run_template do 
+            %{<%= for_admin { 'hello' } %>}
+          end        
+          res.should be_empty
+        end
+      end
     end # desc
   end # context
 
@@ -56,6 +57,31 @@ describe Cream::Helper::Role do
         end
       end
     end # desc  
+
+    describe '#for_role' do                    
+      it "display an :admin only block" do        
+        view_engine do |e, view|
+          view.stubs(:has_role?).with([:admin]).returns true
+
+          res = e.run_template do 
+            %{<%= for_role(:admin) { 'hello' } %>}
+          end
+          res.should match /hello/
+        end
+      end
+      
+      it "should not display a :guest only block" do
+        view_engine do |e, view|
+          view.stubs(:has_role?).with([:guest]).returns false
+
+          res = e.run_template do 
+            %{<%= for_role(:guest) { 'hello' } %>}
+          end        
+          res.should be_empty
+        end
+      end
+    end # desc  
+
   
     describe '#not_for_roles' do              
       it "should not display a block not for :admin" do        
@@ -80,6 +106,30 @@ describe Cream::Helper::Role do
         end
       end
     end # desc
+    
+    describe '#not_for_role' do              
+      it "should not display a block not for :admin" do        
+        view_engine do |e, view|
+          view.stubs(:has_role?).with([:admin]).returns true
+
+          res = e.run_template do 
+            %{<%= not_for_role(:admin) { 'hello' } %>}
+          end        
+          res.should be_empty
+        end
+      end
+    
+      it "should display a div block not for :guest" do        
+        view_engine do |e, view|
+          view.stubs(:has_role?).with([:guest]).returns false
+
+          res = e.run_template do 
+            %{<%= not_for_role(:guest) { 'hello' } %>}
+          end        
+          res.should match /hello/
+        end
+      end
+    end # desc    
   end
   
   describe '#has_role?' do
