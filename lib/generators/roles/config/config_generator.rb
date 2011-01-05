@@ -10,10 +10,16 @@ module Roles
     class ConfigGenerator < Rails::Generators::Base        
       desc "Configure Roles"
 
+      argument     :user_class,         :type => :string,   :default => 'User',     :desc => "User class name"
+
       # ORM to use
       class_option :orm,                :type => :string,   :default => 'active_record',    :desc => "ORM to use"
       class_option :strategy,           :type => :string,   :default => 'role_string',      :desc => "Roles strategy to use"
       class_option :roles,              :type => :array,    :default => ['guest', 'admin'], :desc => "Valid roles to use"
+
+      class_option :role_class,         :type => :string, :aliases => "-rc",  :default => 'Role',     :desc => "Role class name", :optional => true
+      class_option :user_role_class,    :type => :string, :aliases => "-urc", :default => 'UserRole', :desc => "User-Role (join table) class name", :optional => true
+
       class_option :logfile,            :type => :string,   :default => nil,                :desc => "Logfile location" 
       class_option :default_roles,      :type => :boolean,  :default => true,               :desc => "Create default roles :admin and :guest"
       class_option :gems,               :type => :boolean,  :default => true,               :desc => "Add gems to gemfile?"       
@@ -51,7 +57,7 @@ module Roles
       end 
 
       def create_roles
-        rgen "#{roles_generator} User --strategy #{strategy} --roles #{roles_list} #{default_roles_option}"        
+        rgen "#{roles_generator} #{user_class} --strategy #{strategy} --roles #{roles_list} #{default_roles_option} #{class_options}"        
       end
 
       def set_valid_roles_cream
@@ -71,6 +77,24 @@ module Roles
       end
 
       private
+
+      def class_options
+        option_str = ""                            
+        if role_ref_strategy?
+          option_str << " --role-class #{role_class}" 
+          option_str << " --user-role-class #{user_role_class}" if relational_mapper?
+        end
+        option_str
+      end
+
+      def role_class
+        options[:role_class] || 'Role'
+      end
+
+      def user_role_class
+        options[:user_role_class] || 'UserRole'
+      end
+
 
       def user_exist_check
         raise "ERROR: User model missing. Please create a User model before running this generator" if !has_user_model?

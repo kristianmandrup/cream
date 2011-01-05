@@ -93,7 +93,7 @@ module Cream
       end
 
       def run_roles
-        rgen "roles:config --orm #{orm} --roles #{roles_list} --strategy #{strategy}"
+        rgen "roles:config #{user_class} --orm #{orm} --roles #{roles_list} --strategy #{strategy}"
       end
 
       def run_permits
