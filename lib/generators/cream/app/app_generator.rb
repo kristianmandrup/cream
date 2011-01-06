@@ -10,8 +10,9 @@ module Cream
       desc "Configure Cream App"
 
       # ORM to use
-      class_option :orm,     :type => :string,   :default => 'active_record',   :desc => "ORM to use"
-      class_option :logfile, :type => :string,   :default => nil,               :desc => "Logfile location" 
+      class_option :orm,        :type => :string,   :default => 'active_record',   :desc => "ORM to use"
+      class_option :logfile,    :type => :string,   :default => nil,               :desc => "Logfile location" 
+      class_option :guest_user, :type => :boolean,  :default => true,              :desc => "Create guest user" 
 
       def configure_application
       	logger.add_logfile :logfile => logfile if logfile
@@ -31,28 +32,6 @@ module Cream
       include Rails3::Assist::BasicLogger
       extend Rails3::Assist::UseMacro
       use_helpers :app, :special, :file, :view, :model
-
-      def set_orm
-        self.class.use_orm :"#{orm}"
-      end
-
-      def logfile
-        options[:logfile]
-      end
-
-      def orm
-        options[:orm]
-      end
-
-      # rails generate ...
-      def rgen command
-        execute "rails g #{command}"
-      end        
-
-      def execute command
-        logger.debug command
-        run command
-      end
 
       def app_orm        
         File.replace_content_from application_file,  :where => "require 'rails/all'" do 
@@ -91,7 +70,7 @@ require "rails/test_unit/railtie"
       end
       
       def guest_user
-        remove_model :guest
+        remove_model :guest if has_model?(:guest)
         create_model :guest do
           %Q{
   def create
