@@ -8,13 +8,13 @@ module Cream::Helper
     # does the user have ANY of the given roles?
     # Uses generic roles API    
     def has_role? user_role
-      current_user && current_user.has_role? user_role
+      current_user && current_user.has_role?(user_role)
     end
 
     # does the user have ALL of the given roles?
     # Uses generic roles API
     def has_roles? *roles
-      current_user && current_user.has_roles? roles.flatten
+      current_user && current_user.has_roles?(roles.flat_uniq)
     end
 
     # returns true if the current user owns the object
@@ -60,7 +60,7 @@ module Cream::Helper
     
     def user_relation? obj, relation
       raise ArgumentError, "User method must be a Symbol or String" if !relation.kind_of_label?
-      current_user && is_owner? current_user, obj, relation
+      current_user && is_owner?(current_user, obj, relation)
     end
     
     def is_owner? user, obj, relation

@@ -84,6 +84,18 @@ Devise Configuration options:
 10. Validatable: provides validations of email and password. It’s optional and can be customized, so you’re able to define your own validations.
 11. Lockable: locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
 
+Configuration is done using the devise statement in the User class. 
+
+Example: Use Confirmable and Validatable devise options/strategies
+
+<pre>
+class User
+  devise :confirmable, :validatable
+end
+</pre>
+
+Note: For Active Record your User table (via migration fx) must support the columns needed for the devise options you are using.
+
 h3. Devise links
 
 The project "devise links":http://github.com/kristianmandrup/devise-links adds more convenience for creating view links to trigger Devise session actions.
@@ -110,7 +122,40 @@ Any role system can be substituted as long as you have a method #has_role? on th
 h3. Role Groups
 
 Document DBs such as *Mongo* and *Riak* are ideal for modeling a role-group hierarchical relationship. 
-Role-Group support is planned as a future add-on for the roles strategies integration. (Any assistance appreciated!)
+
+Currently Role groups are supported as class level methods on the User class using a class level in-memory hash map.  
+
+See "Roles Group API":https://github.com/kristianmandrup/roles_generic/wiki/Roles-Group-API
+
+The Group API allows multiple roles to be grouped.
+
+Example:
+
+Say you have the _admin_ roles:
+
+* Admin
+* Super admin
+
+And the _customer_ roles
+
+* Individual customer
+* Company customer
+
+You might want to group them like this: 
+
+<pre>
+  User.add_role_group :customers => [:individual_customer, :company_customer]
+  User.add_role_group :admins => [:admin, :super_admin]  
+</pre>
+
+Then you can handle any user with regards to his/her role group relationship like this:
+
+<pre>
+  # do this only for users in the admin role group (user has either :admin or :super_admin role) 
+  current_user.is_in_group? :admin do
+    ...
+  end
+</pre>
 
 h2. ORMs
 
@@ -237,7 +282,9 @@ Moves 'user menu' partials views into app/views/_user_menu
 * scope  : The scope folder under views to copy the partials to, fx 'admin'
 * (haml) : Use HAML as template language
 
-The *views* generator is based on a similar generator from the devise project. This generator might be removed in the near future, as the menu items would make more sense as simple view helpers (suggestions welcome).
+The *views* generator is based on a similar generator from the devise project. The Views generator and partials have been updated (Jan 6, 2011).  
+The partials generated are useful for creating menu items for login/logout and registration. 
+The links are automatically displayed or hidden depending on the current state of the user.
 
 h2. Note on Patches/Pull Requests
  
