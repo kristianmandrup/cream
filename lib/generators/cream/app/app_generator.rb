@@ -82,12 +82,12 @@ require "rails/test_unit/railtie"
   end
 
   def has_roles? *roles
-    role == :guest
-  end
-  
-  def new_record?
-    true
-  end
+    false
+  end  
+
+  def has_any_role? *roles
+    roles.flat_uniq..to_symbols.include? :guest
+  end  
 }
         end
         say "A Guest user model has been created. Users that have not signed in will get an instance of this class as the current_user."
