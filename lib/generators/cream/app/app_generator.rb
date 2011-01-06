@@ -20,6 +20,8 @@ module Cream
 
         app_routes
         app_layout
+        
+        guest_user
       end
 
       protected
@@ -80,7 +82,31 @@ require "rails/test_unit/railtie"
         insert_into_view :layouts => :application, :after => '<body>' do
           %Q{<p class="#{name}"><%= #{name} %></p>}
         end
-      end      
+      end
+      
+      def guest_user
+        remove_model :guest
+        create_model :guest do
+          %Q{
+  def create
+    Guest.new
+  end
+
+  def has_role? role
+    role == :guest
+  end
+
+  def has_roles? *roles
+    role == :guest
+  end
+  
+  def new_record?
+    true
+  end
+}
+        end
+        say "A Guest user model has been created. Users that have not signed in will get an instance of this class as the current_user."
+      end
     end
   end
 end

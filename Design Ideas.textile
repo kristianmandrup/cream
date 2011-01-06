@@ -13,11 +13,6 @@ h1. Create default Guest user
     def has_roles? *roles
       role == :guest
     end
-
-
-    def self.roles
-      User.roles
-    end
   end  
 </pre>
 
