@@ -6,10 +6,7 @@ module Cream::Helper
     # for_any_user :not_logged_in => true
     
     def for_any_user options = nil, &block
-      state = Labels.extract options
-
-      yield if current_user.is?(:guest) && state == :logged_in
-      yield if !current_user.is?(:guest) && state == :logged_out
+      yield if Labels.state_check Labels.extract(options), current_user
     end
 
     # not_for_any_user :signed_in
@@ -17,11 +14,7 @@ module Cream::Helper
     # not_for_any_user :logged_in => true
 
     def not_for_any_user options = nil, &block
-      state = Labels.extract options
-
-      return if current_user.is?(:guest) && state == :logged_in    
-      return if !current_user.is?(:guest) && state == :logged_out
-
+      return if Labels.state_check Labels.extract(options), current_user
       yield 
     end
     
@@ -99,6 +92,18 @@ module Cream::Helper
             return :logged_out if logged_out_labels.any? {|lab| options[lab] }    
           end    
           raise ArgumentException, "Unknown option #{options}"
+        end
+
+        def state_check state, current_user
+          logged_in_check(state, current_user) || logged_out_check(state, current_user)
+        end
+
+        def logged_in_check state, current_user
+          state == :logged_in && current_user && current_user.is?(:guest)
+        end
+
+        def logged_out_check state, current_user
+          state == :logged_out && (!current_user || current_user && !current_user.is?(:guest))
         end
 
         def logged_in_labels
