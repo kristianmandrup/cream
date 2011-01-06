@@ -1,8 +1,28 @@
 module Cream::Helper
   module Role
 
-    def for_any_user &block
-      yield if current_user
+    # for_any_user :signed_in
+    # for_any_user :not_logged_in    
+    # for_any_user :not_logged_in => true
+    
+    def for_any_user options = nil, &block
+      state = Labels.extract options
+
+      yield if current_user.is?(:guest) && state == :logged_in
+      yield if !current_user.is?(:guest) && state == :logged_out
+    end
+
+    # not_for_any_user :signed_in
+    # not_for_any_user :logged_out
+    # not_for_any_user :logged_in => true
+
+    def not_for_any_user options = nil, &block
+      state = Labels.extract options
+
+      return if current_user.is?(:guest) && state == :logged_in    
+      return if !current_user.is?(:guest) && state == :logged_out
+
+      yield 
     end
     
     # does the user have ANY of the given roles?
@@ -40,12 +60,10 @@ module Cream::Helper
       yield if has_role?(user_roles) && block
     end 
 
-
     def for_role user_role, &block
       yield if has_role?(user_role) && block
     end 
     
-
     # execute block if user DOES NOT have any of the given roles
     def not_for_roles(*user_roles, &block)            
       user_roles = user_roles.flatten
@@ -56,7 +74,7 @@ module Cream::Helper
       yield if !has_role?(user_role) && block
     end        
 
-    protected
+    protected 
     
     def user_relation? obj, relation
       raise ArgumentError, "User method must be a Symbol or String" if !relation.kind_of_label?
@@ -65,6 +83,32 @@ module Cream::Helper
     
     def is_owner? user, obj, relation
       user == obj.send(relation) if obj.respond_to? relation      
+    end    
+
+    private
+
+    module Labels
+      class << self
+        def extract options
+          case options
+          when Symbol
+            return :logged_in if logged_in_labels.include?(options)
+            return :logged_out if logged_out_labels.include?(options)
+          when Hash
+            return :logged_in if logged_in_labels.any? {|lab| options[lab] }
+            return :logged_out if logged_out_labels.any? {|lab| options[lab] }    
+          end    
+          raise ArgumentException, "Unknown option #{options}"
+        end
+
+        def logged_in_labels
+          [:logged_in, :signed_in, :not_logged_out, :not_signed_out]
+        end
+
+        def logged_out_labels
+          [:logged_out, :signed_out, :not_logged_in, :not_signed_in]
+        end  
+      end
     end
   end    
 end

@@ -1,9 +1,9 @@
-<% for_any_role do %>
+<% not_for_role :guest do %>
   <li>
   <%= link_to('Logout', destroy_user_session_path) %>        
   </li>
 <% end %>
-<% for_guest do %>
+<% for_role :guest do %>
   <li>
   <%= link_to('Login', new_user_session_path)  %>  
   </li>

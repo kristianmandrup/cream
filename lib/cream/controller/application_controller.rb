@@ -4,7 +4,8 @@ class ApplicationController < ActionController::Base
     if defined? Cream::Role
       # Try to get instance of any of the available roles as the current user
       Cream::Role.available.each do |role|
-        cu ||= send :"current_#{role}"
+        method = :"current_#{role}"
+        cu ||= send method if respond_to?(method)
       end
     end    
     # if all else fails, the user is likely not signed in so create a Guest user for now    

@@ -73,7 +73,7 @@ require "rails/test_unit/railtie"
         remove_model :guest if has_model?(:guest)
         create_model :guest do
           %Q{
-  def create
+  def self.create
     Guest.new
   end
 

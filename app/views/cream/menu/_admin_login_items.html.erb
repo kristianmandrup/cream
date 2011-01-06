@@ -3,9 +3,9 @@
   <%= link_to('Logout', destroy_admin_session_path) %>        
   </li>
 <% end %>
-<% for_guest do %>
+<% not_for_role :admin do %>
   <li>
-  <%= link_to('Login', new_admin_session_path)  %>  
+  <%= link_to('Admin login', new_admin_session_path)  %>  
   </li>
 <% end %>
 
