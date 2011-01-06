@@ -18,6 +18,8 @@ module Cream
 
         app_orm unless active_record?
 
+        set_orm        
+
         app_routes
         app_layout
         
@@ -28,7 +30,11 @@ module Cream
 
       include Rails3::Assist::BasicLogger
       extend Rails3::Assist::UseMacro
-      use_helpers :app, :special, :file, :view
+      use_helpers :app, :special, :file, :view, :model
+
+      def set_orm
+        self.class.use_orm :"#{orm}"
+      end
 
       def logfile
         options[:logfile]
