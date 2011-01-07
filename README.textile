@@ -58,6 +58,35 @@ h3. Design ideas
 
 Please see the "Design ideas":https://github.com/kristianmandrup/cream/wiki/Design-ideas section on the wiki for possible enhancements you might want to add and/or ideas for further improvments to the framework. Feel free to add your own suggestions and ideas!
 
+h2. Cream edge
+
+Cream edge (directly from trunk or a feature branch), might have some extra goodies you could be interested in. To help develop Cream or use the edge version, just do:
+
+<pre>
+  gem 'cream', :git => 'https://github.com/kristianmandrup/cream.git'
+</pre>
+
+There is also a :branch option to use a specific branch.
+
+If you want to develop on Cream:
+
+<pre>
+  git clone https://github.com/kristianmandrup/cream.git
+</pre>
+
+Optionally switch to particular branch
+<pre>
+  git checkout [feature branch]  
+</pre>
+
+Then in your app, tell it to use your local version:
+
+<pre>
+  gem 'cream', :path => 'path to your cloned cream'
+</pre>
+
+Currently I am developing a new *devise:customizer* generator... (Jan 7, 2011) 
+
 h2. Rails 3 demo apps with Cream
 
 The following Rails 3 demo apps use Cream 0.7.7 and above and were created around Dec 1. 2010
