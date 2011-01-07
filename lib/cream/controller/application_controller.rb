@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_signed_in?
-    current_user && !current_user.has_role? :guest
+    current_user && !current_user.has_role?(:guest)
   end
 
   def user_session
