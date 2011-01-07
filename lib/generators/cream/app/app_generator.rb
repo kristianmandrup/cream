@@ -239,9 +239,13 @@ See: https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-sign_in
         %q{where(attributes).where(["username = :value OR email = :value", { :value => login }]).first}
       end
 
-      def mongoid_find_record
-        "where(:username => login).or(:email => login).first"
-      end
+      def mongoid_find_record(login)
+        %q{where("function() {return this.username == '#{login}' || this.email == '#{login}'}").first}
+      end  
+
+      def mongo_mapper_find_record(login)
+        %q{where("function() {return this.username == '#{login}' || this.email == '#{login}'}").first}
+      end  
 
       def locales_update_msg
         say %q{

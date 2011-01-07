@@ -440,3 +440,24 @@ With this value set devise will use the username field as the authentication key
 The signup form will also need to be modified and we’ll have to add validation to the User model attribute but we won’t show that here.
 
 Once we’ve restarted the server so that the configuration changes are picked up we can visit the signin page and login with a username instead of and email address.
+
+h2. me.com and gmail style
+
+Another way to do this is me.com and gmail style. You allow an email or the username of the email. For public facing accounts, this has more security. Rather than allow some hacker to enter a username and then just guess the password, they would have no clue what the user’s email is. Just to make it easier on the user for logging in, allow a short form of their email to be used e.g “someone@domain.com” or just “someone” for short.
+
+before_create :create_login
+
+  def create_login             
+    email = self.email.split(/@/)
+    login_taken = User.where( :login => email[0]).first
+    unless login_taken
+      self.login = email[0]
+    else	
+      self.login = self.email
+    end	       
+  end
+
+  def self.find_for_database_authentication(conditions)
+    self.where(:login => conditions[:email]).first || self.where(:email => conditions[:email]).first
+  end
+
