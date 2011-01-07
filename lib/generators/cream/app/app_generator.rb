@@ -88,8 +88,8 @@ require "rails/test_unit/railtie"
       end
 
       def modify_retrieve_password_strategy
-        if ![:active_record].include? orm
-          say %q{Currently Cream only supports a username/password retrieval strategy for :active_record
+        if ![:active_record, :mongoid].include? orm
+          say %q{Currently Cream only supports a username/password retrieval strategy for :active_record and :mongoid
 Please help add a strategy for your ORM of choice by adding a #[orm]_retrieve_password_code method to the Cream 'app_generator.rb' file. Thanks!
 See: https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-sign_in-using-their-username-or-email-address for how to do it!}, :yellow
           return
@@ -135,8 +135,14 @@ See: https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-sign_in
       def override_active_record_user_auth
         if ![:active_record, :mongoid].include? orm
           say %q{Currently Cream only supports generic login strategy for :active_record and :mongoid.
-Please help add a strategy for your ORM of choice by adding a #[orm]_user_auth_code method to the Cream 'app_generator.rb' file. Thanks!
-Simply add a self#find_for_database_authentication(conditions) method in your User class, make it work, then submit it as a patch to Cream.
+Please help add a strategy for your ORM of choice by adding a #[orm]_find_record method to the Cream 'app_generator.rb' file. Thanks!
+Simply add a self#[orm]_find_record method in your User class, make it work, then submit it as a patch to Cream. It should be very simple
+The example for mongoid:
+
+  def self.find_record(login) 
+    where(:username => login).or(:email => login).first
+  end
+  
 See: https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-sign_in-using-their-username-or-email-address for how to do it!}, :yellow
           return
         end
@@ -167,48 +173,75 @@ See: https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-sign_in
 }
       end
 
-      def active_record_retrieve_password_code
+      # should not be ORM dependent
+      def reset_password_instructions_code
         %q{
-      protected
+  # protected
 
-       # Attempt to find a user by it's email. If a record is found, send new
-       # password instructions to it. If not user is found, returns a new user
-       # with an email not found error.
-       def self.send_reset_password_instructions(attributes={})
-         recoverable = find_recoverable_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
-         recoverable.send_reset_password_instructions if recoverable.persisted?
-         recoverable
-       end 
-
-       def self.find_recoverable_or_initialize_with_errors(required_attributes, attributes, error=:invalid)
-         case_insensitive_keys.each { |k| attributes[k].try(:downcase!) }
-
-         attributes = attributes.slice(*required_attributes)
-         attributes.delete_if { |key, value| value.blank? }
-
-         if attributes.size == required_attributes.size
-           if attributes.has_key?(:login)
-              login = attributes.delete(:login)
-              record = where(attributes).where(["username = :value OR email = :value", { :value => login }]).first
-           else  
-             record = where(attributes).first
-           end  
-         end  
-
-         unless record
-           record = new
-
-           required_attributes.each do |key|
-             value = attributes[key]
-             record.send("#{key}=", value)
-             record.errors.add(key, value.present? ? error : :blank)
-           end  
-         end  
-         record
-       end
+   # Attempt to find a user by it's email. If a record is found, send new
+   # password instructions to it. If not user is found, returns a new user
+   # with an email not found error.
+   def self.send_reset_password_instructions(attributes={})
+     recoverable = find_recoverable_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
+     recoverable.send_reset_password_instructions if recoverable.persisted?
+     recoverable
+   end 
 }
       end
 
+      def handle_errors_code
+        %q{
+    unless record
+      record = new
+
+      required_attributes.each do |key|
+        value = attributes[key]
+        record.send("#{key}=", value)
+        record.errors.add(key, value.present? ? error : :blank)
+      end  
+    end  
+    record
+}
+      end
+
+      def retrieve_password_code
+        reset_password_instructions_code << find_recoverable_code
+      end
+
+      def find_recoverable_code
+        %Q{
+   # protected
+
+   def self.find_recoverable_or_initialize_with_errors(required_attributes, attributes, error=:invalid)
+     case_insensitive_keys.each { |k| attributes[k].try(:downcase!) }
+
+     attributes = attributes.slice(*required_attributes)
+     attributes.delete_if { |key, value| value.blank? }
+
+     if attributes.size == required_attributes.size
+       if attributes.has_key?(:login)
+          login = attributes.delete(:login)
+          record = find_record(login)
+       else  
+         record = where(attributes).first
+       end  
+     end  
+     #{handle_errors_code}
+   end
+   
+   def self.find_record login
+     #{send :"#{orm}_find_record"}
+   end
+}
+      end
+
+      def active_record_find_record
+        %q{where(attributes).where(["username = :value OR email = :value", { :value => login }]).first}
+      end
+
+      def mongoid_find_record
+        "where(:username => login).or(:email => login).first"
+      end
 
       def locales_update_msg
         say %q{
