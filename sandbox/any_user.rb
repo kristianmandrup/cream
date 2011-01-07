@@ -8,12 +8,12 @@ class Stuff
     yield 
   end
 
-  def is? x
-    false
+  def is? role
+    role == :guest
   end
   
   def current_user
-    nil # Stuff.new
+    Stuff.new
   end   
   
   private
@@ -37,11 +37,19 @@ class Stuff
       end
 
       def logged_in_check state, current_user
-        state == :logged_in && current_user && current_user.is?(:guest)
+        state == :logged_in && is_not_guest?(current_user)
       end
 
       def logged_out_check state, current_user
-        state == :logged_out && (!current_user || current_user && !current_user.is?(:guest))
+        state == :logged_out && is_guest?(current_user)
+      end
+      
+      def is_not_guest? current_user
+        !current_user || (current_user && !current_user.is?(:guest))
+      end
+
+      def is_guest? current_user
+        current_user && current_user.is?(:guest)
       end
 
       def logged_in_labels
