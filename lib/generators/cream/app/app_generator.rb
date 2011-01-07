@@ -78,8 +78,12 @@ require "rails/test_unit/railtie"
     Guest.new
   end
 
-  def has_role? role
+  def is? role
     role == :guest
+  end
+
+  def has_role? role
+    is? role
   end
 
   def has_roles? *roles
