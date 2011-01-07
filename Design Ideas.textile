@@ -374,4 +374,69 @@ h3. Recaptcha with Omniauth
     end  
 </pre>
 
+h2. login with username
 
+Customizing The Login Requirements
+
+Our application currently uses an email address and password to log users in, but if we want to change it so that it asks for a username instead of an email address then we can do so fairly easily.
+
+The first thing we need to do is create a username column in the User table, which we can do by generating a migration.
+
+$ rails generate migration add_username_to_users username:string
+
+That done we’ll run the migration.
+
+$ rake db:migrate
+
+As we only have one user in the database we can quickly log in to the Rails console and set a value for the username attribute for that user.
+
+$ rails c
+Loading development environment (Rails 3.0.0.beta2)
+ruby-1.8.7-p249 > User.first.update_attribute(:username, "eifion")
+ => true
+
+Now that we’ve modified the database we need to modify devise’s configuration file, uncommenting the config.authentication_keys line and changing its value from :email to :username.
+
+/config/initializers/devise.rb
+
+   1. config.authentication_keys = [ :username ]  
+
+config.authentication_keys = [ :username ]
+
+With this value set devise will use the username field as the authentication key. We’ll also have to modify the sign in form so that it has a username field instead of the email field.
+
+/app/views/devise/sessions/new.html.erb
+
+   1. <% title "Sign In" %>  
+   2.   
+   3. <%= form_for(resource_name, resource, :url => session_path(resource_name)) do |f| %>  
+   4.   <ol class="formList">  
+   5.     <li><%= f.label :username %> <%= f.text_field :username %></li>  
+   6.     <li><%= f.label :password %> <%= f.password_field :password %></li>  
+   7.     <% if devise_mapping.rememberable? -%>  
+   8.     <li><%= f.check_box :remember_me %> <%= f.label :remember_me %></li>  
+   9.     <% end %>  
+  10.     <li><%= f.submit "Sign in" %></li>  
+  11.   </ol>  
+  12. <% end %>  
+  13.   
+  14. <%= render :partial => "devise/shared/links" %>  
+
+<% title "Sign In" %>
+
+<%= form_for(resource_name, resource, :url => session_path(resource_name)) do |f| %>
+  <ol class="formList">
+    <li><%= f.label :username %> <%= f.text_field :username %></li>
+    <li><%= f.label :password %> <%= f.password_field :password %></li>
+    <% if devise_mapping.rememberable? -%>
+    <li><%= f.check_box :remember_me %> <%= f.label :remember_me %></li>
+    <% end %>
+    <li><%= f.submit "Sign in" %></li>
+  </ol>
+<% end %>
+
+<%= render :partial => "devise/shared/links" %>
+
+The signup form will also need to be modified and we’ll have to add validation to the User model attribute but we won’t show that here.
+
+Once we’ve restarted the server so that the configuration changes are picked up we can visit the signin page and login with a username instead of and email address.
