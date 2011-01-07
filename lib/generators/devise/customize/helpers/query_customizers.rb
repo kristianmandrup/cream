@@ -1,3 +1,5 @@
+puts "QueryCustomizers loaded"
+
 module Devise
   module QueryCustomizers
     module FindRecord

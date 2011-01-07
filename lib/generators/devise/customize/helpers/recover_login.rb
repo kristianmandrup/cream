@@ -1,3 +1,5 @@
+require 'generators/cream/helpers/all'
+
 module Devise
   module Customizers
     class RecoverLogin
@@ -23,9 +25,9 @@ module Devise
   # password instructions to it. If not user is found, returns a new user
   # with an email not found error.
   def self.send_reset_password_instructions(attributes={})
-  recoverable = find_recoverable_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
-  recoverable.send_reset_password_instructions if recoverable.persisted?
-  recoverable
+    recoverable = find_recoverable_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
+    recoverable.send_reset_password_instructions if recoverable.persisted?
+    recoverable
   end
   }
       end
@@ -33,27 +35,27 @@ module Devise
       def find_recoverable_code
         %Q{
   def self.find_recoverable_or_initialize_with_errors(required_attributes, attributes, error=:invalid)
-  case_insensitive_keys.each { |k| attributes[k].try(:downcase!) }
+    case_insensitive_keys.each { |k| attributes[k].try(:downcase!) }
 
-  attributes = attributes.slice(*required_attributes)
-  attributes.delete_if { |key, value| value.blank? }
+    attributes = attributes.slice(*required_attributes)
+    attributes.delete_if { |key, value| value.blank? }
 
-  if attributes.size == required_attributes.size
-   if attributes.has_key?(:login)
-      login = attributes.delete(:login)
-      record = find_record(login)
-   else  
-     record = where(attributes).first
-   end  
-  end  
-  user_record_not_found(required_attributes) unless record
-  record
+    if attributes.size == required_attributes.size
+     if attributes.has_key?(:login)
+        login = attributes.delete(:login)
+        record = find_record(login)
+     else  
+       record = where(attributes).first
+     end  
+    end  
+    user_record_not_found(required_attributes) unless record
+    record
   end
 
   #{user_record_not_found}
 
   def self.find_record login
-  #{send :"Devise::QueryCustomizers::FindRecord.#{orm}"}
+    #{Devise::QueryCustomizers::FindRecord.send orm}
   end
   }
       end
@@ -63,13 +65,13 @@ module Devise
   # handle when the user record is not found
   # adds error messages to the record
   def self.user_record_not_found(required_attributes)
-  record = new
+    record = new
 
-  required_attributes.each do |key|
-  value = attributes[key]
-  record.send("#{key}=", value)
-  record.errors.add(key, value.present? ? error : :blank)
-  end  
+    required_attributes.each do |key|
+    value = attributes[key]
+    record.send("#{key}=", value)
+    record.errors.add(key, value.present? ? error : :blank)
+    end  
   end  
   }
       end

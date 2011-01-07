@@ -3,6 +3,7 @@ require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
 require 'logging_assist'
+require 'generators/cream/helpers/all'
 
 module Cream
   module Generators 

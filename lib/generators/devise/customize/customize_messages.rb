@@ -1,6 +1,10 @@
 module Devise
   module CustomizeMessage    
     class << self
+      def say msg, option
+        puts msg
+      end
+      
       def retrieve_password        
           say %q{Currently Cream only supports a username/password retrieval strategy for :active_record and :mongoid
 Please help add a strategy for your ORM of choice by adding a FindRecord.#[orm] method to the Cream 'app_generator.rb' file. Thanks!

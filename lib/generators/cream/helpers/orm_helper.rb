@@ -45,13 +45,17 @@ module Cream
         data_mapper.include? name
       end
 
+      def is_default_devise_orm?
+        [:active_record, :mongoid].include? orm
+      end
+
       def get_orm name
         return :active_record if is_active_record? name 
         return :mongo_mapper if is_mongo_mapper? name
         return :data_mapper if is_data_mapper? name
 
-        return :couch_db  if orm_name == :couch_db
-        return :mongoid   if orm_name == :mongoid
+        return :couch_db  if name == :couch_db
+        return :mongoid   if name == :mongoid
         
         raise ArgumentError, "ERROR: Cream does not currently support the orm: #{name}"
       end
