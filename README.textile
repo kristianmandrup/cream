@@ -47,18 +47,14 @@ The "Cream user group":http://groups.google.com/group/rails-cream is a google gr
 
 h2. Inspiration and Ideas
 
-_Tony Amoyal_ has written a two part series on how to setup a fully integrated Devise/CanCan solution with Roles. You might want to take a look at this for further customization needs. It might also provide food for thought for suggestions on improvements to the Cream framework ;) 
-
-"Part I":http://www.tonyamoyal.com/2010/07/28/rails-authentication-with-devise-and-cancan-customizing-devise-controllers/
-"Part II":http://www.tonyamoyal.com/2010/09/29/rails-authentication-with-devise-and-cancan-part-2-restful-resources-for-administrators/
-
-"Aegis - The alternative Authorization solution":http://github.com/makandra/aegis
+_Tony Amoyal_ has written a two part series ("Part I":http://www.tonyamoyal.com/2010/07/28/rails-authentication-with-devise-and-cancan-customizing-devise-controllers/, "Part II":http://www.tonyamoyal.com/2010/09/29/rails-authentication-with-devise-and-cancan-part-2-restful-resources-for-administrators/
+) on how to setup a fully integrated Devise/CanCan solution with Roles. You might want to take a look at this for further customization needs. It might also provide food for thought for suggestions on improvements to the Cream framework ;)  
 
 h3. Design ideas
 
 Please see the "Design ideas":https://github.com/kristianmandrup/cream/wiki/Design-ideas section on the wiki for possible enhancements you might want to add and/or ideas for further improvments to the framework. Feel free to add your own suggestions and ideas!
 
-h2. Cream edge
+h2. Cream edge, debugging and assisting developing the framework
 
 Cream edge (directly from trunk or a feature branch), might have some extra goodies you could be interested in. To help develop Cream or use the edge version, just do:
 
@@ -113,9 +109,9 @@ Devise Configuration options:
 10. Validatable: provides validations of email and password. It’s optional and can be customized, so you’re able to define your own validations.
 11. Lockable: locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
 
-Configuration is done using the devise statement in the User class. 
+Configuration is done using the _devise_ statement in the User class. 
 
-Example: Use Confirmable and Validatable devise options/strategies
+Example: Use _Confirmable_ and _Validatable_ devise options/strategies
 
 <pre>
 class User
@@ -133,6 +129,8 @@ h2. Authorization system
 
 There is support for the "CanCan":http://github.com/ryanb/cancan Authorization system. 
 I have created a "Cancan permits":http://github.com/kristianmandrup/cancan-permits gem that adds the concept of Permits for each role (see below).
+
+Another framework of interest: "Aegis - The alternative Authorization solution":http://github.com/makandra/aegis
 
 h2. Roles
 

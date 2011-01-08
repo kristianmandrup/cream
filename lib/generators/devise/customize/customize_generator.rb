@@ -12,11 +12,12 @@ module Devise
     class CustomizeGenerator < ::Rails::Generators::Base
       desc "Customize Devise"
 
+      argument :user_class,  :type => :string,   :default => 'User',      :desc => "User class name"
+
       # ORM to use
       class_option :orm,        :type => :string,   :default => 'active_record',   :desc => "ORM to use"
       class_option :logfile,    :type => :string,   :default => nil,               :desc => "Logfile location"
 
-      class_option :user_class,  :type => :string,   :default => 'User',      :desc => "User class name"
       class_option :user_name,   :type => :boolean,  :default => true,        :desc => "Add username as login option"
       class_option :login_type,  :type => :string,   :default => 'generic',   :desc => "How to login: 'email', 'username', 'generic' (i.e 'username' or 'email')"
       
@@ -32,10 +33,6 @@ module Devise
       include Cream::GeneratorHelper
       include Rails3::Assist::BasicLogger
             
-      def user_class
-        options[:user_class] || 'User'
-      end
-
       def login_attribute
         att = options[:login_attribute] || 'generic'
         return 'login' if att.to_sym == :generic

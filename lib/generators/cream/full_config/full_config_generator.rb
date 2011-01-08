@@ -34,6 +34,10 @@ module Cream
       class_option :gems,           :type => :boolean,  :default => true,             :desc => "Add gems to gemfile?"       
       class_option :migrations,     :type => :boolean,  :default => false,            :desc => "Autorun database migrations?", :aliases => '-m'
 
+      # Devise customize
+      class_option :user_name,   :type => :boolean,  :default => true,        :desc => "Add username as login option"
+      class_option :login_type,  :type => :string,   :default => 'generic',   :desc => "How to login: 'email', 'username', 'generic' (i.e 'username' or 'email')"
+
       def main 
         execute_generator if validate_orm && validate_strategy
       end
@@ -87,6 +91,7 @@ module Cream
       def run_devise
         rgen "devise:config #{user_class} --orm #{orm} #{admin_user_option}"
         rgen "devise:users --orm #{orm} --roles #{roles_list} #{admin_user_option} --no-gems"
+        rgen "devise:customize #{user_class} --orm #{orm} --login-type #{login_type} #{user_name_option}"
       end
 
       def run_cancan
@@ -110,6 +115,18 @@ end
 require 'cream/configure/rails'
 }      
         end
+      end
+
+      def login_type
+        options[:login_type]
+      end
+
+      def username?
+        options[:user_name]
+      end
+
+      def user_name_option
+        " --user-name " if username?
       end
 
       def locales
