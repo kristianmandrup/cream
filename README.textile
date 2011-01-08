@@ -47,8 +47,7 @@ The "Cream user group":http://groups.google.com/group/rails-cream is a google gr
 
 h2. Inspiration and Ideas
 
-_Tony Amoyal_ has written a two part series ("Part I":http://www.tonyamoyal.com/2010/07/28/rails-authentication-with-devise-and-cancan-customizing-devise-controllers/, "Part II":http://www.tonyamoyal.com/2010/09/29/rails-authentication-with-devise-and-cancan-part-2-restful-resources-for-administrators/
-) on how to setup a fully integrated Devise/CanCan solution with Roles. You might want to take a look at this for further customization needs. It might also provide food for thought for suggestions on improvements to the Cream framework ;)  
+_Tony Amoyal_ has written a two part series ("Part I":http://www.tonyamoyal.com/2010/07/28/rails-authentication-with-devise-and-cancan-customizing-devise-controllers/, "Part II":http://www.tonyamoyal.com/2010/09/29/rails-authentication-with-devise-and-cancan-part-2-restful-resources-for-administrators/) on how to setup a fully integrated Devise/CanCan solution with Roles. You might want to take a look at this for further customization needs. It might also provide food for thought for suggestions on improvements to the Cream framework ;) I have started work on a _devise:customize_ generator to facilitate some of these customization needs... 
 
 h3. Design ideas
 
@@ -264,17 +263,23 @@ Main generator:
 
 Config generators:
 
-* _devise:config_   - Configure Rails 3 application with Devise
-* _devise:users_    - Configure Rails 3 application with Devise users
-* _cancan:config_   - Configures app with CanCan
-* _permits:config_  - Configures app with CanCan Permits
-* _roles:config_    - Configures app with Roles
+Devise (authentication)
+
+* _devise:config_     - Configure Rails 3 application with Devise
+* _devise:users_      - Configure Rails 3 application with Devise users
+* _devise:customize_  - Customize devise configuration
+
+Authorization incl. roles
+
+* _cancan:config_     - Configures app with CanCan
+* _permits:config_    - Configures app with CanCan Permits
+* _roles:config_      - Configures app with Roles
 
 Other generators:
 
-* _cancan:restlinks_ - Create REST links locale file 
-* _devise:links_ - Create devise links locale file (should I rename this to authlinks?)
-* _cream:views_ - Generates partials for menu items (outdated)
+* _cancan:restlinks_  - Create REST links locale file 
+* _devise:links_      - Create devise links locale file (should I rename this to authlinks?)
+* _cream:views_       - Generates partials for menu items (outdated)
 
 All the above generators have specs included in cream that demonstrate how to use them and should verify that they work as expected.
 

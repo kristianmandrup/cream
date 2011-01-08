@@ -45,7 +45,7 @@ module Cream::Helper
     # execute block if user DOES have any of the given roles
     def for_roles *user_roles, &block
       user_roles = user_roles.flatten
-      yield if has_role?(user_roles) && block
+      yield if has_roles?(user_roles) && block
     end 
 
     def for_any_role *user_roles, &block
@@ -53,21 +53,33 @@ module Cream::Helper
       yield if has_role?(user_roles) && block
     end 
 
-    def for_role user_role, &block
+    def for_role user_role, &block     
+      if is_negation_role?(user_role) 
+        not_for_role(user_role, &block)  
+        return
+      end
       yield if has_role?(user_role) && block
     end 
     
     # execute block if user DOES NOT have any of the given roles
     def not_for_roles(*user_roles, &block)            
       user_roles = user_roles.flatten
-      yield if !has_role?(user_roles) && block
+      yield if !has_roles?(user_roles) && block
     end        
 
     def not_for_role(user_role, &block)
+      if is_negation_role?(user_role) 
+        for_role(user_role, &block)  
+        return
+      end
       yield if !has_role?(user_role) && block
     end        
 
     protected 
+    
+    def is_negation_role? user_role
+      !(:user_role.to_s =~ /^not_/).nil?
+    end
     
     def user_relation? obj, relation
       raise ArgumentError, "User method must be a Symbol or String" if !relation.kind_of_label?
