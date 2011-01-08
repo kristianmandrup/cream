@@ -57,30 +57,21 @@ h2. Cream edge, debugging and assisting developing the framework
 
 Cream edge (directly from trunk or a feature branch), might have some extra goodies you could be interested in. To help develop Cream or use the edge version, just do:
 
-<pre>
-  gem 'cream', :git => 'https://github.com/kristianmandrup/cream.git'
-</pre>
+<code>gem 'cream', :git => 'https://github.com/kristianmandrup/cream.git'</code>
 
-There is also a :branch option to use a specific branch.
+Note: As a bonus you currently get access to a new *devise:customize* generator under development (Jan 7, 2011) 
 
-If you want to develop on Cream:
+There is also a _:branch_ option to use a specific branch, fx a feature branch.
 
-<pre>
-  git clone https://github.com/kristianmandrup/cream.git
-</pre>
+If you want to develop on Cream: <code>git clone https://github.com/kristianmandrup/cream.git</code>
 
-Optionally switch to particular branch
-<pre>
-  git checkout [feature branch]  
-</pre>
+Optionally switch to particular branch in your local cloned repo: <code>git checkout [feature branch]</code>
 
-Then in your app, tell it to use your local version:
+Then in your app, tell it to use your local version using the :_path_ option:
 
-<pre>
-  gem 'cream', :path => 'path to your cloned cream'
-</pre>
+<code>gem 'cream', :path => 'path to your cloned cream'</code>
 
-Currently I am developing a new *devise:customizer* generator... (Jan 7, 2011) 
+And you'll be ready to experiment, debug and add features from there :)
 
 h2. Rails 3 demo apps with Cream
 
