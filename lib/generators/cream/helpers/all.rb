@@ -8,6 +8,7 @@ module Cream
         include Executor
         include Args
         include Strategy
+        include Gemfile
       end
     end
   end

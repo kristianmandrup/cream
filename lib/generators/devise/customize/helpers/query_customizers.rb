@@ -1,5 +1,3 @@
-puts "QueryCustomizers loaded"
-
 module Devise
   module QueryCustomizers
     module FindRecord
@@ -22,22 +20,22 @@ module Devise
       class << self
         def active_record
           %q{
-    # protected
+  # protected
 
-    def self.find_for_database_authentication(conditions)
-      login = conditions.delete(:login)
-      where(conditions).where(["username = :value OR email = :value", { :value => login }]).first
-    end
-  }
+  def self.find_for_database_authentication(conditions)
+    login = conditions.delete(:login)
+    where(conditions).where(["username = :value OR email = :value", { :value => login }]).first
+  end
+}
         end
 
         def mongoid
-          %q{
-    def self.find_for_database_authentication(conditions)
-      login = conditions.delete(:login)
-      self.any_of({ :username => value }, { :email => login }).first
-    end
-  }
+        %q{
+  def self.find_for_database_authentication(conditions)
+    login = conditions.delete(:login)
+    self.any_of({ :username => value }, { :email => login }).first
+  end
+}
         end
       end
     end    

@@ -1,8 +1,17 @@
+require "colorize"
+
 module Devise
   module CustomizeMessage    
     class << self
-      def say msg, option
-        puts msg
+      def say msg, options = nil
+        options = case options
+        when Symbol
+          {:color => options}
+        when Hash
+          option          
+        end
+        puts msg.colorize(options) if options
+        puts msg if !options          
       end
       
       def retrieve_password        

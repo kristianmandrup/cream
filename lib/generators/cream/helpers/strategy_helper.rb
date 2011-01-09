@@ -18,6 +18,34 @@ module Cream
         @strategies << document_store_strategies if document_store?
         @strategies
       end
+
+      def role_ref_strategy?
+        role_ref_strategies.include? strategy
+      end
+
+      def embed_strategy?
+        role_embed_strategies.include? strategy
+      end
+
+      def document_store_strategy?
+        document_store_strategies.include? strategy
+      end
+
+      def inline_strategy?
+        document_store_strategies.include? strategy
+      end
+
+      def role_ref_strategies
+        [:one_role, :many_roles]
+      end
+
+      def role_embed_strategies
+        [:embed_one_role, :embed_many_roles]
+      end
+
+      def inline_strategies
+        valid_strategies - role_ref_strategies - role_embed_strategies
+      end
       
       def basic_strategies
         [:admin_flag, :role_string, :one_role, :many_roles, :roles_mask, :roles_string]

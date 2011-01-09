@@ -33,9 +33,7 @@ module Permits
       
       include Rails3::Assist::BasicLogger
 
-      include Cream::GeneratorHelper::Orm
-      include Cream::GeneratorHelper::Executor
-      include Cream::GeneratorHelper::Args
+      include Cream::GeneratorHelper
       
       def permits_gems
         gem 'cancan-permits'

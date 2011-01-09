@@ -56,9 +56,7 @@ module Devise
       extend Rails3::Assist::UseMacro
       include Rails3::Assist::BasicLogger  
 
-      include Cream::GeneratorHelper::Orm
-      include Cream::GeneratorHelper::Executor
-      include Cream::GeneratorHelper::Args 
+      include Cream::GeneratorHelper
       
       include DeviseUserGenerator::Helper
       include DeviseUserGenerator::RoutesHelper

@@ -44,9 +44,7 @@ module Roles
       include Rails3::Assist::BasicLogger
       extend Rails3::Assist::UseMacro
 
-      include Cream::GeneratorHelper::Orm
-      include Cream::GeneratorHelper::Executor
-      include Cream::GeneratorHelper::Args
+      include Cream::GeneratorHelper
       
       use_helpers :model, :file
 

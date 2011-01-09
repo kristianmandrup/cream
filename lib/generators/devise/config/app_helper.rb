@@ -29,7 +29,7 @@ module DeviseConfigGenerator
         return
       end
       
-      File.replace_initializer :devise,  :where => orm_statement, :with => orm_replacement
+      replace_initializer_content :devise,  :where => orm_statement, :with => orm_replacement
     end
       
     def mailer_configure!

@@ -36,28 +36,5 @@ module DeviseConfigGenerator
       add_gem 'devise_couch'
       say "WARNING: Couch DB does not currently have a complete Roles implementation (admin_flag only). Please help implement the Roles strategy adapter.", :yellow
     end
-
-    def add_gem_version name, version
-      if !has_gem_version?(name, version)
-        logger.debug "Adding gem: #{name}, #{version}"
-        gem name, :version => version
-      else
-        logger.debug "gem: #{name}, #{version} already in Gemfile"
-      end        
-    end
-
-    def add_gem name, version = nil
-      if version
-        add_gem_version name, version 
-        return 
-      end
-  
-      if !has_gem? name
-        logger.debug "Adding gem: #{name}"
-        gem name
-      else
-        logger.debug "gem: #{name} already in Gemfile"          
-      end
-    end
   end
 end

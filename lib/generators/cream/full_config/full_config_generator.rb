@@ -137,10 +137,15 @@ require 'cream/configure/rails'
         [:en, :da]
       end
 
-      def cream_locales
-        (supported_locales - locales).each do |locale|
-          src = File.expand_path "config/locales/cream.#{locale}.yml".path.up(2)
-          logger.debug "Generate Cream locale file"            
+      def locales_to_generate
+        supported_locales - locales
+      end
+
+      def cream_locales                               
+        return if locales_to_generate.empty?
+        logger.debug "Generate Cream locale files"
+        locales_to_generate.each do |locale|
+          src = File.expand_path "config/locales/cream.#{locale}.yml".path.up(5), __FILE__
           copy_file src, "config/locales/cream.#{locale}.yml"
         end
       end

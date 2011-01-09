@@ -7,7 +7,6 @@ module Devise
       extend Rails3::Assist::UseMacro
       include Rails3::Assist::BasicLogger      
       use_helpers :app, :special, :file, :model
-      # include Devise::UserCustomization      
 
       attr_accessor :orm, :user_class, :login_attribute
   
@@ -19,8 +18,8 @@ module Devise
 
       def add_to_user_class
         logger.debug 'add_to_user_class'
-        if active_record?
-          logger.debug 'add migration: username'
+        if active_record? && !has_migration_file?(:add_username_to_users)
+          logger.debug 'create migration: add_username_to_users'
           %x[rails g migration add_username_to_users username:string]
           %x[rake db:migrate]        
         end
@@ -36,21 +35,28 @@ module Devise
       end
 
       def make_attribute_accessible
-        insert_into_model user_class do
-          'attr_accessible :username'
+        return if user_class_content? 'attr_accessible :username'
+
+        ::File.insert_into model_file(user_class), :before_last => 'end' do
+          %q{
+  # accessor config
+  attr_accessible :username}
         end
       end
 
-      def add_virtual_login_accessor
-        insert_into_model user_class do
-          'attr_accessor :login'
+      def add_virtual_login_accessor          
+        return if user_class_content? 'attr_accessor :login' 
+        
+        ::File.insert_into model_file(user_class), :before_last => 'end' do
+          %q{
+  attr_accessor :login}
         end
-      end      
+      end
 
       def configure_generic_login
         logger.debug 'configure generic login'
-        override_user_auth
-        add_virtual_login_accessor
+        add_virtual_login_accessor        
+        override_user_auth        
         modify_retrieve_password
       end
 
@@ -58,8 +64,11 @@ module Devise
         if !is_default_devise_orm?
           Devise::CustomizeMessage.find_record
           return
-        end
-        insert_into_model user_class do
+        end         
+
+        return if user_class_content? '# self.find_for_database_authentication'
+                
+        ::File.insert_into model_file(user_class), :before_last => 'end' do
           ::Devise::QueryCustomizers::UserAuth.send orm
         end
       end
@@ -70,18 +79,38 @@ module Devise
           return
         end
         insert_reset_password_keys_stmt # in devise initializer
-        content = "protected\n" << ::Devise::Customizers::RecoverLogin.new(orm).retrieve_password
+
+        return if user_class_content? '# recover login'
         
+        content = recover_login_header << ::Devise::Customizers::RecoverLogin.new(orm).retrieve_password
+
         ::File.insert_into model_file(user_class), :before_last => 'end' do
           content
         end        
       end
       
       def insert_reset_password_keys_stmt
+        return if devise_init_content? '# reset_password_keys = [ :login ]'        
         ::File.insert_into initializer_file(:devise), 'config.reset_password_keys = [ :login ]', :after => 'Rails::Application'
       end        
 
       protected
+
+      def user_class_content? content
+        read_model(user_class) =~ content.to_regexp
+      end
+
+      def devise_init_content? content
+        read_initializer(:devise) =~ content.to_regexp
+      end
+
+      def recover_login_header
+        %q{
+  protected
+
+  # recover login
+}
+      end
 
       class AuthenticationKeys
         include Cream::GeneratorHelper
@@ -98,7 +127,13 @@ module Devise
 
         def modify_initializer
           logger.debug 'modify devise initializer'
+          return if devise_init_content? keys_stmt_replacement(login_attribute)
+        
           replace_initializer_content :devise,  :where => default_keys_stmt, :with => keys_stmt_replacement(login_attribute)
+        end
+
+        def devise_init_content? content
+          read_initializer(:devise) =~ content.to_regexp
         end
 
         def keys_stmt_replacement name

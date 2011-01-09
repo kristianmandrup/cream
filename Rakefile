@@ -16,6 +16,7 @@ begin
     gem.add_development_dependency "roles-spec",        ">= 0.1.3"    
 
     gem.add_dependency "require_all",       "~> 1.2.0"
+    gem.add_dependency "colorize",          ">= 0.5.8"
     
     gem.add_dependency "devise-links",      ">= 0.2.1"
     gem.add_dependency "cancan-rest-links", ">= 0.2.1" 

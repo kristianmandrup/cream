@@ -8,6 +8,7 @@ group :default do
 
   gem "require_all",       "~> 1.2.0"    
 
+  gem "colorize",          ">= 0.5.8"
   gem "devise",            ">= 1.1.5"    
   gem "cancan",            ">= 1.4.0" 
   gem "rails",             ">= 3.0.1"
