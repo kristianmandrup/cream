@@ -59,8 +59,6 @@ Cream edge (directly from trunk or a feature branch), might have some extra good
 
 <code>gem 'cream', :git => 'https://github.com/kristianmandrup/cream.git'</code>
 
-Note: As a bonus you currently get access to a new *devise:customize* generator under development (Jan 7, 2011) 
-
 There is also a _:branch_ option to use a specific branch, fx a feature branch.
 
 If you want to develop on Cream: <code>git clone https://github.com/kristianmandrup/cream.git</code>

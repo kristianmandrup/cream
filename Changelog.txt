@@ -1,3 +1,7 @@
+0.8.7 - Jan 9, 2011
+-----
+Added devise:customize generator, cleaned up design and fixed some bugs!
+
 0.8.6 - Jan 4, 2011
 -----
 Completed major refactoring to streamline generators and DRY things up!
