@@ -17,11 +17,17 @@ module Cream::Helper
       return if Labels.state_check Labels.extract(options), current_user
       yield 
     end
-    
+
     # does the user have ANY of the given roles?
     # Uses generic roles API    
     def has_role? user_role
       current_user && current_user.has_role?(user_role)
+    end
+    
+    # does the user have ANY of the given roles?
+    # Uses generic roles API    
+    def has_any_role? user_role
+      current_user && current_user.has_any_role?(user_role)
     end
 
     # does the user have ALL of the given roles?
@@ -47,11 +53,13 @@ module Cream::Helper
       user_roles = user_roles.flatten
       yield if has_roles?(user_roles) && block
     end 
+    alias_method :when_user_is, :for_roles
 
     def for_any_role *user_roles, &block
       user_roles = user_roles.flatten
-      yield if has_role?(user_roles) && block
+      yield if has_any_role?(user_roles) && block
     end 
+    alias_method :when_user_is_any_of, :for_any_role
 
     def for_role user_role, &block     
       if is_negation_role?(user_role) 
@@ -60,6 +68,7 @@ module Cream::Helper
       end
       yield if has_role?(user_role) && block
     end 
+    
     
     # execute block if user DOES NOT have any of the given roles
     def not_for_roles(*user_roles, &block)            
@@ -73,7 +82,8 @@ module Cream::Helper
         return
       end
       yield if !has_role?(user_role) && block
-    end        
+    end
+    alias_method :when_user_is_not, :not_for_roles
 
     protected 
     
