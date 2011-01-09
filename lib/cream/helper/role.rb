@@ -36,13 +36,19 @@ module Cream::Helper
       current_user && current_user.has_roles?(roles.flat_uniq)
     end
 
+    # using group membership as guard
+
     def for_user_in_group name, &block
+      yield if current_user && current_user.is_in_group?(name)
     end
-    alias_method :when_user_in_group, :for_user_in_group
+
+    def for_user_in_groups *names, &block
+      yield if current_user && current_user.is_in_group?(names.flat_uniq)
+    end
 
     def for_user_in_any_group *names, &block
+      yield if current_user && current_user.is_in_any_groups?(names.flat_uniq)
     end
-    alias_method :when_user_in_any_group_of, :for_user_in_any_group
 
     # returns true if the current user owns the object
     # tries default 'owner' relations if none given as an argument
@@ -58,13 +64,13 @@ module Cream::Helper
 
     # execute block if user DOES have any of the given roles
     def for_roles *user_roles, &block
-      user_roles = user_roles.flatten
+      user_roles = user_roles.flat_uniq
       yield if has_roles?(user_roles) && block
     end 
     alias_method :when_user_is, :for_roles
 
     def for_any_role *user_roles, &block
-      user_roles = user_roles.flatten
+      user_roles = user_roles.flat_uniq
       yield if has_any_role?(user_roles) && block
     end 
     alias_method :when_user_is_any_of, :for_any_role
@@ -80,7 +86,7 @@ module Cream::Helper
     
     # execute block if user DOES NOT have any of the given roles
     def not_for_roles(*user_roles, &block)            
-      user_roles = user_roles.flatten
+      user_roles = user_roles.flat_uniq
       yield if !has_roles?(user_roles) && block
     end        
 
