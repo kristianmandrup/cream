@@ -15,7 +15,7 @@ module Cream
       end
       
       def has_user_model?
-        model_file?(user_class)
+        model_file?(user_class.as_filename)
       end
 
       def set_orm

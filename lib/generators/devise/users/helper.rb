@@ -7,8 +7,10 @@ module DeviseUserGenerator
       }
     end
 
-    def inherit_model hash                         
-      File.replace_content_from model_file_name(subclass(hash).as_filename), :where => /class #{admin_class_name}/, :with => "class #{admin_class_name} < #{superclass hash}"
+    def inherit_model hash                      
+      class_name = subclass(hash)   
+      superclass_name = superclass(hash)
+      File.replace_content_from model_file_name(class_name.as_filename), :where => /class #{class_name}/, :with => "class #{class_name} < #{superclass_name}"
     end
 
     def superclass hash
@@ -24,11 +26,11 @@ module DeviseUserGenerator
     end  
 
     def has_admin_model?
-      has_model? admin_class
+      has_model? admin_class.as_filename
     end
 
     def has_user_model?
-      has_model? user_class        
+      has_model? user_class.as_filename        
     end
 
     def user_generator 
@@ -38,7 +40,7 @@ module DeviseUserGenerator
     def has_devise_user? user
       return true if is_admin?(user) && !admin_class
       begin
-        read_model(user) =~ /devise/
+        read_model(user.as_filename) =~ /devise/
       rescue Exception => e
         logger.info "Exception for #has_devise_user? #{user}: #{e.message}"
         false
