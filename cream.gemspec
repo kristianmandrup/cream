@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.8.7"
+  s.version = "0.8.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
@@ -54,6 +54,7 @@ Gem::Specification.new do |s|
     "lib/cream/view/user_action_menu.rb",
     "lib/generators/cancan/config/config_generator.rb",
     "lib/generators/cream/app/app_generator.rb",
+    "lib/generators/cream/core_ext.rb",
     "lib/generators/cream/full_config/full_config_generator.rb",
     "lib/generators/cream/helpers/all.rb",
     "lib/generators/cream/helpers/args_helper.rb",
@@ -141,7 +142,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<cancan>, [">= 1.4.0"])
       s.add_runtime_dependency(%q<rails>, [">= 3.0.1"])
       s.add_runtime_dependency(%q<rails3_artifactor>, [">= 0.3.2"])
-      s.add_runtime_dependency(%q<logging_assist>, ["~> 0.1.6"])
+      s.add_runtime_dependency(%q<logging_assist>, [">= 0.2.0"])
       s.add_runtime_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
       s.add_runtime_dependency(%q<sugar-high>, ["~> 0.3.1"])
       s.add_development_dependency(%q<rspec>, [">= 2.0.1"])
@@ -159,9 +160,9 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<cancan>, [">= 1.4.0"])
       s.add_runtime_dependency(%q<rails>, [">= 3.0.1"])
       s.add_runtime_dependency(%q<rails3_artifactor>, ["~> 0.3.2"])
-      s.add_runtime_dependency(%q<logging_assist>, ["~> 0.1.6"])
+      s.add_runtime_dependency(%q<logging_assist>, [">= 0.1.6"])
       s.add_runtime_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
-      s.add_runtime_dependency(%q<sugar-high>, ["~> 0.3.1"])
+      s.add_runtime_dependency(%q<sugar-high>, [">= 0.3.1"])
     else
       s.add_dependency(%q<devise-links>, [">= 0.2.0"])
       s.add_dependency(%q<cancan-rest-links>, [">= 0.2.0"])
@@ -172,7 +173,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<cancan>, [">= 1.4.0"])
       s.add_dependency(%q<rails>, [">= 3.0.1"])
       s.add_dependency(%q<rails3_artifactor>, [">= 0.3.2"])
-      s.add_dependency(%q<logging_assist>, ["~> 0.1.6"])
+      s.add_dependency(%q<logging_assist>, [">= 0.2.0"])
       s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
       s.add_dependency(%q<sugar-high>, ["~> 0.3.1"])
       s.add_dependency(%q<rspec>, [">= 2.0.1"])
@@ -190,9 +191,9 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<cancan>, [">= 1.4.0"])
       s.add_dependency(%q<rails>, [">= 3.0.1"])
       s.add_dependency(%q<rails3_artifactor>, ["~> 0.3.2"])
-      s.add_dependency(%q<logging_assist>, ["~> 0.1.6"])
+      s.add_dependency(%q<logging_assist>, [">= 0.1.6"])
       s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
-      s.add_dependency(%q<sugar-high>, ["~> 0.3.1"])
+      s.add_dependency(%q<sugar-high>, [">= 0.3.1"])
     end
   else
     s.add_dependency(%q<devise-links>, [">= 0.2.0"])
@@ -204,7 +205,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<cancan>, [">= 1.4.0"])
     s.add_dependency(%q<rails>, [">= 3.0.1"])
     s.add_dependency(%q<rails3_artifactor>, [">= 0.3.2"])
-    s.add_dependency(%q<logging_assist>, ["~> 0.1.6"])
+    s.add_dependency(%q<logging_assist>, [">= 0.2.0"])
     s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
     s.add_dependency(%q<sugar-high>, ["~> 0.3.1"])
     s.add_dependency(%q<rspec>, [">= 2.0.1"])
@@ -222,9 +223,9 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<cancan>, [">= 1.4.0"])
     s.add_dependency(%q<rails>, [">= 3.0.1"])
     s.add_dependency(%q<rails3_artifactor>, ["~> 0.3.2"])
-    s.add_dependency(%q<logging_assist>, ["~> 0.1.6"])
+    s.add_dependency(%q<logging_assist>, [">= 0.1.6"])
     s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
-    s.add_dependency(%q<sugar-high>, ["~> 0.3.1"])
+    s.add_dependency(%q<sugar-high>, [">= 0.3.1"])
   end
 end
 
