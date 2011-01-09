@@ -8,7 +8,7 @@ module DeviseUserGenerator
     end
 
     def inherit_model hash                         
-      File.replace_content_from model_file_name(subclass hash), :where => /class #{admin_class_name}/, :with => "class #{admin_class_name} < #{superclass hash}"
+      File.replace_content_from model_file_name(subclass(hash).as_filename), :where => /class #{admin_class_name}/, :with => "class #{admin_class_name} < #{superclass hash}"
     end
 
     def superclass hash
@@ -20,7 +20,7 @@ module DeviseUserGenerator
     end
 
     def remove_inheritance user
-      File.remove_content_from model_file_name(user), :where => /<\s*ActiveRecord::Base/
+      File.remove_content_from model_file_name(user.as_filename), :where => /<\s*ActiveRecord::Base/
     end  
 
     def has_admin_model?

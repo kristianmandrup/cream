@@ -113,18 +113,22 @@ module Devise
 
       def customize_note
         %q{
-  Customize controller action if needed to render individual registration form for each role
-  Example:
+Customize controller action if needed to render individual registration form for each role
 
-  routes.rb
-    match "/editors/sign_up" => "user_registrations#new_editor", :as => :editor_signup
+Example:
 
-  user_registrations_controller.rb
-    def new_editor
-      build_resource({})
-    end
+- routes.rb:
 
-  Create the registration form for the editor user in 'views/user_registrations/new_editor.html.erb'  
+  match "/editors/sign_up" => "user_registrations#new_editor", :as => :editor_signup
+
+- user_registrations_controller.rb:
+
+  def new_editor
+    build_resource({})
+  end
+
+Then create the registration form (view) for the :editor user in 'views/user_registrations/new_editor.html.erb'  
+See comments in routes.rb for more info. There is also a page on the wiki about advanced routes customization.
 }
       end
       

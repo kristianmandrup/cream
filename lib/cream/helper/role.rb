@@ -36,6 +36,14 @@ module Cream::Helper
       current_user && current_user.has_roles?(roles.flat_uniq)
     end
 
+    def for_user_in_group name, &block
+    end
+    alias_method :when_user_in_group, :for_user_in_group
+
+    def for_user_in_any_group *names, &block
+    end
+    alias_method :when_user_in_any_group_of, :for_user_in_any_group
+
     # returns true if the current user owns the object
     # tries default 'owner' relations if none given as an argument
     def owner? obj, relation=nil
