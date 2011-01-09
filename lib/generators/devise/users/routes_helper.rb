@@ -7,8 +7,10 @@ module DeviseUserGenerator
     end
 
     def routes_configure!
+      routes_content = routes_for_roles
+      puts "Insert into routes: #{routes_content}"
       insert_into_routes do
-        routes_for_roles
+        routes_content
       end
     end
 
@@ -23,9 +25,22 @@ module DeviseUserGenerator
     end
 
     def roles_routes 
-      roles_except(:guest).map do |role|
-        next if read_routes_file =~ /devise_for :#{role.pluralize}/
-        %Q{
+      roles_to_route = roles_except(:guest).delete_if do |role|        
+        is_there = !(read_routes_file =~ /devise_for :#{role.pluralize}, :class_name =>/).nil?
+        logger.debug "not doing devise routing for #{role.pluralize} as it is already there" if is_there
+        is_there
+      end
+
+      roles_to_route.each do |role|
+        if read_routes_file =~ /devise_for :#{role.pluralize}/          
+          logger.debug "removing old devise routing for: #{role}"
+          File.remove_content_from routes_file, :where => /devise_for :#{role.pluralize}/
+        end
+      end
+
+      logger.debug "performing devise role routing for: #{roles_to_route}"
+      roles_to_route.map do |role|      
+          %Q{
   devise_for :#{role.pluralize}, :class_name => '#{role.classify}'
   as :#{role} do
     match "/#{role.pluralize}/sign_up" => "devise/registrations#new", :as => :#{role}_signup
