@@ -82,8 +82,9 @@ module Cream
       end
 
       def run_migrations
-        return if orm != 'active_record'
-        execute "rake db:migrate"
+        return if orm != :active_record
+        logger.debug "Running DB migrations"          
+        rgen "rake db:migrate"
       end
 
       def run_app

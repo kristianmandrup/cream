@@ -1,3 +1,4 @@
+require 'generators/cream/core_ext'
 require_all File.dirname(__FILE__)
 
 module Cream
