@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.8.6"
+  s.version = "0.8.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2011-01-04}
-  s.description = %q{Provides assistance for setting up Session, Role and Permission systems for a Rails 3 app. Support for multiple ORMs}
+  s.date = %q{2011-01-09}
+  s.description = %q{An integrated Authentication, Authorization and Roles solution for your Rails 3 app with support for multiple ORMs}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
     "LICENSE",
@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
     ".document",
     ".rspec",
     "Changelog.txt",
+    "Design Ideas.textile",
     "Gemfile",
     "LICENSE",
     "README.textile",
@@ -29,6 +30,7 @@ Gem::Specification.new do |s|
     "app/views/cream/menu/_admin_login_items.html.erb",
     "app/views/cream/menu/_login_items.html.erb",
     "app/views/cream/menu/_registration_items.html.erb",
+    "config/locales/cream.da.yml",
     "config/locales/cream.en.yml",
     "cream.gemspec",
     "features/FEATURE_NOTES.txt",
@@ -40,6 +42,7 @@ Gem::Specification.new do |s|
     "lib/cream/configure/after_init/role_config.rb",
     "lib/cream/configure/rails.rb",
     "lib/cream/controller/ability.rb",
+    "lib/cream/controller/application_controller.rb",
     "lib/cream/helper/host.rb",
     "lib/cream/helper/role.rb",
     "lib/cream/namespaces.rb",
@@ -55,20 +58,28 @@ Gem::Specification.new do |s|
     "lib/generators/cream/helpers/all.rb",
     "lib/generators/cream/helpers/args_helper.rb",
     "lib/generators/cream/helpers/execute_helper.rb",
+    "lib/generators/cream/helpers/gemfile_helper.rb",
     "lib/generators/cream/helpers/orm_helper.rb",
     "lib/generators/cream/helpers/strategy_helper.rb",
     "lib/generators/cream/views/haml_util.rb",
     "lib/generators/cream/views/views_generator.rb",
-    "lib/generators/cream_refactor.rb",
     "lib/generators/devise/config/app_helper.rb",
     "lib/generators/devise/config/config_generator.rb",
-    "lib/generators/devise/config/gem_helper.rb",
+    "lib/generators/devise/config/gem_config_helper.rb",
+    "lib/generators/devise/customize/customize_generator.rb",
+    "lib/generators/devise/customize/customize_messages.rb",
+    "lib/generators/devise/customize/helpers/query_customizers.rb",
+    "lib/generators/devise/customize/helpers/recover_login.rb",
+    "lib/generators/devise/customize/helpers/username_helper.rb",
     "lib/generators/devise/users/helper.rb",
     "lib/generators/devise/users/routes_helper.rb",
     "lib/generators/devise/users/users_generator.rb",
     "lib/generators/permits/config/config_generator.rb",
     "lib/generators/roles/config/config_generator.rb",
     "log/development.log",
+    "sandbox/any_user.rb",
+    "sandbox/cream_refactor.rb",
+    "sandbox/str_test.rb",
     "sandbox/test.rb",
     "spec/configure_helper.rb",
     "spec/cream/configure/rails_custom_roles_spec.rb",
@@ -88,19 +99,13 @@ Gem::Specification.new do |s|
     "spec/generators/permits/config/permits_config_generator_spec.rb",
     "spec/generators/roles/config/roles_config_generator_spec.rb",
     "spec/spec_helper.rb",
-    "wiki/CONFIG_GENERATOR.txt",
-    "wiki/DESIGN.txt",
-    "wiki/INSTALLATION.txt",
-    "wiki/PERMITS.txt",
-    "wiki/ROLE_STRATEGIES.txt",
-    "wiki/SPEC_NOTES.txt",
-    "wiki/VIEWS_GENERATOR.txt",
-    "wiki/VIEW_HELPERS.txt"
+    "wiki/Cream-generators-overview.textile",
+    "wiki/How to gollum wiki.txt"
   ]
-  s.homepage = %q{http://github.com/kristianmandrup/devise-assistant}
+  s.homepage = %q{http://github.com/kristianmandrup/cream}
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Integrates Devise, Roles and CanCan with Permits for a Rails 3 app}
+  s.summary = %q{Integrates Devise, CanCan with permits and Roles generic for multiple ORMs}
   s.test_files = [
     "spec/configure_helper.rb",
     "spec/cream/configure/rails_custom_roles_spec.rb",
@@ -131,6 +136,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<cancan-rest-links>, [">= 0.2.0"])
       s.add_runtime_dependency(%q<cancan-permits>, [">= 0.3.4"])
       s.add_runtime_dependency(%q<require_all>, ["~> 1.2.0"])
+      s.add_runtime_dependency(%q<colorize>, [">= 0.5.8"])
       s.add_runtime_dependency(%q<devise>, [">= 1.1.5"])
       s.add_runtime_dependency(%q<cancan>, [">= 1.4.0"])
       s.add_runtime_dependency(%q<rails>, [">= 3.0.1"])
@@ -145,13 +151,14 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<devise-spec>, [">= 0.1.3"])
       s.add_development_dependency(%q<roles-spec>, [">= 0.1.3"])
       s.add_runtime_dependency(%q<require_all>, ["~> 1.2.0"])
-      s.add_runtime_dependency(%q<devise-links>, [">= 0.2.0"])
-      s.add_runtime_dependency(%q<cancan-rest-links>, [">= 0.2.0"])
-      s.add_runtime_dependency(%q<cancan-permits>, [">= 0.3.2"])
+      s.add_runtime_dependency(%q<colorize>, [">= 0.5.8"])
+      s.add_runtime_dependency(%q<devise-links>, [">= 0.2.1"])
+      s.add_runtime_dependency(%q<cancan-rest-links>, [">= 0.2.1"])
+      s.add_runtime_dependency(%q<cancan-permits>, [">= 0.3.7"])
       s.add_runtime_dependency(%q<devise>, [">= 1.1.5"])
       s.add_runtime_dependency(%q<cancan>, [">= 1.4.0"])
       s.add_runtime_dependency(%q<rails>, [">= 3.0.1"])
-      s.add_runtime_dependency(%q<rails3_artifactor>, ["~> 0.3.1"])
+      s.add_runtime_dependency(%q<rails3_artifactor>, ["~> 0.3.2"])
       s.add_runtime_dependency(%q<logging_assist>, ["~> 0.1.6"])
       s.add_runtime_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
       s.add_runtime_dependency(%q<sugar-high>, ["~> 0.3.1"])
@@ -160,6 +167,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<cancan-rest-links>, [">= 0.2.0"])
       s.add_dependency(%q<cancan-permits>, [">= 0.3.4"])
       s.add_dependency(%q<require_all>, ["~> 1.2.0"])
+      s.add_dependency(%q<colorize>, [">= 0.5.8"])
       s.add_dependency(%q<devise>, [">= 1.1.5"])
       s.add_dependency(%q<cancan>, [">= 1.4.0"])
       s.add_dependency(%q<rails>, [">= 3.0.1"])
@@ -174,13 +182,14 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<devise-spec>, [">= 0.1.3"])
       s.add_dependency(%q<roles-spec>, [">= 0.1.3"])
       s.add_dependency(%q<require_all>, ["~> 1.2.0"])
-      s.add_dependency(%q<devise-links>, [">= 0.2.0"])
-      s.add_dependency(%q<cancan-rest-links>, [">= 0.2.0"])
-      s.add_dependency(%q<cancan-permits>, [">= 0.3.2"])
+      s.add_dependency(%q<colorize>, [">= 0.5.8"])
+      s.add_dependency(%q<devise-links>, [">= 0.2.1"])
+      s.add_dependency(%q<cancan-rest-links>, [">= 0.2.1"])
+      s.add_dependency(%q<cancan-permits>, [">= 0.3.7"])
       s.add_dependency(%q<devise>, [">= 1.1.5"])
       s.add_dependency(%q<cancan>, [">= 1.4.0"])
       s.add_dependency(%q<rails>, [">= 3.0.1"])
-      s.add_dependency(%q<rails3_artifactor>, ["~> 0.3.1"])
+      s.add_dependency(%q<rails3_artifactor>, ["~> 0.3.2"])
       s.add_dependency(%q<logging_assist>, ["~> 0.1.6"])
       s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
       s.add_dependency(%q<sugar-high>, ["~> 0.3.1"])
@@ -190,6 +199,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<cancan-rest-links>, [">= 0.2.0"])
     s.add_dependency(%q<cancan-permits>, [">= 0.3.4"])
     s.add_dependency(%q<require_all>, ["~> 1.2.0"])
+    s.add_dependency(%q<colorize>, [">= 0.5.8"])
     s.add_dependency(%q<devise>, [">= 1.1.5"])
     s.add_dependency(%q<cancan>, [">= 1.4.0"])
     s.add_dependency(%q<rails>, [">= 3.0.1"])
@@ -204,13 +214,14 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<devise-spec>, [">= 0.1.3"])
     s.add_dependency(%q<roles-spec>, [">= 0.1.3"])
     s.add_dependency(%q<require_all>, ["~> 1.2.0"])
-    s.add_dependency(%q<devise-links>, [">= 0.2.0"])
-    s.add_dependency(%q<cancan-rest-links>, [">= 0.2.0"])
-    s.add_dependency(%q<cancan-permits>, [">= 0.3.2"])
+    s.add_dependency(%q<colorize>, [">= 0.5.8"])
+    s.add_dependency(%q<devise-links>, [">= 0.2.1"])
+    s.add_dependency(%q<cancan-rest-links>, [">= 0.2.1"])
+    s.add_dependency(%q<cancan-permits>, [">= 0.3.7"])
     s.add_dependency(%q<devise>, [">= 1.1.5"])
     s.add_dependency(%q<cancan>, [">= 1.4.0"])
     s.add_dependency(%q<rails>, [">= 3.0.1"])
-    s.add_dependency(%q<rails3_artifactor>, ["~> 0.3.1"])
+    s.add_dependency(%q<rails3_artifactor>, ["~> 0.3.2"])
     s.add_dependency(%q<logging_assist>, ["~> 0.1.6"])
     s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
     s.add_dependency(%q<sugar-high>, ["~> 0.3.1"])
