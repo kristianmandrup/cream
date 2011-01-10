@@ -79,6 +79,8 @@ The following Rails 3 demo apps use Cream 0.7.7 and above and were created aroun
 * "Cream app with Mongoid":https://github.com/kristianmandrup/cream-app-mongoid
 * "Cream app with Mongo Mapper":https://github.com/kristianmandrup/cream-app-mongo_mapper
 
+You are most welcome to publish your own demo app with a later version of Cream. These apps need to be updated and demonstrate the real functionality of using the various APIs and DSLs that come with Cream and its supporting libs ;)
+
 h2. Authentication systems
 
 Cream targets "Devise":http://github.com/plataformatec/devise as the Authentication system of choice
@@ -97,7 +99,7 @@ Devise Configuration options:
 10. Validatable: provides validations of email and password. It’s optional and can be customized, so you’re able to define your own validations.
 11. Lockable: locks an account after a specified number of failed sign-in attempts. Can unlock via email or after a specified time period.
 
-Configuration is done using the _devise_ statement in the User class. 
+Configuration is done using the _devise_ statement in the User class (and subclasses). 
 
 Example: Use _Confirmable_ and _Validatable_ devise options/strategies
 
@@ -107,7 +109,7 @@ class User
 end
 </pre>
 
-Note: For Active Record your User table (via migration fx) must support the columns needed for the devise options you are using.
+Note: For Active Record your User table (via migration fx) must support the columns needed for the devise options you are using (See Devise documentation).
 
 h3. Devise links
 
@@ -167,10 +169,25 @@ Then you can handle any user with regards to his/her role group relationship lik
 
 <pre>
   # do this only for users in the admin role group (user has either :admin or :super_admin role) 
-  current_user.is_in_group? :admin do
+  current_user.is_in_group? :admins do
     ...
   end
 </pre>
+
+In your views you can guard view code with Role Group conditions:
+
+<pre>
+  # do this only for users in the admin role group (user has either :admin or :super_admin role) 
+  for_user_in_group :customers do
+    ...
+  end
+
+  # Cream 0.8.9 (edge)
+  not_for_user_in_group :admins do
+    ...
+  end
+</pre>
+
 
 h2. ORMs
 

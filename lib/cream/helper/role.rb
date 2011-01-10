@@ -50,6 +50,19 @@ module Cream::Helper
       yield if current_user && current_user.is_in_any_groups?(names.flat_uniq)
     end
 
+    def not_for_user_in_group name, &block
+      yield if current_user && !current_user.is_in_group?(name)
+    end
+
+    def not_for_user_in_groups *names, &block
+      yield if current_user && !current_user.is_in_group?(names.flat_uniq)
+    end
+
+    def not_for_user_in_any_group *names, &block
+      yield if current_user && !current_user.is_in_any_groups?(names.flat_uniq)
+    end
+
+
     # returns true if the current user owns the object
     # tries default 'owner' relations if none given as an argument
     def owner? obj, relation=nil
