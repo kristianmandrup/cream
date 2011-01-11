@@ -92,7 +92,7 @@ require "rails/test_unit/railtie"
   end  
 
   def has_any_role? *roles
-    roles.flat_uniq..to_symbols.include? :guest
+    roles.flat_uniq.to_symbols.include?(:guest)
   end  
 }
         end
