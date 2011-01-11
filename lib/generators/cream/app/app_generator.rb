@@ -74,7 +74,13 @@ require "rails/test_unit/railtie"
       def create_guest_user
         remove_model :guest if has_model?(:guest)
         create_model :guest do
-          %Q{
+          %Q{ 
+  # modify this as needed for now!
+  # attr_accessor :login, :username, :email
+  # attr_accessor :password            
+  # 
+  # attr_accessible :login
+            
   def self.create
     Guest.new
   end
