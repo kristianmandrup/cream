@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
 
   def current_user
-    @cu ||= super           
     if defined? Cream::Role
       # Try to get instance of any of the available roles as the current user
       Cream::Role.available.each do |role|
