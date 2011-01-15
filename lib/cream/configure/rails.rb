@@ -20,10 +20,7 @@ Rails3::Plugin::Extender.new do
   
   after :initialize do    
     load File.dirname(__FILE__) + '/after_init/role_config.rb'
-    # 
-    # extend_rails :view do
-    #   extend_from_module Cream::View, :role
-    #   extend_from_module Cream::Helper, :role
-    # end
+    
+    ApplicationController.extend(Cream::UserControl) if defined? Cream::UserControl        
   end
 end

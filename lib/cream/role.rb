@@ -1,7 +1,16 @@
 module Cream
   class << self
-    attr_accessor :available_roles  
+    attr_accessor :available_roles
+    attr_accessor :available_user_types
   end
+
+  module UserTypes
+    def self.available
+      return Cream.available_user_types if Cream.available_user_types.present?
+      return Cream.user_types if Cream.user_types.present?
+      puts "Cream has not been configured with any devise User Types"
+      []
+    end
   
   module Role
     def self.available
