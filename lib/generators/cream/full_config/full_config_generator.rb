@@ -15,30 +15,31 @@ module Cream
       class_option  :strategy,      :type => :string,   :default => 'role_string',    :desc => "Role strategy to use"
 
       # Create Admin user
-      class_option :user_class,       :type => :string,   :default => 'User',           :desc => "User class"
-      class_option :admin_class,      :type => :string,   :default => nil,              :desc => "Admin user class"
-      class_option :role_class,       :type => :string,   :default => 'Role',           :desc => "Role class"
-      class_option :user_role_class,  :type => :string,   :default => 'UserRole',       :desc => "UserRole class"
+      class_option :user_class,       :type => :string,   :default => 'User',           :desc => "User class", :aliases => '-u'
+      class_option :role_class,       :type => :string,   :default => 'Role',           :desc => "Role class", :aliases => '-rc'
+      class_option :user_role_class,  :type => :string,   :default => 'UserRole',       :desc => "UserRole class", :aliases => '-urc'
 
       # Roles
-      class_option :default_roles,  :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest"
-      class_option :roles,          :type => :array,    :default => [],               :desc => "Roles to create"
+      class_option :default_roles,  :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest", :aliases => '-dr'
+      class_option :roles,          :type => :array,    :default => [],               :desc => "Roles to create", :aliases => '-r'
+
+      class_option :user_types,     :type => :array,    :default => ['Admin'],        :desc => "Devise Users to create that override the generic base User", :aliases => '-ut'
 
       # ORM to use
-      class_option :orm,            :type => :string,   :default => 'active_record',  :desc => "ORM to use"
+      class_option :orm,            :type => :string,   :default => 'active_record',  :desc => "ORM to use", :aliases => '-o'
 
-      class_option :locales,        :type => :array,    :default => ['all'],          :desc => "List of locales - 'all' means ALL locales"
-      class_option :logfile,        :type => :string,   :default => nil,              :desc => "Logfile location"
+      class_option :locales,        :type => :array,    :default => ['all'],          :desc => "List of locales - 'all' means ALL locales", :aliases => '-l'
+      class_option :logfile,        :type => :string,   :default => nil,              :desc => "Logfile location", :aliases => '-lf'
 
-      class_option :configure,      :type => :array,    :default => [],               :desc => "Finetune which generators to run: app, permits, roles, devise, cancan"
-      class_option :gems,           :type => :boolean,  :default => true,             :desc => "Add gems to gemfile?"       
-      class_option :migrations,     :type => :boolean,  :default => false,            :desc => "Autorun database migrations?", :aliases => '-m'
+      class_option :configure,      :type => :array,    :default => [],               :desc => "Finetune which generators to run: app, permits, roles, devise, cancan", , :aliases => '-c'
+      class_option :gems,           :type => :boolean,  :default => true,             :desc => "Add gems to gemfile?", :aliases => '-g'
+      class_option :migrations,     :type => :boolean,  :default => false,            :desc => "Auto-run database migrations?", :aliases => '-m'
 
       # Devise customize
-      class_option :customize,   :type => :array,    :default => [],          :desc => "Which elements of devise to customize (customize generator)"      
+      class_option :customize,   :type => :array,    :default => [],          :desc => "Which elements of devise to customize (customize generator)", :aliases => '-cust'
       
-      class_option :user_name,   :type => :boolean,  :default => true,        :desc => "Add username as login option"
-      class_option :login_type,  :type => :string,   :default => 'generic',   :desc => "How to login: 'email', 'username', 'generic' (i.e 'username' or 'email')"
+      class_option :user_name,   :type => :boolean,  :default => true,        :desc => "Add username as login option", :aliases => '-un'
+      class_option :login_type,  :type => :string,   :default => 'generic',   :desc => "How to login: 'email', 'username', 'generic' (i.e 'username' or 'email')", :aliases => '-lt'
 
       def main 
         execute_generator if validate_orm && validate_strategy
@@ -92,8 +93,8 @@ module Cream
       end
 
       def run_devise
-        rgen "devise:config #{user_class} --orm #{orm} #{admin_user_option}"
-        rgen "devise:users --orm #{orm} --roles #{roles_list} #{admin_user_option} --no-gems"
+        rgen "devise:config #{user_class} --orm #{orm}" # --user-types #{user_types}
+        rgen "devise:users --orm #{orm} --roles #{roles_list} --user-types #{user_types} --no-gems"
 
         say("Devise credentials not customized since --customize option was not used to say so!", :green) if !customize_credentials?
 
@@ -125,6 +126,10 @@ require 'cream/configure/rails'
 
       def customize_credentials?
         customize.include? 'credentials'
+      end
+
+      def user_types
+        options[:user_types]
       end
 
       def customize

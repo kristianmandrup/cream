@@ -21,10 +21,12 @@ module Devise
       # ORM to use
       class_option :orm,            :type => :string,   :default => 'active_record',  :desc => "ORM to use"
       class_option :roles,          :type => :array,    :default => [],               :desc => "Roles"
-      class_option :default_roles,  :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest"      
+      class_option :default_roles,  :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest"
+
+      class_option :user_types,     :type => :array,    :default => ['admin'],        :desc => "Devise Users to create that override the generic base User", :aliases => '-ut'
 
       class_option :logfile,        :type => :string,   :default => nil,              :desc => "Logfile location" 
-      class_option :gems,           :type => :boolean,  :default => false,            :desc => "Add gems to gemfile?"       
+      class_option :gems,           :type => :boolean,  :default => false,            :desc => "Add gems to gemfile?"
       
       def configure_devise_users      
       	logger.add_logfile :logfile => logfile if logfile
@@ -40,12 +42,9 @@ module Devise
         # # if User model is NOT configured with devise strategy
         insert_devise_strategy user_class, :defaults if !has_devise_user? user_class
       
-        # create Admin User model for with devise strategy if admin user should be present
-        devise_user admin_user if admin_user?
-
         # create role specific user inheriting from base User for each role
-        roles.each do |role|
-          create_user(role) if !has_model? role
+        user_types.each do |user_type|
+          create_user(user_type) if !has_model?(user_type.as_filename)
         end
         
         routes_configure!
@@ -68,7 +67,7 @@ module Devise
       def create_user name
         return if name.to_sym == :guest
 
-        logger.debug "create_user: #{name}"
+        logger.debug "create devise user: #{name}"
         create_user_model name
         # remove any current inheritance
         remove_inheritance name
@@ -104,16 +103,15 @@ module Devise
         create_devise_model user_class
       end
 
-      def devise_admin_user
-        # if app does NOT have a Admin model
-        create_user(admin_class) if !has_admin_model?
+      def user_types
+        options[:user_types]
       end
 
       private
 
       def customize_note
         %q{
-Customize controller action if needed to render individual registration form for each role
+Customize controller action if needed to render an individual registration form for each devise User type
 
 Example:
 

@@ -19,7 +19,6 @@ module Devise
       class_option :orm,          :type => :string,   :default => 'active_record',   :desc => "ORM to use"
       class_option :logfile,      :type => :string,   :default => nil,               :desc => "Logfile location" 
       class_option :gems,         :type => :boolean,  :default => true,              :desc => "Add gems to gemfile?"
-      class_option :admin_user,   :type => :boolean,  :default => false,             :desc => "Setup for admin user"
 
       def configure_devise
       	logger.add_logfile :logfile => logfile if logfile	        
