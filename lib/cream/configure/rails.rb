@@ -9,7 +9,8 @@ Rails3::Plugin::Extender.new do
   extend_rails :controller do
     extend_from_module Cream, :role
     extend_from_module Cream::Controller, :ability
-    extend_from_module Cream::Helper, :role, :host
+    extend_from_module Cream::Helper, :role, :host 
+    extend_from_module Cream::UserControl
   end  
 
   # extend action_view with methods from some modules
@@ -21,6 +22,6 @@ Rails3::Plugin::Extender.new do
   after :initialize do    
     load File.dirname(__FILE__) + '/after_init/role_config.rb'
     
-    ApplicationController.extend(Cream::UserControl) if defined? Cream::UserControl        
+    # ApplicationController.extend(Cream::UserControl) if defined? Cream::UserControl        
   end
 end
