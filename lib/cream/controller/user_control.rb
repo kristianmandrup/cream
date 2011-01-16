@@ -2,7 +2,7 @@ module Cream
   module UserControl
     def current_user
       return session[:the_user] if session[:the_user]
-      if defined? Cream::Role
+      if defined? Cream::UserTypes
         # Try to get instance of any of the available roles as the current user
         Cream::UserTypes.available.each do |user_type|
           method = :"current_#{role}"         

@@ -11,6 +11,7 @@ module Cream
       puts "Cream has not been configured with any devise User Types"
       []
     end
+  end
   
   module Role
     def self.available
