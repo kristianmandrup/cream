@@ -82,7 +82,7 @@ h3. The path towards 1.0
 
 I will continue the 0.8.9.x line only with bug fixes and other minor fixes or additions.
 
-The 0.9 line will be a total redesign/refactoring using what I am learning from reading _Jose Valim's_ book *Crafting Rails Applications*. I will create a new project using _enginex_, complete with one or more dummy apllications and take it from there.
+The 0.9 line will likely be a total redesign/refactoring using what I am learning from reading _Jose Valim's_ book *Crafting Rails Applications*. I will create a new project using _enginex_, complete with one or more dummy apllications and take it from there.
 
 h2. Cream edge, debugging and assisting developing the framework
 

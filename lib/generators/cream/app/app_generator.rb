@@ -75,13 +75,10 @@ require "rails/test_unit/railtie"
         remove_model :guest if has_model?(:guest)
         create_model :guest do
           %Q{ 
-  # modify this as needed
-  # attr_accessor :login, :username, :email
-  # attr_accessor :password            
-  # 
-  # attr_accessible :login
-  # attr_accessor :country, :country_code, :language, :language_code
-
+  # modify this as needed (for any forms using current_user)
+  # attr_accessor :login, :password 
+  # attr_accessor :username, :email
+  # attr_accessor :country, :country_code, :language, :language_code, :city
             
   def self.create options = {}    
     Guest.new options.merge(session[:guest_options] || {})
