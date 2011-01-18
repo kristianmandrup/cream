@@ -103,10 +103,6 @@ module Devise
         create_devise_model user_class
       end
 
-      def user_types
-        options[:user_types]
-      end
-
       private
 
       def customize_note

@@ -114,9 +114,10 @@ module Cream
       end
       
       def cream_initializer
-        create_initializer :cream do         
+        create_initializer :cream do
   %Q{Cream.setup do |config|
   config.roles = #{sym_roles.inspect} 
+  config.user_types = #{user_types_list}
 end
 
 require 'cream/configure/rails'
@@ -126,10 +127,6 @@ require 'cream/configure/rails'
 
       def customize_credentials?
         customize.include? 'credentials'
-      end
-
-      def user_types
-        options[:user_types]
       end
 
       def customize

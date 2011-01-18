@@ -50,12 +50,20 @@ module Cream
         options[:strategy]
       end        
 
+      def user_types
+        options[:user_types]
+      end        
+
       def admin_user?
         options[:admin_user]
       end
       
       def sym_roles
         roles.map(&:to_sym)
+      end
+
+      def user_types_list
+        user_types.map {|ut| "'#{ut}'"}.join(', ')
       end
 
       def user_class
