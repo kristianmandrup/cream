@@ -1,18 +1,33 @@
 module Cream
   module UserControl
-    def current_user
-      return session[:the_user] if session[:the_user]
-      if defined? Cream::UserTypes
-        # Try to get instance of any of the available roles as the current user
-        Cream::UserTypes.available.each do |user_type|
-          method = :"current_#{role}"         
-          if respond_to?(method)
-            session[:the_user] ||= send(method) 
-            return session[:the_user] if session[:the_user]           
-          end
+
+    def current_user   
+      # puts "current_user"
+      if !session[:user_id]
+        # puts "make guest"        
+        @guest ||= Guest.create(guest_options) 
+        # puts "guest: #{@guest}"
+        return @guest
+      end
+      if session[:user_id]  
+        begin
+          clazz = session[:user_class_name].constantize
+          @current_user ||= clazz.find session[:user_id] 
+          # puts "logged in user: #{@current_user}"
+          return @current_user
+        rescue Exception => e
+          puts "Error with current_user: user_class_name = '#{session[:user_class_name]}' error: #{e}"
         end
-      end    
-      session[:the_guest] ||= Guest.create if defined?(Guest)
+      end
+    end
+
+    def set_language language_code
+     current_user.language_code = language_code if current_user # for non-guest user
+     guest_options[:language_code] = language_code # for guest user
+    end    
+
+    def guest_options
+     session[:guest_options] ||= {}
     end
 
     def user_signed_in?
@@ -38,7 +53,9 @@ module Cream
       resource = args.last || resource_or_scope
       expire_session_data_after_sign_in!
       warden.set_user(resource, options.merge!(:scope => scope))
-      session[:the_guest] = nil
+      # set user id
+      session[:user_id] = resource.id
+      session[:user_class_name] = resource.class.name
     end
 
     # Sign out a given user or scope. This helper is useful for signing out an user
@@ -54,7 +71,9 @@ module Cream
       warden.user(scope) # Without loading user here, before_logout hook is not called
       warden.raw_session.inspect # Without this inspect here. The session does not clear.
       warden.logout(scope)
-      session[:the_user] = nil      
+      # user id
+      session[:user_id] = nil
+      @current_user = nil      
     end        
   end
 end
