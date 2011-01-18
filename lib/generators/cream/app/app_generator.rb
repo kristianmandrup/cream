@@ -111,12 +111,6 @@ require "rails/test_unit/railtie"
         end
         say "A Guest user model has been created. Users that have not signed in will get an instance of this class as the current_user."
       end
-
-      protected
-      
-      def guest_user?
-        options[:gust_user]
-      end      
     end
   end
 end

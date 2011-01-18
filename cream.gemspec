@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.8.9.1"
+  s.version = "0.8.9.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2011-01-15}
+  s.date = %q{2011-01-18}
   s.description = %q{An integrated Authentication, Authorization and Roles solution for your Rails 3 app with support for multiple ORMs}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -40,9 +40,10 @@ Gem::Specification.new do |s|
     "init.rb",
     "lib/cream.rb",
     "lib/cream/configure/after_init/role_config.rb",
+    "lib/cream/configure/engine.rb",
     "lib/cream/configure/rails.rb",
     "lib/cream/controller/ability.rb",
-    "lib/cream/controller/application_controller.rb",
+    "lib/cream/controller/user_control.rb",
     "lib/cream/helper/host.rb",
     "lib/cream/helper/role.rb",
     "lib/cream/namespaces.rb",

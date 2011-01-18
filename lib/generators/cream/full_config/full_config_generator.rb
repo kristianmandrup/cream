@@ -19,6 +19,8 @@ module Cream
       class_option :role_class,       :type => :string,   :default => 'Role',           :desc => "Role class", :aliases => '-rc'
       class_option :user_role_class,  :type => :string,   :default => 'UserRole',       :desc => "UserRole class", :aliases => '-urc'
 
+      class_option :guest_user,       :type => :boolean,  :default => true,             :desc => "Create guest user", :aliases => '-guest'
+
       # Roles
       class_option :default_roles,  :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest", :aliases => '-dr'
       class_option :roles,          :type => :array,    :default => [],               :desc => "Roles to create", :aliases => '-r'
@@ -31,7 +33,7 @@ module Cream
       class_option :locales,        :type => :array,    :default => ['all'],          :desc => "List of locales - 'all' means ALL locales", :aliases => '-l'
       class_option :logfile,        :type => :string,   :default => nil,              :desc => "Logfile location", :aliases => '-lf'
 
-      class_option :configure,      :type => :array,    :default => [],               :desc => "Finetune which generators to run: app, permits, roles, devise, cancan", , :aliases => '-c'
+      class_option :configure,      :type => :array,    :default => [],               :desc => "Finetune which generators to run: app, permits, roles, devise, cancan", :aliases => '-c'
       class_option :gems,           :type => :boolean,  :default => true,             :desc => "Add gems to gemfile?", :aliases => '-g'
       class_option :migrations,     :type => :boolean,  :default => false,            :desc => "Auto-run database migrations?", :aliases => '-m'
 
@@ -89,12 +91,12 @@ module Cream
       end
 
       def run_app
-        rgen "cream:app --orm #{orm}"
+        rgen "cream:app --orm #{orm} #{guest_user_option}"
       end
 
       def run_devise
         rgen "devise:config #{user_class} --orm #{orm}" # --user-types #{user_types}
-        rgen "devise:users --orm #{orm} --roles #{roles_list} --user-types #{user_types} --no-gems"
+        rgen "devise:users --orm #{orm} --roles #{roles_list} --user-types #{user_types_list} --no-gems"
 
         say("Devise credentials not customized since --customize option was not used to say so!", :green) if !customize_credentials?
 
@@ -117,12 +119,16 @@ module Cream
         create_initializer :cream do
   %Q{Cream.setup do |config|
   config.roles = #{sym_roles.inspect} 
-  config.user_types = #{user_types_list}
+  config.user_types = #{user_types_code}
 end
 
 require 'cream/configure/rails'
 }      
         end
+      end
+
+      def guest_user_option
+        "--guest-user" if guest_user?
       end
 
       def customize_credentials?

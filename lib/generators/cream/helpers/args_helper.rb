@@ -62,8 +62,16 @@ module Cream
         roles.map(&:to_sym)
       end
 
-      def user_types_list
+      def guest_user?
+        options[:guest_user]
+      end
+
+      def user_types_code
         user_types.map {|ut| "'#{ut}'"}.join(', ')
+      end
+
+      def user_types_list
+        user_types.map {|ut| "#{ut}"}.join(' ')
       end
 
       def user_class

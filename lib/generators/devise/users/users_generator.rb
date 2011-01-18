@@ -43,7 +43,7 @@ module Devise
         insert_devise_strategy user_class, :defaults if !has_devise_user? user_class
       
         # create role specific user inheriting from base User for each role
-        user_types.each do |user_type|
+        user_types.flatten.each do |user_type|
           create_user(user_type) if !has_model?(user_type.as_filename)
         end
         
