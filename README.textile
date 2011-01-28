@@ -59,9 +59,10 @@ h3. Design ideas
 
 Please see the "Design ideas":https://github.com/kristianmandrup/cream/wiki/Design-ideas section on the wiki for possible enhancements you might want to add and/or ideas for further improvments to the framework. Feel free to add your own suggestions and ideas!
 
-Currently when the Cream config generator is given a set of roles, it both sets up the Roles creates Devise Users for all those roles. In real life scenarios, you will likely want a set of roles and a set of user types. The user types are distinct types of users, possibly with distinct data, registration pages, authentication rules (devise config) etc. The roles are more generic in nature, and users of various user types can each share one or more roles. The API should also include a DSL to easily customize this.     
+Since version 0.8.9 I have added the concept of a Guest user and current_user using the session.  Please also see "Cream Guest user":https://github.com/kristianmandrup/cream/wiki/Cream-Guest-user for more info on the current approach.
 
-Please also see "Cream Guest user":https://github.com/kristianmandrup/cream/wiki/Cream-Guest-user for more info on the current approach and the inherent problems with this.
+The latest design splits up the concepts of role and user_type. The _user_types_ are now the devise classes generated, and each such class can have a role strategy assigned.
+Ther should be a simple way to define a default role, something like the following.
 
 Example idea:
 
@@ -70,11 +71,11 @@ Example idea:
     default_role :editor
     
     valid_roles_are :publisher, blog_editor
-    roles_config :multi
   end
 </pre>   
 
-This way, any editor user created will always be given the :editor role on creation and he can later add the :publisher and/or :blog_editor roles, depending on whether Cream is set up as a single or multi role system. In the future, the framework might even allow some user types to have multiple roles and others to have only a single role (here indicated by the _roles_config :multi_ statement) ? What do you think?
+This way, any editor user created will always be given the :editor role on creation and he can later add the :publisher and/or :blog_editor roles.
+Perhaps it could just use the class name somehow, fx using the @lowercase@ method (this way it would also work with more complex, namespaced classes).
 
 *Ideas and suggestions are most welcome!* 
 
@@ -82,7 +83,7 @@ h3. The path towards 1.0
 
 I will continue the 0.8.9.x line only with bug fixes and other minor fixes or additions.
 
-The 0.9 line will likely be a total redesign/refactoring using what I am learning from reading _Jose Valim's_ book *Crafting Rails Applications*. I will create a new project using _enginex_, complete with one or more dummy apllications and take it from there.
+The 0.9 line will likely be a total redesign/refactoring using what I am learning from reading _Jose Valim's_ book *Crafting Rails Applications*. I will create a new project using _enginex_, complete with one or more dummy apllications and take it from there. Sadly I will likely not have time for this until April 2011, so if anyone has the time and energy, please help me in this effort!
 
 h2. Cream edge, debugging and assisting developing the framework
 

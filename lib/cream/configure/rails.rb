@@ -22,8 +22,7 @@ Rails3::Plugin::Extender.new do
     load File.dirname(__FILE__) + '/after_init/role_config.rb'
 
     if defined? Cream::UserControl
-      # puts "Extending ApplicationController with UserControl"
-      ApplicationController.class_eval "include Cream::UserControl"
+      ApplicationController.send :include, Cream::UserControl
     else
       puts "Cream::UserControl not defined!"
     end
