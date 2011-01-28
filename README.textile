@@ -267,7 +267,7 @@ A User subclass is now generated for each role by default in order to allow more
 
 h2. Generators
 
-Please see "Cream generators overview and walk-through":https://github.com/kristianmandrup/cream/wiki/Cream-generators-overview-and-walk-through for more details.
+Please see "Cream generators overview":https://github.com/kristianmandrup/cream/wiki/Cream-generators-overview for more details.
 
 The following generators are currently available:
 
