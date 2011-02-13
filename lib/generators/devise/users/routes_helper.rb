@@ -41,8 +41,8 @@ module DeviseUserGenerator
       logger.debug "performing devise role routing for: #{roles_to_route}"
       roles_to_route.map do |role|      
           %Q{
-  devise_for :#{role.pluralize}, :class_name => '#{role.classify}'
-  as :#{role} do
+  devise_for :#{role.pluralize}, :class_name => '#{role.classify}', :controllers => {:registrations => 'devise/registrations', :sessions => 'main'} do
+    match "/#{role.pluralize}/sign_in" => "devise/signin#new", :as => :#{role}_signin
     match "/#{role.pluralize}/sign_up" => "devise/registrations#new", :as => :#{role}_signup
   end
   }

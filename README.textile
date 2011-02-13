@@ -24,6 +24,10 @@ Cream comes with a suite of specialized generators that should let you configure
 
 Note: Lately Cream also has options for some common customizations such as allowing login using either username or email. 
 
+h2. Status update (Feb 13)
+
+Just added a @registrations_for@ option to the @devise:users@ generator. This allows you to specify for which user types to create individual registration controllers and pages (if needed). I need to fix the current routes_helper to work with user_types instead of roles. Stay tuned. (all edge)
+
 h2. Objectives
 
 * Integrate a set of widely accepted sub-systems for a fully integrated solution

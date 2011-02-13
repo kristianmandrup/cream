@@ -18,6 +18,8 @@ module Devise
 
       class_option :user_class,     :type => :string,   :default => 'User',           :desc => "User class"
 
+      class_option :registrations_for,  :type => :array,   :default => [],            :desc => "User types individual registrations"
+
       # ORM to use
       class_option :orm,            :type => :string,   :default => 'active_record',  :desc => "ORM to use"
       class_option :roles,          :type => :array,    :default => [],               :desc => "Roles"
@@ -48,6 +50,17 @@ module Devise
         end
         
         routes_configure!
+        
+        registrations.each do |reg|
+          if user_type? reg
+          # create controller   
+          controller = "#{reg}::Registrations".camelcase
+          rgen "controller #{controller} new"
+          rgen "view #{controller} new"
+          
+          # make controller a devise controller
+          replace_controller_inheritance controller.underscore, 'Devise::RegistrationsController' 
+        end
       end
 
       protected
@@ -61,6 +74,18 @@ module Devise
       include DeviseUserGenerator::RoutesHelper
 
       use_helpers :model, :app, :special, :file
+
+      def remove_controller_inheritance name
+        File.remove_content_from controller_file_name(name.as_filename), :where => /<\s*ApplicationController/
+      end
+
+      def replace_controller_inheritance name, replace_controller  
+        File.replace_content_from controller_file_name(name.as_filename), :where => /<\s*ApplicationController/, :with => replace_controller
+      end
+
+      def registrations
+        options[:registrations_for]
+      end
 
       # creates a new user model of a given name without devise strategies, instead inheriting from the base User
       # Never create a Guest user model as this should always be a "fake" (suggestions!?) 
