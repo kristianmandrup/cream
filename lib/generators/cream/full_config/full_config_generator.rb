@@ -25,7 +25,8 @@ module Cream
       class_option :default_roles,  :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest", :aliases => '-dr'
       class_option :roles,          :type => :array,    :default => [],               :desc => "Roles to create", :aliases => '-r'
 
-      class_option :user_types,     :type => :array,    :default => ['Admin'],        :desc => "Devise Users to create that override the generic base User", :aliases => '-ut'
+      class_option :user_types,         :type => :array,    :default => ['Admin'],        :desc => "Devise Users to create that override the generic base User", :aliases => '-ut'
+      class_option :registrations_for,  :type => :array,   :default => [],                :desc => "User types to have individual registration"
 
       # ORM to use
       class_option :orm,            :type => :string,   :default => 'active_record',  :desc => "ORM to use", :aliases => '-o'
@@ -96,7 +97,7 @@ module Cream
 
       def run_devise
         rgen "devise:config #{user_class} --orm #{orm}" # --user-types #{user_types}
-        rgen "devise:users --orm #{orm} --roles #{roles_list} --user-types #{user_types_list} --no-gems"
+        rgen "devise:users --orm #{orm} --roles #{roles_list} --user-types #{user_types_list} #{registrations_for} --no-gems"
 
         say("Devise credentials not customized since --customize option was not used to say so!", :green) if !customize_credentials?
 
@@ -125,6 +126,11 @@ end
 require 'cream/configure/rails'
 }      
         end
+      end
+
+      def registrations_for
+        list = options[:registrations_for].join(' ')
+        return "--registrations-for #{list}" if !list.blank?
       end
 
       def guest_user_option
