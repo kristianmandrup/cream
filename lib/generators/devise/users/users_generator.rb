@@ -127,30 +127,6 @@ module Devise
       def devise_base_user
         create_devise_model user_class
       end
-
-      private
-
-      def customize_note
-        %q{
-Customize controller action if needed to render an individual registration form for each devise User type
-
-Example:
-
-- routes.rb:
-
-  match "/editors/sign_up" => "user_registrations#new_editor", :as => :editor_signup
-
-- user_registrations_controller.rb:
-
-  def new_editor
-    build_resource({})
-  end
-
-Then create the registration form (view) for the :editor user in 'views/user_registrations/new_editor.html.erb'  
-See comments in routes.rb for more info. There is also a page on the wiki about advanced routes customization.
-}
-      end
-      
     end
   end
 end

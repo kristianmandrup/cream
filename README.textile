@@ -26,7 +26,7 @@ Note: Lately Cream also has options for some common customizations such as allow
 
 h2. Status update (Feb 13)
 
-Just added a @registrations_for@ option to the @devise:users@ generator. This allows you to specify for which user types to create individual registration controllers and pages (if needed). I need to fix the current routes_helper to work with user_types instead of roles. Stay tuned. (all edge)
+Just added a @registrations_for@ option to the @devise:users@ generator. This allows you to specify for which user types to create individual registration controllers and pages (if needed). The routes_helper has been updated in order to be aligned with this approach. Please try out edge and let me know how well it works.
 
 h2. Objectives
 
