@@ -27,8 +27,13 @@ module DeviseUserGenerator
       name_default_users = user_class.underscore.gsub('/', '_').pluralize
       default_user_class = user_class.classify
       %Q{
-  match '/sign_in' => 'main#index', :as => :new_user_session
-  
+  match '/sign_in' => 'main#index'
+  match '/log_in'  => 'main#index'
+
+  devise_scope do
+    get '/sign_in'  => 'main#index', :as => :new_user_session    
+  end
+      
   devise_for :#{name_default_users}, :class_name => '#{default_user_class}', :controllers => {:sessions => 'main'} do
     get '/sign_in' => 'main#index', :as => :new_user_session
   end}
