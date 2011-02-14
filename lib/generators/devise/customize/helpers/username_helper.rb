@@ -17,9 +17,9 @@ module Devise
       end
 
       def add_to_user_class
-        logger.debug 'add_to_user_class'
+        debug! 'add_to_user_class'
         if active_record? && !has_migration_file?(:add_username_to_users)
-          logger.debug 'create migration: add_username_to_users'
+          debug! 'create migration: add_username_to_users'
           %x[rails g migration add_username_to_users username:string]
           %x[rake db:migrate]        
         end
@@ -54,7 +54,7 @@ module Devise
       end
 
       def configure_generic_login
-        logger.debug 'configure generic login'
+        debug! 'configure generic login'
         add_virtual_login_accessor        
         override_user_auth        
         modify_retrieve_password
@@ -126,7 +126,7 @@ module Devise
         end
 
         def modify_initializer
-          logger.debug 'modify devise initializer'
+          debug! 'modify devise initializer'
           return if devise_init_content? keys_stmt_replacement(login_attribute)
         
           replace_initializer_content :devise,  :where => default_keys_stmt, :with => keys_stmt_replacement(login_attribute)

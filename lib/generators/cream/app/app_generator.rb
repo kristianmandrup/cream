@@ -2,7 +2,6 @@ require 'sugar-high/file'
 require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
-require 'logging_assist'
 require 'generators/cream/helpers/all'
 
 module Cream
@@ -13,10 +12,11 @@ module Cream
       # ORM to use
       class_option :orm,        :type => :string,   :default => 'active_record',   :desc => "ORM to use"
       class_option :logfile,    :type => :string,   :default => nil,               :desc => "Logfile location" 
+      class_option :logging,    :type => :boolean,  :default => false,             :desc => "Logging on?" 
       class_option :guest_user, :type => :boolean,  :default => true,              :desc => "Create guest user" 
       
       def configure_application
-      	logger.add_logfile :logfile => logfile if logfile
+      	logit!
 
         app_orm unless active_record?
 
@@ -65,7 +65,7 @@ require "rails/test_unit/railtie"
       
       def insert_flash_displayer name, layout_content
         return if layout_content =~ /<%=\s+#{name}\s+%>/          
-        logger.debug "insert_flash_displayer: #{name}"
+        debug! "insert_flash_displayer: #{name}"
         insert_into_view :layouts => :application, :after => '<body>' do
           %Q{<p class="#{name}"><%= #{name} %></p>}
         end

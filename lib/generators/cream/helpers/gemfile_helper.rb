@@ -3,10 +3,10 @@ module Cream
     module Gemfile 
       def add_gem_version name, version
         if !has_gem? name
-          logger.debug "Adding gem: #{name}, #{version}"
+          debug! "Adding gem: #{name}, #{version}"
           gem name, :version => version
         else
-          logger.debug "gem: #{name}, #{version} already in Gemfile"
+          debug! "gem: #{name}, #{version} already in Gemfile"
         end        
       end
 
@@ -17,10 +17,10 @@ module Cream
         end
 
         if !has_gem? name
-          logger.debug "Adding gem: #{name}"
+          debug! "Adding gem: #{name}"
           gem name
         else
-          logger.debug "gem: #{name} already in Gemfile"          
+          debug! "gem: #{name} already in Gemfile"          
         end
       end
     end

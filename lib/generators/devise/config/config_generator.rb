@@ -2,7 +2,6 @@ require 'sugar-high/file'
 require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
-require 'logging_assist'
 require 'generators/cream/helpers/all'
 
 # include helpers
@@ -17,11 +16,12 @@ module Devise
 
       # ORM to use
       class_option :orm,          :type => :string,   :default => 'active_record',   :desc => "ORM to use"
+      class_option :logging,      :type => :boolean,  :default => false,             :desc => "Logging on?" 
       class_option :logfile,      :type => :string,   :default => nil,               :desc => "Logfile location" 
       class_option :gems,         :type => :boolean,  :default => true,              :desc => "Add gems to gemfile?"
 
       def configure_devise
-      	logger.add_logfile :logfile => logfile if logfile	        
+      	logit!
       	devise_gems if gems?      	  
       	say "WARNING: Not configuring devise gems for #{orm}", :yellow if !gems?
          
@@ -43,10 +43,10 @@ module Devise
     
       def devise_install        
         if devise_initializer?
-          logger.debug "initializers/devise.rb was found so devise:install will not be run"
+          debug! "initializers/devise.rb was found so devise:install will not be run"
           return 
         end
-        logger.debug "initializers/devise.rb was NOT found so devise:install will now be run" 
+        debug! "initializers/devise.rb was NOT found so devise:install will now be run" 
         rgen 'devise:install'
       end        
 

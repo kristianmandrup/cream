@@ -42,7 +42,7 @@ module DeviseUserGenerator
       begin
         read_model(user.as_filename) =~ /devise/
       rescue Exception => e
-        logger.info "Exception for #has_devise_user? #{user}: #{e.message}"
+        info! "Exception for #has_devise_user? #{user}: #{e.message}"
         false
       end
     end

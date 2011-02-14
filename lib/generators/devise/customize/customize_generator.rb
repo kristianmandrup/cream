@@ -2,7 +2,6 @@ require 'sugar-high/file'
 require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
-require 'logging_assist'
 require 'generators/cream/helpers/all'
 
 require_all File.dirname(__FILE__) # + '/helpers'
@@ -16,14 +15,15 @@ module Devise
 
       # ORM to use
       class_option :orm,        :type => :string,   :default => 'active_record',   :desc => "ORM to use"
+      class_option :logging,    :type => :boolean,  :default => false,             :desc => "Logging on?" 
       class_option :logfile,    :type => :string,   :default => nil,               :desc => "Logfile location"
 
       class_option :user_name,   :type => :boolean,  :default => true,        :desc => "Add username as login option"
       class_option :login_type,  :type => :string,   :default => 'generic',   :desc => "How to login: 'email', 'username', 'generic' (i.e 'username' or 'email')"
       
       def main_flow
-      	logger.add_logfile :logfile => logfile if logfile
-      	logger.debug 'customizing devise...'
+        logit!
+      	debug! 'customizing devise...'
 
         Devise::Customizers::UserName.new(orm, user_class, login_attribute).add_to_user_class if add_user_name?    
       end

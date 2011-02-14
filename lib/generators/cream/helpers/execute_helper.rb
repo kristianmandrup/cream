@@ -7,7 +7,7 @@ module Cream
       end        
 
       def execute command
-        logger.debug command
+        debug! command
         run command
       end
 

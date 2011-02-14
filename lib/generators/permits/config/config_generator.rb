@@ -2,7 +2,6 @@ require 'sugar-high/file'
 require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
-require 'logging_assist'
 require 'generators/cream/helpers/all'
 
 module Permits
@@ -15,12 +14,13 @@ module Permits
       class_option :roles,          :type => :array,    :desc => "Roles for permits"
       class_option :default_roles,  :type => :boolean,  :default => true,  :desc => "Create default roles :admin and :guest"      
 
+      class_option :logging,    :type => :boolean,  :default => false,             :desc => "Logging on?" 
       class_option :logfile,  :type => :string,   :default => nil,                :desc => "Logfile location" 
       class_option :gems,     :type => :boolean,  :default => false,              :desc => "Add gems to gemfile?"       
 
       def configure_permits
-      	logger.add_logfile :logfile => logfile if logfile
-        logger.debug "Configure Permits"
+      	logit!
+        debug! "Configure Permits"
 
 		    permits_gems if gems?
 

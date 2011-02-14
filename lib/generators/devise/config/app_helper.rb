@@ -1,7 +1,7 @@
 module DeviseConfigGenerator
   module AppHelper    
     def protection_configure!
-      logger.debug "Configuring: devise authentication filter"
+      debug! "Configuring: devise authentication filter"
       ## Add Devise protection to Application controller:
       insert_into_controller :application do
         "before_filter :authenticate_user!"
@@ -12,7 +12,7 @@ module DeviseConfigGenerator
     # require 'devise/orm/mongo_mapper'
     def orm_configure!
       return if orm == :active_record
-      logger.debug "Configuring orm: [#{orm}]"
+      debug! "Configuring orm: [#{orm}]"
       
       if !devise_initializer?        
         say "WARNING: initializer/devise.rb not found", :yellow
@@ -20,7 +20,7 @@ module DeviseConfigGenerator
       end
         
       if !has_statement?(orm_replacement)
-        logger.debug "require 'devise/orm/#{orm}' already in devise.rb initializer"
+        debug! "require 'devise/orm/#{orm}' already in devise.rb initializer"
         return
       end
 
@@ -33,7 +33,7 @@ module DeviseConfigGenerator
     end
       
     def mailer_configure!
-      logger.debug "Configuring: devise mailer"            
+      debug! "Configuring: devise mailer"            
       insert_application_config "action_mailer.default_url_options = { :host => 'localhost:3000' }"
     end
     

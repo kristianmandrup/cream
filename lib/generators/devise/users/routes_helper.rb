@@ -2,7 +2,7 @@ module DeviseUserGenerator
   module RoutesHelper
     def model_routes
       arg = "#{user_class.pluralize.underscore}"
-      arg << ", :admins" if admin_user?
+      # arg << ", :admins" if admin_user?
       arg
     end
 
@@ -18,7 +18,7 @@ module DeviseUserGenerator
       @user_types_to_route ||= user_types_except(:guest).delete_if do |user_type|
         name_user_types = user_type.pluralize
         is_there = !(read_routes_file =~ /devise_for :#{name_user_types}, :class_name =>/).nil?
-        logger.debug "not doing devise routing for #{name_user_types} as it is already there" if is_there
+        debug! "not doing devise routing for #{name_user_types} as it is already there" if is_there
         is_there
       end
     end
@@ -43,12 +43,12 @@ module DeviseUserGenerator
       user_types_to_route.each do |user_type|
         name_user_types = user_type.pluralize
         if read_routes_file =~ /devise_for :#{name_user_types}/          
-          logger.debug "removing old devise routing for: #{name_user_types}"
+          debug! "removing old devise routing for: #{name_user_types}"
           File.remove_content_from routes_file, :where => /devise_for :#{name_user_types}/
         end
       end
 
-      logger.debug "performing devise role routing for: #{user_types_to_route}"
+      debug! "performing devise role routing for: #{user_types_to_route}"
 
       user_types_to_route.map do |user_type| 
         name_user_types = user_type.pluralize     

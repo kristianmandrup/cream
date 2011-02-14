@@ -2,7 +2,6 @@ require 'sugar-high/file'
 require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
-require 'logging_assist'
 require 'active_support'
 require 'generators/cream/helpers/all'
 
@@ -22,9 +21,9 @@ module Cream
       class_option :guest_user,       :type => :boolean,  :default => true,             :desc => "Create guest user", :aliases => '-guest'
 
       # Roles
-      class_option :default_roles,  :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest", :aliases => '-dr'
       class_option :roles,          :type => :array,    :default => [],               :desc => "Roles to create", :aliases => '-r'
 
+      # class_option :default_user_types,  :type => :boolean,  :default => true,             :desc => "Create default user types (:admin)", :aliases => '-dut'
       class_option :user_types,         :type => :array,    :default => ['Admin'],        :desc => "Devise Users to create that override the generic base User", :aliases => '-ut'
       class_option :registrations_for,  :type => :array,   :default => [],                :desc => "User types to have individual registration"
 
@@ -32,6 +31,8 @@ module Cream
       class_option :orm,            :type => :string,   :default => 'active_record',  :desc => "ORM to use", :aliases => '-o'
 
       class_option :locales,        :type => :array,    :default => ['all'],          :desc => "List of locales - 'all' means ALL locales", :aliases => '-l'
+
+      class_option :logging,        :type => :boolean,  :default => false,             :desc => "Logging on?" 
       class_option :logfile,        :type => :string,   :default => nil,              :desc => "Logfile location", :aliases => '-lf'
 
       class_option :configure,      :type => :array,    :default => [],               :desc => "Finetune which generators to run: app, permits, roles, devise, cancan", :aliases => '-c'
@@ -44,7 +45,8 @@ module Cream
       class_option :user_name,   :type => :boolean,  :default => true,        :desc => "Add username as login option", :aliases => '-un'
       class_option :login_type,  :type => :string,   :default => 'generic',   :desc => "How to login: 'email', 'username', 'generic' (i.e 'username' or 'email')", :aliases => '-lt'
 
-      def main 
+      def main
+        logit! 
         execute_generator if validate_orm && validate_strategy
       end
 
@@ -87,7 +89,7 @@ module Cream
 
       def run_migrations
         return if orm != :active_record
-        logger.debug "Running DB migrations"          
+        debug! "Running DB migrations"          
         execute "rake db:migrate"
       end
 
@@ -96,24 +98,24 @@ module Cream
       end
 
       def run_devise
-        rgen "devise:config #{user_class} --orm #{orm}" # --user-types #{user_types}
-        rgen "devise:users --orm #{orm} --roles #{roles_list} --user-types #{user_types_list} #{registrations_for} --no-gems"
+        rgen "devise:config #{user_class} --orm #{orm} --logging #{logging?}" # --user-types #{user_types}
+        rgen "devise:users --orm #{orm} --roles #{roles_list} --user-types #{user_types_list} #{registrations_for} --logging #{logging?} --no-gems"
 
         say("Devise credentials not customized since --customize option was not used to say so!", :green) if !customize_credentials?
 
-        rgen "devise:customize #{user_class} --orm #{orm} --login-type #{login_type} #{user_name_option}" if customize_credentials?
+        rgen "devise:customize #{user_class} --orm #{orm} --login-type #{login_type} #{user_name_option} --logging #{logging?}" if customize_credentials?
       end
 
       def run_cancan
-        rgen "cancan:config --orm #{orm} --no-gems"
+        rgen "cancan:config --orm #{orm} --no-gems --logging #{logging?}"
       end
 
       def run_roles
-        rgen "roles:config #{user_class} --orm #{orm} --roles #{roles_list} --strategy #{strategy}"
+        rgen "roles:config #{user_class} --orm #{orm} --roles #{roles_list} --strategy #{strategy} --logging #{logging?}"
       end
 
       def run_permits
-        rgen "permits:config --orm #{orm} --roles #{roles_list} --no-gems"
+        rgen "permits:config --orm #{orm} --roles #{roles_list} --no-gems --logging #{logging?}"
       end
       
       def cream_initializer
@@ -134,7 +136,8 @@ require 'cream/configure/rails'
       end
 
       def guest_user_option
-        "--guest-user" if guest_user?
+        return "--guest-user" if guest_user?
+        "--no-guest-user"
       end
 
       def customize_credentials?
@@ -171,7 +174,7 @@ require 'cream/configure/rails'
 
       def cream_locales                               
         return if locales_to_generate.empty?
-        logger.debug "Generate Cream locale files"
+        debug! "Generate Cream locale files"
         locales_to_generate.each do |locale|
           src = File.expand_path "config/locales/cream.#{locale}.yml".path.up(5), __FILE__
           copy_file src, "config/locales/cream.#{locale}.yml"

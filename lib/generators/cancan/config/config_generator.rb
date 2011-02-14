@@ -2,7 +2,7 @@ require 'sugar-high/file'
 require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
-require 'logging_assist'
+require 'generators/cream/helpers/all'
 
 module Cancan
   module Generators 
@@ -13,7 +13,7 @@ module Cancan
       class_option :gems,    :type => :boolean,  :default => false, :desc => "Add gems to gemfile?"       
 
       def cancan_configure
-      	logger.add_logfile :logfile => logfile if logfile        
+      	logit!
         cancan_gems if gems?
         cancan_exception_handling
       end
@@ -21,16 +21,13 @@ module Cancan
   	  protected
 
       include Rails3::Assist::BasicLogger
-      extend Rails3::Assist::UseMacro
+      extend Rails3::Assist::UseMacro 
+      include Cream::GeneratorHelper      
 
       use_helpers :controller, :app      
 
       def gems?
         options[:gems]        
-      end
-
-      def logfile
-        options[:logfile]
       end
 
       def cancan_gems
@@ -46,11 +43,11 @@ module Cancan
       # CanCan access denied exception handling
       def cancan_exception_handling
         if rescue_exists?
-          logger.debug "CanCan rescue statement already exists"
+          debug! "CanCan rescue statement already exists"
           return
         end
         
-        logger.debug "Insert cancan rescue statement into application controller"
+        debug! "Insert cancan rescue statement into application controller"
         insert_into_controller :application, :after => "ActionController::Base\n" do
           %{
   rescue_from CanCan::AccessDenied do |exception|

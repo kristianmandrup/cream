@@ -2,7 +2,6 @@ require 'sugar-high/file'
 require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
-require 'logging_assist'
 require 'generators/cream/helpers/all'
 
 module Roles
@@ -20,12 +19,16 @@ module Roles
       class_option :role_class,         :type => :string, :aliases => "-rc",  :default => 'Role',     :desc => "Role class name", :optional => true
       class_option :user_role_class,    :type => :string, :aliases => "-urc", :default => 'UserRole', :desc => "User-Role (join table) class name", :optional => true
 
+      class_option :logging,            :type => :boolean,  :default => false,             :desc => "Logging on?" 
       class_option :logfile,            :type => :string,   :default => nil,                :desc => "Logfile location" 
       class_option :default_roles,      :type => :boolean,  :default => true,               :desc => "Create default roles :admin and :guest"
       class_option :gems,               :type => :boolean,  :default => true,               :desc => "Add gems to gemfile?"       
       
       def configure_roles
-      	logger.add_logfile :logfile => logfile if logfile
+        if logging_on?
+          require 'logging_assist'
+      	  
+    	  end
 
         # make the artifactor model methods behave according to selected orm! - this is a macro
         set_orm      	
@@ -55,7 +58,8 @@ module Roles
       end 
 
       def create_roles
-        rgen "#{roles_generator} #{user_class} --strategy #{strategy} --roles #{roles_list} #{default_roles_option} #{class_options}"        
+        # #{default_roles_option}
+        rgen "#{roles_generator} #{user_class} --strategy #{strategy} --roles #{roles_list} #{class_options}"        
       end
 
       def set_valid_roles_cream
@@ -106,9 +110,9 @@ module Roles
         "valid_roles_are Cream::Role.available"
       end
 
-      def default_roles_option
-        default_roles? ? '--default-roles' : '--no-default-roles'
-      end      
+      # def default_user_types_option
+      #   default_user_types? ? '--default-user-types' : '--no-default-user-types'
+      # end      
     end
   end
 end

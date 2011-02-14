@@ -2,7 +2,6 @@ require 'sugar-high/file'
 require 'sugar-high/module'
 require 'cream'
 require 'rails3_artifactor'
-require 'logging_assist'
 require 'generators/cream/helpers/all'
 
 # include helpers
@@ -23,16 +22,17 @@ module Devise
       # ORM to use
       class_option :orm,            :type => :string,   :default => 'active_record',  :desc => "ORM to use"
       class_option :roles,          :type => :array,    :default => [],               :desc => "Roles"
-      class_option :default_roles,  :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest"
+      # class_option :default_roles,  :type => :boolean,  :default => true,             :desc => "Create default roles :admin and :guest"
 
       class_option :user_types,     :type => :array,    :default => ['admin'],        :desc => "Devise Users to create that override the generic base User", :aliases => '-ut'
 
+      class_option :logging,        :type => :boolean,  :default => false,             :desc => "Logging on?" 
       class_option :logfile,        :type => :string,   :default => nil,              :desc => "Logfile location" 
       class_option :gems,           :type => :boolean,  :default => false,            :desc => "Add gems to gemfile?"
       
       def configure_devise_users      
-      	logger.add_logfile :logfile => logfile if logfile
-        logger.debug "Configure Devise Users"
+      	logit!
+        debug! "Configure Devise Users"
 
         self.class.use_orm orm.to_sym
 
@@ -92,7 +92,7 @@ module Devise
       def create_user name
         return if name.to_sym == :guest
 
-        logger.debug "create devise user: #{name}"
+        debug! "create devise user: #{name}"
         create_user_model name
         # remove any current inheritance
         remove_inheritance name
