@@ -62,71 +62,70 @@ module Devise
             replace_controller_inheritance controller.underscore, 'Devise::RegistrationsController' 
           end
         end
+      end
+      protected
 
-        protected
+      extend Rails3::Assist::UseMacro
+      include Rails3::Assist::BasicLogger  
 
-        extend Rails3::Assist::UseMacro
-        include Rails3::Assist::BasicLogger  
+      include Cream::GeneratorHelper
 
-        include Cream::GeneratorHelper
+      include DeviseUserGenerator::Helper
+      include DeviseUserGenerator::RoutesHelper
 
-        include DeviseUserGenerator::Helper
-        include DeviseUserGenerator::RoutesHelper
+      use_helpers :model, :app, :special, :file
 
-        use_helpers :model, :app, :special, :file
+      def remove_controller_inheritance name
+        File.remove_content_from controller_file_name(name.as_filename), :where => /<\s*ApplicationController/
+      end
 
-        def remove_controller_inheritance name
-          File.remove_content_from controller_file_name(name.as_filename), :where => /<\s*ApplicationController/
+      def replace_controller_inheritance name, replace_controller  
+        File.replace_content_from controller_file_name(name.as_filename), :where => /<\s*ApplicationController/, :with => replace_controller
+      end
+
+      def registrations
+        options[:registrations_for]
+      end
+
+      # creates a new user model of a given name without devise strategies, instead inheriting from the base User
+      # Never create a Guest user model as this should always be a "fake" (suggestions!?) 
+      def create_user name
+        return if name.to_sym == :guest
+
+        logger.debug "create devise user: #{name}"
+        create_user_model name
+        # remove any current inheritance
+        remove_inheritance name
+
+        # and make Admin model inherit from User model 
+        inherit_model name => user_class
+      end 
+
+      def insert_devise_strategy model_name, *names
+        insert_into_model model_name do
+          "devise #{name_string names}"
         end
+      end
 
-        def replace_controller_inheritance name, replace_controller  
-          File.replace_content_from controller_file_name(name.as_filename), :where => /<\s*ApplicationController/, :with => replace_controller
-        end
+      def name_string names
+        names = devise_strategies[:default] if names.first == :defaults
+        names = devise_strategies[:admin] if names.first == :admin
 
-        def registrations
-          options[:registrations_for]
-        end
+        names.map{|n| ":#{n}"}.join(', ')
+      end
 
-        # creates a new user model of a given name without devise strategies, instead inheriting from the base User
-        # Never create a Guest user model as this should always be a "fake" (suggestions!?) 
-        def create_user name
-          return if name.to_sym == :guest
+      # Must be ORM specific!
+      def create_devise_model user = 'User'
+        rgen "#{user_generator} #{user}"
+      end
 
-          logger.debug "create devise user: #{name}"
-          create_user_model name
-          # remove any current inheritance
-          remove_inheritance name
+      def devise_gems
+        gem 'devise'
+        bundle_install # 'devise'
+      end
 
-          # and make Admin model inherit from User model 
-          inherit_model name => user_class
-        end 
-
-        def insert_devise_strategy model_name, *names
-          insert_into_model model_name do
-            "devise #{name_string names}"
-          end
-        end
-
-        def name_string names
-          names = devise_strategies[:default] if names.first == :defaults
-          names = devise_strategies[:admin] if names.first == :admin
-
-          names.map{|n| ":#{n}"}.join(', ')
-        end
-
-        # Must be ORM specific!
-        def create_devise_model user = 'User'
-          rgen "#{user_generator} #{user}"
-        end
-
-        def devise_gems
-          gem 'devise'
-          bundle_install # 'devise'
-        end
-
-        def devise_base_user
-          create_devise_model user_class
-        end
+      def devise_base_user
+        create_devise_model user_class
       end
     end
   end
