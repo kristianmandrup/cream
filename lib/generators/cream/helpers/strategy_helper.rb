@@ -15,7 +15,7 @@ module Cream
 
       def valid_strategies
         @strategies ||= basic_strategies
-        @strategies << document_store_strategies if document_store?
+        @strategies |= document_store_strategies if document_store?
         @strategies
       end
 
