@@ -1,3 +1,8 @@
+0.8.9 - Feb 1 - Feb 18, 2011
+-----
+Made logging optional and cleaned up use of devise user types vs roles. 
+Need to test latest design.
+
 0.8.7 - Jan 9, 2011
 -----
 Added devise:customize generator, cleaned up design and fixed some bugs!

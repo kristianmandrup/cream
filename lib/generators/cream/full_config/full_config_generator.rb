@@ -50,6 +50,10 @@ module Cream
         execute_generator if validate_orm && validate_strategy
       end
 
+      def self.root
+        File.join File.dirname(__FILE__), "..", "..", "..", ".."
+      end
+
       # -----------------
       protected
 
