@@ -19,17 +19,13 @@ module Roles
       class_option :role_class,         :type => :string, :aliases => "-rc",  :default => 'Role',     :desc => "Role class name", :optional => true
       class_option :user_role_class,    :type => :string, :aliases => "-urc", :default => 'UserRole', :desc => "User-Role (join table) class name", :optional => true
 
-      class_option :logging,            :type => :boolean,  :default => false,             :desc => "Logging on?" 
+      class_option :logging,            :type => :boolean,  :default => false,              :desc => "Logging on?" 
       class_option :logfile,            :type => :string,   :default => nil,                :desc => "Logfile location" 
       class_option :default_roles,      :type => :boolean,  :default => true,               :desc => "Create default roles :admin and :guest"
       class_option :gems,               :type => :boolean,  :default => true,               :desc => "Add gems to gemfile?"       
       
       def configure_roles
-        if logging_on?
-          require 'logging_assist'
-      	  
-    	  end
-
+        logit!
         # make the artifactor model methods behave according to selected orm! - this is a macro
         set_orm      	
 
@@ -109,10 +105,6 @@ module Roles
       def cream_valid_roles_statement
         "valid_roles_are Cream::Role.available"
       end
-
-      # def default_user_types_option
-      #   default_user_types? ? '--default-user-types' : '--no-default-user-types'
-      # end      
     end
   end
 end

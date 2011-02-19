@@ -15,8 +15,8 @@ module Cream
 
       def valid_strategies
         @strategies ||= begin
-          s = basic_strategies
-          s.merge!(document_store_strategies) if document_store?
+          s = basic_strategies          
+          s |= document_store_strategies if document_store?
           s.flatten
         end
       end
