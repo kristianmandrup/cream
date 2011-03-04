@@ -1,4 +1,4 @@
-require 'rspec/core'
+require 'rspec'
 require 'rspec-action_view'
 require 'generator-spec'
 require 'cream'
