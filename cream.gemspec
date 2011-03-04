@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{cream}
-  s.version = "0.8.9.2"
+  s.version = "0.8.9.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kristian Mandrup"]
-  s.date = %q{2011-01-18}
+  s.date = %q{2011-03-04}
   s.description = %q{An integrated Authentication, Authorization and Roles solution for your Rails 3 app with support for multiple ORMs}
   s.email = %q{kmandrup@gmail.com}
   s.extra_rdoc_files = [
@@ -106,7 +106,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/kristianmandrup/cream}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.7}
+  s.rubygems_version = %q{1.6.1}
   s.summary = %q{Integrates Devise, CanCan with permits and Roles generic for multiple ORMs}
   s.test_files = [
     "spec/configure_helper.rb",
@@ -130,103 +130,51 @@ Gem::Specification.new do |s|
   ]
 
   if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<devise-links>, [">= 0.2.0"])
-      s.add_runtime_dependency(%q<cancan-rest-links>, [">= 0.2.0"])
-      s.add_runtime_dependency(%q<cancan-permits>, [">= 0.3.4"])
-      s.add_runtime_dependency(%q<require_all>, ["~> 1.2.0"])
-      s.add_runtime_dependency(%q<colorize>, [">= 0.5.8"])
-      s.add_runtime_dependency(%q<devise>, [">= 1.1.5"])
-      s.add_runtime_dependency(%q<cancan>, [">= 1.4.0"])
-      s.add_runtime_dependency(%q<rails>, [">= 3.0.1"])
-      s.add_runtime_dependency(%q<rails3_artifactor>, [">= 0.3.2"])
-      s.add_runtime_dependency(%q<logging_assist>, [">= 0.2.0"])
-      s.add_runtime_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
-      s.add_runtime_dependency(%q<sugar-high>, ["~> 0.3.1"])
-      s.add_development_dependency(%q<rspec>, [">= 2.0.1"])
-      s.add_development_dependency(%q<generator-spec>, [">= 0.7.0"])
-      s.add_development_dependency(%q<rspec-action_view>, [">= 0.3.1"])
-      s.add_development_dependency(%q<rails-app-spec>, [">= 0.3.0"])
+      s.add_development_dependency(%q<rspec>, [">= 2.4.1"])
       s.add_development_dependency(%q<devise-spec>, [">= 0.1.3"])
       s.add_development_dependency(%q<roles-spec>, [">= 0.1.3"])
       s.add_runtime_dependency(%q<require_all>, ["~> 1.2.0"])
       s.add_runtime_dependency(%q<colorize>, [">= 0.5.8"])
-      s.add_runtime_dependency(%q<devise-links>, [">= 0.2.1"])
-      s.add_runtime_dependency(%q<cancan-rest-links>, [">= 0.2.1"])
-      s.add_runtime_dependency(%q<cancan-permits>, [">= 0.3.10"])
+      s.add_runtime_dependency(%q<devise-links>, [">= 0.2.3"])
+      s.add_runtime_dependency(%q<cancan-rest-links>, [">= 0.2.3"])
       s.add_runtime_dependency(%q<devise>, [">= 1.1.5"])
       s.add_runtime_dependency(%q<cancan>, [">= 1.4.1"])
       s.add_runtime_dependency(%q<rails>, [">= 3.0.1"])
-      s.add_runtime_dependency(%q<rails3_artifactor>, ["~> 0.3.2"])
-      s.add_runtime_dependency(%q<logging_assist>, [">= 0.2.0"])
-      s.add_runtime_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
-      s.add_runtime_dependency(%q<sugar-high>, [">= 0.3.1"])
+      s.add_runtime_dependency(%q<rails_artifactor>, ["~> 0.3.3"])
+      s.add_runtime_dependency(%q<r3_plugin_toolbox>, [">= 0.4.1"])
+      s.add_runtime_dependency(%q<sugar-high>, ["~> 0.4.0"])
     else
-      s.add_dependency(%q<devise-links>, [">= 0.2.0"])
-      s.add_dependency(%q<cancan-rest-links>, [">= 0.2.0"])
-      s.add_dependency(%q<cancan-permits>, [">= 0.3.4"])
-      s.add_dependency(%q<require_all>, ["~> 1.2.0"])
-      s.add_dependency(%q<colorize>, [">= 0.5.8"])
-      s.add_dependency(%q<devise>, [">= 1.1.5"])
-      s.add_dependency(%q<cancan>, [">= 1.4.0"])
-      s.add_dependency(%q<rails>, [">= 3.0.1"])
-      s.add_dependency(%q<rails3_artifactor>, [">= 0.3.2"])
-      s.add_dependency(%q<logging_assist>, [">= 0.2.0"])
-      s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
-      s.add_dependency(%q<sugar-high>, ["~> 0.3.1"])
-      s.add_dependency(%q<rspec>, [">= 2.0.1"])
-      s.add_dependency(%q<generator-spec>, [">= 0.7.0"])
-      s.add_dependency(%q<rspec-action_view>, [">= 0.3.1"])
-      s.add_dependency(%q<rails-app-spec>, [">= 0.3.0"])
+      s.add_dependency(%q<rspec>, [">= 2.4.1"])
       s.add_dependency(%q<devise-spec>, [">= 0.1.3"])
       s.add_dependency(%q<roles-spec>, [">= 0.1.3"])
       s.add_dependency(%q<require_all>, ["~> 1.2.0"])
       s.add_dependency(%q<colorize>, [">= 0.5.8"])
-      s.add_dependency(%q<devise-links>, [">= 0.2.1"])
-      s.add_dependency(%q<cancan-rest-links>, [">= 0.2.1"])
-      s.add_dependency(%q<cancan-permits>, [">= 0.3.10"])
+      s.add_dependency(%q<devise-links>, [">= 0.2.3"])
+      s.add_dependency(%q<cancan-rest-links>, [">= 0.2.3"])
       s.add_dependency(%q<devise>, [">= 1.1.5"])
       s.add_dependency(%q<cancan>, [">= 1.4.1"])
       s.add_dependency(%q<rails>, [">= 3.0.1"])
-      s.add_dependency(%q<rails3_artifactor>, ["~> 0.3.2"])
-      s.add_dependency(%q<logging_assist>, [">= 0.2.0"])
-      s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
-      s.add_dependency(%q<sugar-high>, [">= 0.3.1"])
+      s.add_dependency(%q<rails_artifactor>, ["~> 0.3.3"])
+      s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.1"])
+      s.add_dependency(%q<sugar-high>, ["~> 0.4.0"])
     end
   else
-    s.add_dependency(%q<devise-links>, [">= 0.2.0"])
-    s.add_dependency(%q<cancan-rest-links>, [">= 0.2.0"])
-    s.add_dependency(%q<cancan-permits>, [">= 0.3.4"])
-    s.add_dependency(%q<require_all>, ["~> 1.2.0"])
-    s.add_dependency(%q<colorize>, [">= 0.5.8"])
-    s.add_dependency(%q<devise>, [">= 1.1.5"])
-    s.add_dependency(%q<cancan>, [">= 1.4.0"])
-    s.add_dependency(%q<rails>, [">= 3.0.1"])
-    s.add_dependency(%q<rails3_artifactor>, [">= 0.3.2"])
-    s.add_dependency(%q<logging_assist>, [">= 0.2.0"])
-    s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
-    s.add_dependency(%q<sugar-high>, ["~> 0.3.1"])
-    s.add_dependency(%q<rspec>, [">= 2.0.1"])
-    s.add_dependency(%q<generator-spec>, [">= 0.7.0"])
-    s.add_dependency(%q<rspec-action_view>, [">= 0.3.1"])
-    s.add_dependency(%q<rails-app-spec>, [">= 0.3.0"])
+    s.add_dependency(%q<rspec>, [">= 2.4.1"])
     s.add_dependency(%q<devise-spec>, [">= 0.1.3"])
     s.add_dependency(%q<roles-spec>, [">= 0.1.3"])
     s.add_dependency(%q<require_all>, ["~> 1.2.0"])
     s.add_dependency(%q<colorize>, [">= 0.5.8"])
-    s.add_dependency(%q<devise-links>, [">= 0.2.1"])
-    s.add_dependency(%q<cancan-rest-links>, [">= 0.2.1"])
-    s.add_dependency(%q<cancan-permits>, [">= 0.3.10"])
+    s.add_dependency(%q<devise-links>, [">= 0.2.3"])
+    s.add_dependency(%q<cancan-rest-links>, [">= 0.2.3"])
     s.add_dependency(%q<devise>, [">= 1.1.5"])
     s.add_dependency(%q<cancan>, [">= 1.4.1"])
     s.add_dependency(%q<rails>, [">= 3.0.1"])
-    s.add_dependency(%q<rails3_artifactor>, ["~> 0.3.2"])
-    s.add_dependency(%q<logging_assist>, [">= 0.2.0"])
-    s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.0"])
-    s.add_dependency(%q<sugar-high>, [">= 0.3.1"])
+    s.add_dependency(%q<rails_artifactor>, ["~> 0.3.3"])
+    s.add_dependency(%q<r3_plugin_toolbox>, [">= 0.4.1"])
+    s.add_dependency(%q<sugar-high>, ["~> 0.4.0"])
   end
 end
 
