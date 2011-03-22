@@ -17,7 +17,7 @@ group :default do
   # gem 'logging_assist',    ">= 0.2.0"
 
   gem "r3_plugin_toolbox", ">= 0.4.0" 
-  gem "sugar-high",        "~> 0.4.0"      
+  gem "sugar-high",        ">= 0.4.0"      
 end
 
 group :test do    
