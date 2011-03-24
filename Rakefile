@@ -26,7 +26,7 @@ begin
     gem.add_dependency "cancan",            ">= 1.4.1" 
     gem.add_dependency "rails",             ">= 3.0.1"
 
-    gem.add_dependency "rails3_artifactor", "~> 0.3.2"
+    gem.add_dependency "rails_artifactor", "~> 0.3.3"
     # gem.add_dependency 'logging_assist',    ">= 0.2.0"  # only required if logging is on
 
     gem.add_dependency "r3_plugin_toolbox", ">= 0.4.0" 

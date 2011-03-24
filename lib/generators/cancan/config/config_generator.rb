@@ -1,7 +1,7 @@
 require 'sugar-high/file'
 require 'sugar-high/module'
 require 'cream'
-require 'rails3_artifactor'
+require 'rails_artifactor'
 require 'generators/cream/helpers/all'
 
 module Cancan
