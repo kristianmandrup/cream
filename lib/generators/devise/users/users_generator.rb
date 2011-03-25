@@ -53,13 +53,14 @@ module Devise
         
         registrations.each do |reg|
           if user_type? reg
-          # create controller   
-          controller = "#{reg}::Registrations".camelcase
-          rgen "controller #{controller} new"
-          rgen "view #{controller} new"
+           # create controller   
+           controller = "#{reg}::Registrations".camelcase
+           rgen "controller #{controller} new"
+           rgen "view #{controller} new"
           
-          # make controller a devise controller
-          replace_controller_inheritance controller.underscore, 'Devise::RegistrationsController' 
+           # make controller a devise controller
+           replace_controller_inheritance controller.underscore, 'Devise::RegistrationsController'
+          end
         end
       end
 
