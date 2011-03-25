@@ -44,8 +44,8 @@ module Roles
 
       protected
 
-      include Rails3::Assist::BasicLogger
-      extend Rails3::Assist::UseMacro
+      include RailsAssist::BasicLogger
+      extend RailsAssist::UseMacro
 
       include Cream::GeneratorHelper
       

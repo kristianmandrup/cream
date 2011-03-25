@@ -31,7 +31,7 @@ module Permits
 
       protected        
       
-      include Rails3::Assist::BasicLogger
+      include RailsAssist::BasicLogger
 
       include Cream::GeneratorHelper
       

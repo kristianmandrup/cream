@@ -31,7 +31,7 @@ module Devise
       protected
 
       include Cream::GeneratorHelper
-      include Rails3::Assist::BasicLogger
+      include RailsAssist::BasicLogger
             
       def login_attribute
         att = options[:login_attribute] || 'generic'

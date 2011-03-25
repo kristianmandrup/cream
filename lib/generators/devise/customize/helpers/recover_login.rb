@@ -4,7 +4,7 @@ module Devise
   module Customizers
     class RecoverLogin
       include Cream::GeneratorHelper        
-      extend Rails3::Assist::UseMacro
+      extend RailsAssist::UseMacro
       use_helpers :app, :special, :file, :model
       # include Devise::UserCustomization      
 
