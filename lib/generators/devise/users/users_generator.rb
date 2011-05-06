@@ -1,7 +1,7 @@
 require 'sugar-high/file'
 require 'sugar-high/module'
 require 'cream'
-require 'rails3_artifactor'
+require 'rails_artifactor'
 require 'generators/cream/helpers/all'
 
 # include helpers
@@ -65,8 +65,8 @@ module Devise
 
       protected
 
-      extend Rails3::Assist::UseMacro
-      include Rails3::Assist::BasicLogger  
+      extend  RailsAssist::UseMacro
+      include RailsAssist::BasicLogger  
 
       include Cream::GeneratorHelper
       

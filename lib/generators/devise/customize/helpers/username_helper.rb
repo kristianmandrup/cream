@@ -4,8 +4,8 @@ module Devise
   module Customizers
     class UserName 
       include Cream::GeneratorHelper        
-      extend Rails3::Assist::UseMacro
-      include Rails3::Assist::BasicLogger      
+      extend  RailsAssist::UseMacro
+      include RailsAssist::BasicLogger      
       use_helpers :app, :special, :file, :model
 
       attr_accessor :orm, :user_class, :login_attribute
@@ -114,8 +114,8 @@ module Devise
 
       class AuthenticationKeys
         include Cream::GeneratorHelper
-        extend Rails3::Assist::UseMacro
-        include Rails3::Assist::BasicLogger
+        extend  RailsAssist::UseMacro
+        include RailsAssist::BasicLogger
         use_helpers :app, :special, :file
 
         attr_accessor :login_attribute

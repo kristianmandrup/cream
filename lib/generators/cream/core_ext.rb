@@ -1,5 +1,5 @@
 # TODO: 
-# model_file_name and similar methods in rails3_assist and rails3_artifaftor should be fixed to always call underscore on filenames
+# model_file_name and similar methods in rails_assist and rails_artifaftor should be fixed to always call underscore on filenames
 
 class String
   def as_filename
