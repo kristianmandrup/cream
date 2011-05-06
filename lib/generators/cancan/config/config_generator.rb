@@ -20,7 +20,6 @@ module Cancan
 
   	  protected
 
-      include RailsAssist::BasicLogger
       extend  RailsAssist::UseMacro 
       include Cream::GeneratorHelper      
 

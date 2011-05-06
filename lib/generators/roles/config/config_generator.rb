@@ -25,10 +25,7 @@ module Roles
       class_option :gems,               :type => :boolean,  :default => true,               :desc => "Add gems to gemfile?"       
       
       def configure_roles
-        if logging_on?
-          require 'logging_assist'
-      	  
-    	  end
+        logit!
 
         # make the artifactor model methods behave according to selected orm! - this is a macro
         set_orm      	
@@ -44,9 +41,7 @@ module Roles
 
       protected
 
-      include RailsAssist::BasicLogger
       extend  RailsAssist::UseMacro
-
       include Cream::GeneratorHelper
       
       use_helpers :model, :file

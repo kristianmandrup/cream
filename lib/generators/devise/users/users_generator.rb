@@ -66,7 +66,6 @@ module Devise
       protected
 
       extend  RailsAssist::UseMacro
-      include RailsAssist::BasicLogger  
 
       include Cream::GeneratorHelper
       

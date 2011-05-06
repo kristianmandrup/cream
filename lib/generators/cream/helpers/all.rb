@@ -5,8 +5,15 @@ module Cream
   module GeneratorHelper
     def logit!  
       if logging?
-        require 'logging_assist'
+        add_logger
         logger.add_logfile :logfile => logfile
+      end
+    end
+
+    def add_logger
+      require 'logging_assist'
+      class_eval do
+        send :include, RailsAssist::BasicLogger
       end
     end
 

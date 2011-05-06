@@ -27,11 +27,9 @@ module Permits
         # Run permits generator to generate permit for each role
         rgen "cancan:permits --roles #{roles_list} --orm #{orm}"
         rgen "cancan:licenses"
-      end           
+      end
 
-      protected        
-      
-      include RailsAssist::BasicLogger
+      protected
 
       include Cream::GeneratorHelper
       
