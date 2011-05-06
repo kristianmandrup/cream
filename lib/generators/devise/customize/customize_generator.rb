@@ -1,7 +1,7 @@
 require 'sugar-high/file'
 require 'sugar-high/module'
 require 'cream'
-require 'rails3_artifactor'
+require 'rails_artifactor'
 require 'generators/cream/helpers/all'
 
 require_all File.dirname(__FILE__) # + '/helpers'
@@ -31,7 +31,7 @@ module Devise
       protected
 
       include Cream::GeneratorHelper
-      include Rails3::Assist::BasicLogger
+      include RailsAssist::BasicLogger
             
       def login_attribute
         att = options[:login_attribute] || 'generic'
