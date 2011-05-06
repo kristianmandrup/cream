@@ -20,17 +20,16 @@ begin
     
     gem.add_dependency "devise-links",      ">= 0.2.1"
     gem.add_dependency "cancan-rest-links", ">= 0.2.1" 
-    gem.add_dependency "cancan-permits",    ">= 0.3.10" 
+    gem.add_dependency "cancan-permits",    ">= 0.3.11" 
 
     gem.add_dependency "devise",            ">= 1.1.5"
     gem.add_dependency "cancan",            ">= 1.4.1" 
     gem.add_dependency "rails",             ">= 3.0.1"
 
-    gem.add_dependency "rails3_artifactor", "~> 0.3.2"
-    # gem.add_dependency 'logging_assist',    ">= 0.2.0"  # only required if logging is on
+    gem.add_dependency "rails_artifactor",  "~> 0.3.3"
 
     gem.add_dependency "r3_plugin_toolbox", ">= 0.4.0" 
-    gem.add_dependency "sugar-high",        ">= 0.3.1"
+    gem.add_dependency "sugar-high",        ">= 0.4.0"
            
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
     
