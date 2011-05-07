@@ -1,12 +1,12 @@
 module DeviseConfigGenerator
   module AppHelper    
-    def protection_configure!
-      debug! "Configuring: devise authentication filter"
-      ## Add Devise protection to Application controller:
-      insert_into_controller :application do
-        "before_filter :authenticate_user!"
-      end
-    end
+    # def protection_configure!
+    #   debug! "Configuring: devise authentication filter"
+    #   ## Add Devise protection to Application controller:
+    #   insert_into_controller :application do
+    #     "before_filter :authenticate_user!"
+    #   end
+    # end
 
     # inside 'config/initializers/devise.rb' change to:
     # require 'devise/orm/mongo_mapper'

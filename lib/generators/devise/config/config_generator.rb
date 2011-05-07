@@ -51,7 +51,8 @@ module Devise
 
       # see app_helper.rb
       def configure_devise!
-        [:orm, :mailer, :protection].each{|m| send(:"#{m}_configure!") }  
+        # :protection
+        [:orm, :mailer].each{|m| send(:"#{m}_configure!") }  
       end
             
       def devise_gems 
