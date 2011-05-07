@@ -80,7 +80,7 @@ require "rails/test_unit/railtie"
   # attr_accessor :country, :country_code, :language, :language_code, :city
             
   def self.create options = {}    
-    Guest.new options.merge(session[:guest_options] || {})
+    Guest.new options
   end
 
   def save
