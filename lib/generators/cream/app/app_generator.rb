@@ -47,11 +47,11 @@ require "rails/test_unit/railtie"
        
       def app_routes
         routes = read_routes_file
-        # if no :welcome controller
+        # if no 'root' route
         if !(routes =~ /root\s+:/)
-          # create one with an 'index' view.
-          rgen "controller Welcome index"
-          File.insert_into routes_file, :after => 'do', :content => 'root :to => "welcome#index"'
+          # create a MainController with an #index action.
+          rgen "controller Main index"
+          File.insert_into routes_file, :after => 'do', :content => 'root :to => "main#index"'
         end
       end
       
