@@ -47,7 +47,7 @@ h2. The magic behind the curtain...
 Cream leverages an extensive "Tool suite":https://github.com/kristianmandrup/cream/wiki/Tool-suite-for-designing-powerful-generators-and-gems-for-Rails-3 I have created specifically to make it much easier/faster to create gems and generators for Rails 3 and spec/test them with RSpec 2, all using more natural DSLs and APIs. 
 If you look into the Cream code you can see extensive usage of this "magic" (especially in the generators).
 
-Status (Jan 15): I'm currently in the process of refactoring and improving this underlying "tool suite". I might call it _rails-mixer_ or something :P ?
+Status (Jan 15): I'm currently in the process of refactoring and improving this underlying "tool suite". I might call it _rails-mixer_ or something.
 
 h2. Cream user group
 
