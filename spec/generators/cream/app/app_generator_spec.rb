@@ -36,8 +36,8 @@ describe 'Generator' do
         end
       end
 
-      it "should generate Welcome controller" do
-        controller_file?(:welcome).should be_true
+      it "should generate MainController" do
+        controller_file?(:main).should be_true
       end
       
       it "should add root to routes file" do
