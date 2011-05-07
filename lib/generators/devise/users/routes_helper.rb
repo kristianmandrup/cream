@@ -30,7 +30,7 @@ module DeviseUserGenerator
   match '/sign_in' => 'main#index'
   match '/log_in'  => 'main#index'
 
-  devise_for :#{name_default_users}
+  devise_for :#{name_default_users} do
     get '/sign_in'  => 'main#index', :as => :new_user_session    
   end
       
