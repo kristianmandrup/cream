@@ -24,9 +24,12 @@ Cream comes with a suite of specialized generators that should let you configure
 
 Note: Lately Cream also has options for some common customizations such as allowing login using either username or email. 
 
-h2. Status update (Feb 13)
+h2. Status update (May 7, 2011)
 
-Just added a @registrations_for@ option to the @devise:users@ generator. This allows you to specify for which user types to create individual registration controllers and pages (if needed). The routes_helper has been updated in order to be aligned with this approach. Please try out edge and let me know how well it works.
+*IMPORTANT*
+
+The project has undergone a lot of bugfixes during 4-7 of May, thanks to @alecslupu who was patient enough to go through all the pain to find the bugs and assist me in fixing them. Thanks! Please use the latest master branches for cream, cancan-permits, roles_active_record, rails_assist and rails_artifactor. If you get problems from any other dependency gems, I recommend that you use their github master branch as the source.
+I hope to release all gems ASAP when I know they all play nice ;)
 
 h2. Objectives
 
