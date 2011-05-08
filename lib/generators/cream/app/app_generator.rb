@@ -78,18 +78,28 @@ require "rails/test_unit/railtie"
   # attr_accessor :login, :password 
   # attr_accessor :username, :email
   # attr_accessor :country, :country_code, :language, :language_code, :city
-            
-  def self.create options = {}    
+
+  include ActiveModel::Validations
+  include ActiveModel::Conversion
+  extend ActiveModel::Naming
+
+  def initialize(attributes = {})
+    attributes.each do |name, value|
+      send("\#{name}=", value)
+    end
+  end
+                
+  def self.create options = {}
     Guest.new options
   end
 
-  def save
-    false
-  end 
-  
-  def save!
-    false
-  end
+  # def save
+  #   false
+  # end 
+  # 
+  # def save!
+  #   false
+  # end
 
   def is? role
     role == :guest
