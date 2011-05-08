@@ -4,238 +4,38 @@ This project aims to assist in setting up a Rails 3 app with an integrated Authe
 
 Execute the *full_config* generator with arguments specifying: 
 
-* The User roles in the app 
-* The role strategy to use (both single and multiple roles for each user)
-* ORM to use (Relational or Document based datastores)
+* The User types in the application (for Authentication, route Authorization and User data)
+* The User roles in the app (for fine-grained Authorization)
+* The main Role strategy to use (allow single or multiple roles for each user)
+* ORM to use (Relational and Document based datastores are supported - see below)
 
-The generator will do its magic to your app and (hopefully) you should be set to go with implementing the remainder of your app ;)
+The cream generator will apply all its "magic" to your app so you can implement your permission business logic using intuitive APIs.
 
 Cream targets smooth integration of the following main systems:
 
-* "Devise":http://github.com/plataformatec/devise - Authentication
-* "CanCan":http://github.com/ryanb/cancan - Authorization
-* "Roles":http://github.com/kristianmandrup/roles_generic - Roles
+* "Devise":http://github.com/plataformatec/devise - Users and Authentication 
+* "CanCan":http://github.com/ryanb/cancan - Authorization of users
+* "Roles":http://github.com/kristianmandrup/roles_generic - Roles and role groups for authorization
 
-Cream also uses "CanCan permits":http://github.com/kristianmandrup/cancan-permits to enable use of *Permits* and *Licenses*.
-
-The gems "devise-links":http://github.com/kristianmandrup/devise-links and "cancan-rest-links":http://github.com/kristianmandrup/cancan-rest-links provide helpers to facilitate working with authentication links and REST links with automatic execution of user permission logic!
-
-Cream comes with a suite of specialized generators that should let you configure your Rails 3 app with these systems to a large degree. 
-
-Note: Lately Cream also has options for some common customizations such as allowing login using either username or email. 
+Cream comes with a suite of specialized generators that aim to facilitate configuration of your Rails 3 app with these systems. For details on how to use these generators, please see the documentation for the individual gem.
 
 h2. Status update (May 7, 2011)
 
 *IMPORTANT*
 
-The project has undergone a lot of bugfixes during 4-7 of May, thanks to @alecslupu who was patient enough to go through all the pain to find the bugs and assist me in fixing them. Thanks! Please use the latest master branches for cream, cancan-permits, roles_active_record, rails_assist and rails_artifactor. If you get problems from any other dependency gems, I recommend that you use their github master branch as the source.
-I hope to release all gems ASAP when I know they all play nice ;)
+Cream and the gems it depends on has undergone a lot of updates and bugfixes during 4-7 of May, thanks to _@alecslupu_. 
+Cream should now again work as advertised but has so far only been tested for Active Record. I plan to soon test it for the other ORMs that cream claim to support!
 
-h2. Objectives
+h2. Installation and configuration
 
-* Integrate a set of widely accepted sub-systems for a fully integrated solution
-* Provide generators that can auto-configure your Rails 3 app with these systems for a given ORM
+The cream gem has been designed for Rails 3 and Ruby 1.9 only.
 
-h2. More info
+h3. Installing Cream
 
-For more information see the "Cream Wiki":https://github.com/kristianmandrup/cream/wiki, which includes overviews of the: 
+Insert <pre>gem 'cream'</pre> in your Rails 3 Gemfile
+<pre>$ bundle install</pre>
 
-* "Roles read API":https://github.com/kristianmandrup/cream/wiki/Roles-Read-API and "Roles write API":https://github.com/kristianmandrup/cream/wiki/Roles-Read-API. 
-* Various "Cream APIs"::https://github.com/kristianmandrup/cream/wiki (helper methods to facilitate working with Users, Sessions, Roles and Permissions). 
-
-Please let me know of other areas that you think should be covered in the Wiki or on page.
-
-h2. Quick start
-
-Cream integrates so many moving parts that running the full generator to generate all the bells and whistles and start playing around might be overwhelming for most.
-I therefore recommend that you start out by experimenting with the main parts and get a feel for how to design the users/roles/permits parts of your application.
-
-1) Devise user with Roles
-2) Cancan permits
-3) User types 
-
-First I would generate a single Devise user and then run Roles for the ORM you are using. Then play around with the Roles API to get a feel for it.
-Later You can run the cancan-permits generator and play around with permissions, using permits and licenses to get a feel for this API and how it plays with the roles.
-
-Then think about which user types you need. User types are distinct types of users that might have individual data needs (separate table or schema), individual registration page or different administration rules (devise strategies such as email confirmation etc.)
-
-Then decide which roles should be available for each user type, that is what kind of user_type each role makes sense for.
-
-Example:
-
-Roles: super admin, forum admin, guest user, normal user, content publisher
-
-Would make sense to have these User types: User, Guest, Admin
-
-The user types should make roles available as follows:
-
-Guest: guest
-User: normal, content_publisher
-Admin: super_admin, forum_admin
-
-This is done via a class method in the Roles API
-
-h2. Cream user group
-
-The "Cream user group":http://groups.google.com/group/rails-cream is a google group where you can ask Cream related questions, provide suggestions etc. to the Cream community.
-
-h2. Inspiration and Ideas
-
-_Tony Amoyal_ has written a two part series ("Part I":http://www.tonyamoyal.com/2010/07/28/rails-authentication-with-devise-and-cancan-customizing-devise-controllers/, "Part II":http://www.tonyamoyal.com/2010/09/29/rails-authentication-with-devise-and-cancan-part-2-restful-resources-for-administrators/) on how to setup a fully integrated Devise/CanCan solution with Roles. You might want to take a look at this for further customization needs. It might also provide food for thought for suggestions on improvements to the Cream framework ;) I have started work on a _devise:customize_ generator to facilitate some of these customization needs... 
-
-Currently there is support for seting up a Guest user and and option to use both username and password as valid credentials.
-
-h3. Design ideas
-
-Please see the "Design ideas":https://github.com/kristianmandrup/cream/wiki/Design-ideas section on the wiki for possible enhancements you might want to add and/or ideas for further improvments to the framework. Feel free to add your own suggestions and ideas!
-
-Since version 0.8.9 I have added the concept of a Guest user and current_user using the session.  Please also see "Cream Guest user":https://github.com/kristianmandrup/cream/wiki/Cream-Guest-user for more info on the current approach.
-
-The latest design splits up the concepts of role and user_type. The _user_types_ are now the devise classes generated, and each such class can have a role strategy assigned.
-Ther should be a simple way to define a default role, something like the following.
-
-Example idea:
-
-<pre>
-  class Editor < User
-    default_role :editor
-    
-    valid_roles_are :publisher, blog_editor
-  end
-</pre>   
-
-This way, any editor user created will always be given the :editor role on creation and he can later add the :publisher and/or :blog_editor roles.
-Perhaps it could just use the class name somehow, fx using the @lowercase@ method (this way it would also work with more complex, namespaced classes).
-
-*Ideas and suggestions are most welcome!* 
-
-h2. The magic behind the curtain...
-
-Cream leverages an extensive "Tool suite":https://github.com/kristianmandrup/cream/wiki/Tool-suite-for-designing-powerful-generators-and-gems-for-Rails-3 I have created specifically to make it much easier/faster to create gems and generators for Rails 3 and spec/test them with RSpec 2, all using more natural DSLs and APIs. 
-If you look into the Cream code you can see extensive usage of this "magic" (especially in the generators).
-
-h3. The path towards 1.0
-
-Since cream version 0.9.2, the project should be pretty stable again. I plan to release a 1.0 release of Cream and all gems it uses when I have checked that they all work as they should with the latest versions of Rails, Devise and CanCan. The 1.0 version will also come with a full step-by-step tutorial for both a simple case (1 user type where each user can have only 1 role) and a more advanced scenario (multiple user types where some users can have multiple roles).
-
-Cream 2 will be a total redesign/refactoring using what I have learned and will be inspired by _Jose Valim's_ book *Crafting Rails Applications*. 
-I will create a new project using _enginex_, complete with one or more dummy apllications and take it from there. Sadly I will likely not have time for this until April 2011, so if anyone has the time and energy, please help me in this effort!
-
-h2. Cream edge, debugging and assisting developing the framework
-
-Cream edge (directly from trunk or a feature branch), might have some extra goodies you could be interested in. To help develop Cream or use the edge version, just do:
-
-<code>gem 'cream', :git => 'https://github.com/kristianmandrup/cream.git'</code>
-
-There is also a _:branch_ option to use a specific branch, fx a feature branch.
-
-If you want to develop on Cream: <code>git clone https://github.com/kristianmandrup/cream.git</code>
-
-Optionally switch to particular branch in your local cloned repo: <code>git checkout [feature branch]</code>
-
-Then in your app, tell it to use your local version using the :_path_ option:
-
-<code>gem 'cream', :path => 'path to your cloned cream'</code>
-
-And you'll be ready to experiment, debug and add features from there :)
-
-h2. Rails 3 demo apps with Cream
-
-The following Rails 3 demo apps use Cream 0.7.7 and above and were created around Dec 1. 2010
-
-* "Cream app with Active Record":https://github.com/kristianmandrup/cream-app-active_record
-* "Cream app with Mongoid":https://github.com/kristianmandrup/cream-app-mongoid
-* "Cream app with Mongo Mapper":https://github.com/kristianmandrup/cream-app-mongo_mapper
-
-You are most welcome to publish your own demo app with a later version of Cream. These apps need to be updated and demonstrate the real functionality of using the various APIs and DSLs that come with Cream and its supporting libs ;)
-
-h2. Authentication systems
-
-Cream targets "Devise":http://github.com/plataformatec/devise as the Authentication system of choice
-
-See "Devise Configuration options":https://github.com/kristianmandrup/cream/wiki/Devise-Configuration-options for more details on configuring your devise User models.
-
-h3. Devise links
-
-The project "devise links":http://github.com/kristianmandrup/devise-links adds more convenience for creating view links to trigger Devise session actions.
-
-h2. Authorization system
-
-There is support for the "CanCan":http://github.com/ryanb/cancan Authorization system. 
-I have created a "Cancan permits":http://github.com/kristianmandrup/cancan-permits gem that adds the concept of Permits for each role (see below).
-
-Another framework of interest: "Aegis - The alternative Authorization solution":http://github.com/makandra/aegis
-
-h2. Roles
-
-I have developed a flexible "Roles Generic":http://github.com/kristianmandrup/roles_generic system which is used as the basis for the default Role system.
-
-The *Roles Generic API* has been implemented for the following ORMs
-
-* "Roles Active Record":http://github.com/kristianmandrup/roles_active_record
-* "Roles DataMapper":http://github.com/kristianmandrup/roles_data_mapper
-* "Roles MongoMapper":http://github.com/kristianmandrup/roles_mongo_mapper
-* "Roles Mongoid":http://github.com/kristianmandrup/roles_for_mongoid
-* "Roles Simply Stored":https://github.com/kristianmandrup/roles_simply_stored
-
-Any role system can be substituted as long as you have a method #has_role? on the user which returns true or false given a string or symbol that identifies the role.
-
-h3. Role Groups
-
-Document DBs such as *Mongo* and *Riak* are ideal for modeling a role-group hierarchical relationship. 
-
-Currently Role groups are supported as class level methods on the User class using a class level in-memory hash map.  
-
-See "Roles Group API":https://github.com/kristianmandrup/roles_generic/wiki/Roles-Group-API
-
-The Group API allows multiple roles to be grouped.
-
-Example:
-
-Say you have the _admin_ roles:
-
-* Admin
-* Super admin
-
-And the _customer_ roles
-
-* Individual customer
-* Company customer
-
-You might want to group them like this: 
-
-<pre>
-  User.add_role_group :customers => [:individual_customer, :company_customer]
-  User.add_role_group :admins => [:admin, :super_admin]  
-</pre>
-
-Then you can handle any user with regards to his/her role group relationship like this:
-
-<pre>
-  # do this only for users in the admin role group (user has either :admin or :super_admin role) 
-  current_user.is_in_group? :admins do
-    ...
-  end
-</pre>
-
-In your views you can guard view code with Role Group conditions:
-
-<pre>
-  # do this only for users in the admin role group (user has either :admin or :super_admin role) 
-  for_user_in_group :customers do
-    ...
-  end
-
-  # Cream 0.8.9 (edge)
-  not_for_user_in_group :admins do
-    ...
-  end
-</pre>
-
-
-h2. ORMs
-
-In general, it should now finally be pretty easy to set up a Rails 3 app, with a full Authentication and an Authorization system linked to a Role system using one of the following supported Cream ORMs. 
+h2. ORMs supported
 
 Relational Databases:
 
@@ -248,25 +48,95 @@ Document stores:
 * _Mongoid_
 * _Couch DB_
 
-These ORMs are also supported for the *CanCan Permits* and *Roles* systems. 
+Note: Couch DB support will soon be migrated to use "CouchRest":https://github.com/mattetti/couchrest
 
-h2. Installation and configuration
+h2. More info
 
-This gem has been designed for Rails 3 and Ruby 1.9 only. Some users have notified me that it doesn't work on Ruby 1.8.7, so be advised!
+For more information:
 
-h3. Install gems
+* "Cream Wiki":https://github.com/kristianmandrup/cream/wiki
+* "Cream user group":http://groups.google.com/group/rails-cream 
 
-Insert <pre>gem 'cream'</pre> in your Rails 3 Gemfile
-<pre>$ bundle install</pre>
+Please let me know of other areas that you think should be covered in the Wiki or on page. 
+One or more tutorials with demo applications are planned for the near future.
 
-h2. Role system
+h2. How to start with Cream
 
-Role strategies can be set up using the "Roles Generic":http://github.com/kristianmandrup/roles_generic gem or any of the ORM specific roles gems such as 
-"Roles Active Record":http://github.com/kristianmandrup/roles_active_record. 
+Cream integrates so many moving parts that running the full generator to generate all the bells and whistles and start playing around might be overwhelming for most.
+I therefore recommend that you start out by experimenting with the main parts and get a feel for how to design the users/roles/permits parts of your application.
 
-h2. CanCan
+1) Devise user with Roles
+2) Cancan permits
+3) User types 
 
-Role based authorization for "CanCan":http://github.com/ryanb/cancan can be achieved by creating a *Permit* class for each role. 
+First I would generate a single Devise user and then run Roles for the ORM you are using. Then play around with the Roles API to get a feel for it.
+Later You can run the _cancan-permits_ generator and play around with permissions, using permits and licenses to get a feel for this API and how it plays with the roles.
+
+Then think about which _user types_ you need. User types are distinct types of _users_ that might have individual data needs (separate table or schema), individual registration pages or different administration rules (devise strategies such as email confirmation etc.)
+
+Then decide which _roles_ should be available for each _user type_, that is what kind of user_type each role makes sense for. You might also decide to group multiple roles into role groups.
+
+h3. Scenario example
+
+Roles: super admin, forum admin, guest user, normal user, content publisher
+
+In this scenario it would make sense to have these User types: _User_, _Guest_, _Admin_
+
+The user types should make roles available as follows:
+
+* Guest: guest
+* User: normal, content_publisher
+* Admin: super_admin, forum_admin
+
+This is done via the method _valid_roles_are_ (see the Roles API).
+
+h2. Rails 3 demo apps with Cream
+
+The following Rails 3 demo apps use Cream 0.7.7 and above and were created around Dec 1. 2010
+
+* "Cream app with Active Record":https://github.com/kristianmandrup/cream-app-active_record
+* "Cream app with Mongoid":https://github.com/kristianmandrup/cream-app-mongoid
+* "Cream app with Mongo Mapper":https://github.com/kristianmandrup/cream-app-mongo_mapper
+
+You are most welcome to publish your own demo app with a later version of Cream. These apps need to be updated and demonstrate the real functionality of using the various APIs and DSLs that come with Cream and its supporting libs ;)
+
+I plan to release new demo apps for the 0.9 version of Cream in May, 2011
+
+h2. Sub systems of Cream
+
+* Devise
+* Cancan
+* Roles
+* Permits
+
+h3. Authentication
+
+Cream targets "Devise":http://github.com/plataformatec/devise as the Authentication system of choice
+
+See "Devise Configuration options":https://github.com/kristianmandrup/cream/wiki/Devise-Configuration-options for more details on configuring your devise User models.
+
+The project "devise links":http://github.com/kristianmandrup/devise-links adds more convenience for creating view links to trigger Devise session actions.
+
+h3. Authorization
+
+Cream supports "CanCan":http://github.com/ryanb/cancan as the Authorization system. 
+The project "Cancan permits":http://github.com/kristianmandrup/cancan-permits adds the concept of Permits for each role. 
+
+h3. Roles
+
+The Roles system is based on "Roles Generic":http://github.com/kristianmandrup/roles_generic, a generic Roles API implementation where parts are overriden by Roles implementations for specific ORMs.
+
+The *Roles Generic API* has been implemented for the following ORMs
+
+* "Roles Active Record":http://github.com/kristianmandrup/roles_active_record
+* "Roles DataMapper":http://github.com/kristianmandrup/roles_data_mapper
+* "Roles MongoMapper":http://github.com/kristianmandrup/roles_mongo_mapper
+* "Roles Mongoid":http://github.com/kristianmandrup/roles_for_mongoid
+* "Roles Simply Stored":https://github.com/kristianmandrup/roles_simply_stored
+
+Any role system can be substituted as long as you have a method #has_role? on the user which returns true or false given a string or symbol that identifies the role.
+
+You can also use "Role groups":https://github.com/kristianmandrup/cream/wiki/Role-groups to group multiple roles into a group and query if a user has any of the roles in the group.
 
 h3. Permits
 
@@ -281,37 +151,32 @@ Check out "Cancan permits":http://github.com/kristianmandrup/cancan-permits for 
 
 *Cancan permits* support all the ORMs that both Devise and Roles support.
 
-h3. Permits Editor
+h4. Licenses
+
+For more advanced authorization scenarios you can create reusable permission logic in license classed that are placed in '/app/licenses/'. A License can be reused in multiple Permits. 
+
+See "CanCan permits demo app":https://github.com/kristianmandrup/cancan-permits-demo for an example of how to use cancan-permits and licenses.
+
+h4. Permits Editor
 
 I have recently created a "Permits editor":http://github.com/kristianmandrup/permits_editor application that demonstrates how you can let the user edit the Permits, Licenses and even individual User permissions directly as part of an admin section of the web app. 
 
 The *Permits editor* updates yaml files that are now part of the *cancan-permits* infrastructure (if present and registered). 
 I plan to refactor the Permits Editor into a "mountable app":http://piotrsarnacki.com/2010/12/21/mountable-apps-tutorial/ when I have the time.
 
-h3. Licenses
-
-For more advanced authorization scenarios you can create reusable permission logic in license classed that are placed in '/app/licenses/'. A License can be reused in multiple Permits. 
-
-See "CanCan permits demo app":https://github.com/kristianmandrup/cancan-permits-demo for an example of how to use cancan-permits and licenses.
-
-h2. Role specific Customization of Routing and User classes
-
-Please see "Customizing Routes and User classes for Roles":https://github.com/kristianmandrup/cream/wiki/Customizing-Routes-and-User-classes-for-Roles 
-
-The generator now generates initial Routes configuration for each role in order to facilitate Registration page customization for each role if needed.
-A User subclass is now generated for each role by default in order to allow more User customization and for the above mentioned routing customization to function.  
-
 h2. Generators
 
-Please see "Cream generators overview":https://github.com/kristianmandrup/cream/wiki/Cream-generators-overview for more details.
+Please see "Cream generators overview":https://github.com/kristianmandrup/cream/wiki/Cream-generators-overview for more details on generators including objectives and what each generator aims to produce (update your app with).
 
-The following generators are currently available:
+The following generators are currently available with Cream:
 
-Main generator: 
+Main app generator: 
 
 * cream:full_config    - Configure Rails 3 application with Cream (master generator)
 
-Config generators:
+Individual configuration generators:
+
+The following generators can all be used individually. 
 
 Devise (authentication)
 
@@ -329,7 +194,7 @@ Other generators:
 
 * _cancan:restlinks_  - Create REST links locale file 
 * _devise:links_      - Create devise links locale file (should I rename this to authlinks?)
-* _cream:views_       - Generates partials for menu items (outdated)
+* _cream:views_       - Generates partials for menu items
 
 All the above generators have specs included in cream that demonstrate how to use them and should verify that they work as expected.
 
@@ -337,17 +202,11 @@ The *cream:full_config* generator should call all the sub-generators in successi
 
 h3. Full Config Generator
 
-Master cream generator which calls the sub-generators in succession.
-
-* strategy      : role strategy to use (see *roles_generic* gem)
-* orm           : orm to be used
-* roles         : list of valid roles and permits to use
-
 Example:
 
 <code>rails g cream:full_config --strategy admin_flag --orm AR</code>
 
-By default creates :guest and :admin roles.
+By default creates :guest and :admin User types.
 
 h2. Sub generators
 
@@ -357,16 +216,52 @@ Example: <code>rails g permits:config</code>
 
 h3. Cream Views Generator
 
-Moves 'user menu' partials views into app/views/_user_menu
+Moves 'user menu' view partials into app/views/cream
 
 <code>rails g cream:views [scope] [--haml]</code>
 
-* (scope) : The scope/namespace folder under views to copy the partials to, 'cream' is the default
+* (scope) : The scope/namespace folder under views to copy the partials to, 'cream' is the default scope (namespace)
 * (haml)  : Use HAML as template language (default is erb)
 
-The *views* generator is based on a similar generator from the devise project. The Views generator and partials have been updated (Jan 6, 2011).  
+The *views* generator is based on a similar generator from the devise project. The Views generator and partials have been updated (Jan 6, 2011).
 The partials generated are useful for creating menu items for login/logout and registration. 
 The links are automatically displayed or hidden depending on the current state of the user.
+
+h2. Inspiration and Ideas
+
+_Tony Amoyal_ has written a two part series ("Part I":http://www.tonyamoyal.com/2010/07/28/rails-authentication-with-devise-and-cancan-customizing-devise-controllers/, "Part II":http://www.tonyamoyal.com/2010/09/29/rails-authentication-with-devise-and-cancan-part-2-restful-resources-for-administrators/) on how to setup a fully integrated Devise/CanCan solution with Roles. You might want to take a look at this for further customization needs. It might also provide food for thought for suggestions on improvements to the Cream framework ;) I have started work on a _devise:customize_ generator to facilitate some of these customization needs... 
+
+Currently there is support for seting up a Guest user and and option to use both username and password as valid credentials.
+
+h2. The magic behind the curtain
+
+Cream leverages an extensive "Tool suite":https://github.com/kristianmandrup/cream/wiki/Tool-suite-for-designing-powerful-generators-and-gems-for-Rails-3 that I have created specifically to make it much easier/faster to create gems and generators for Rails 3 and spec/test them with RSpec 2, using more natural DSLs and APIs. 
+If you look into the Cream code you can see extensive usage of this.
+
+h2. The path towards 1.0
+
+Since cream version 0.9.2, the project should be pretty stable again. I plan to release a 1.0 release of Cream and all gems it uses when I have checked that they all work as they should with the latest versions of Rails, Devise and CanCan. The 1.0 version will also come with a full step-by-step tutorial for both a simple case (1 user type where each user can have only 1 role) and a more advanced scenario (multiple user types where some users can have multiple roles).
+
+Cream 2 will be a total redesign/refactoring using what I have learned and will be inspired by _Jose Valim's_ book *Crafting Rails Applications*. 
+I will create a new project using _enginex_, complete with one or more dummy apllications and take it from there. Sadly I will likely not have time for this until April 2011, so if anyone has the time and energy, please help me in this effort!
+
+h2. Cream edge, debugging and how to assist in developing the framework
+
+Cream edge (directly from trunk or a feature branch), might have some extra goodies you could be interested in. To help develop Cream or use the edge version, just do:
+
+<code>gem 'cream', :git => 'https://github.com/kristianmandrup/cream.git'</code>
+
+There is also a _:branch_ option to use a specific branch, fx a feature branch.
+
+If you want to develop on Cream: <code>git clone https://github.com/kristianmandrup/cream.git</code>
+
+Optionally switch to particular branch in your local cloned repo: <code>git checkout [feature branch]</code>
+
+Then in your app, tell it to use your local version using the :_path_ option:
+
+<code>gem 'cream', :path => 'path to your cloned cream'</code>
+
+And you'll be ready to experiment, debug and add features from there :)
 
 h2. Note on Patches/Pull Requests
  
