@@ -45,12 +45,35 @@ For more information see the "Cream Wiki":https://github.com/kristianmandrup/cre
 
 Please let me know of other areas that you think should be covered in the Wiki or on page.
 
-h2. The magic behind the curtain...
+h2. Quick start
 
-Cream leverages an extensive "Tool suite":https://github.com/kristianmandrup/cream/wiki/Tool-suite-for-designing-powerful-generators-and-gems-for-Rails-3 I have created specifically to make it much easier/faster to create gems and generators for Rails 3 and spec/test them with RSpec 2, all using more natural DSLs and APIs. 
-If you look into the Cream code you can see extensive usage of this "magic" (especially in the generators).
+Cream integrates so many moving parts that running the full generator to generate all the bells and whistles and start playing around might be overwhelming for most.
+I therefore recommend that you start out by experimenting with the main parts and get a feel for how to design the users/roles/permits parts of your application.
 
-Status (Jan 15): I'm currently in the process of refactoring and improving this underlying "tool suite". I might call it _rails-mixer_ or something.
+1) Devise user with Roles
+2) Cancan permits
+3) User types 
+
+First I would generate a single Devise user and then run Roles for the ORM you are using. Then play around with the Roles API to get a feel for it.
+Later You can run the cancan-permits generator and play around with permissions, using permits and licenses to get a feel for this API and how it plays with the roles.
+
+Then think about which user types you need. User types are distinct types of users that might have individual data needs (separate table or schema), individual registration page or different administration rules (devise strategies such as email confirmation etc.)
+
+Then decide which roles should be available for each user type, that is what kind of user_type each role makes sense for.
+
+Example:
+
+Roles: super admin, forum admin, guest user, normal user, content publisher
+
+Would make sense to have these User types: User, Guest, Admin
+
+The user types should make roles available as follows:
+
+Guest: guest
+User: normal, content_publisher
+Admin: super_admin, forum_admin
+
+This is done via a class method in the Roles API
 
 h2. Cream user group
 
@@ -86,11 +109,17 @@ Perhaps it could just use the class name somehow, fx using the @lowercase@ metho
 
 *Ideas and suggestions are most welcome!* 
 
+h2. The magic behind the curtain...
+
+Cream leverages an extensive "Tool suite":https://github.com/kristianmandrup/cream/wiki/Tool-suite-for-designing-powerful-generators-and-gems-for-Rails-3 I have created specifically to make it much easier/faster to create gems and generators for Rails 3 and spec/test them with RSpec 2, all using more natural DSLs and APIs. 
+If you look into the Cream code you can see extensive usage of this "magic" (especially in the generators).
+
 h3. The path towards 1.0
 
-I will continue the 0.8.9.x line only with bug fixes and other minor fixes or additions.
+Since cream version 0.9.2, the project should be pretty stable again. I plan to release a 1.0 release of Cream and all gems it uses when I have checked that they all work as they should with the latest versions of Rails, Devise and CanCan. The 1.0 version will also come with a full step-by-step tutorial for both a simple case (1 user type where each user can have only 1 role) and a more advanced scenario (multiple user types where some users can have multiple roles).
 
-The 0.9 line will likely be a total redesign/refactoring using what I am learning from reading _Jose Valim's_ book *Crafting Rails Applications*. I will create a new project using _enginex_, complete with one or more dummy apllications and take it from there. Sadly I will likely not have time for this until April 2011, so if anyone has the time and energy, please help me in this effort!
+Cream 2 will be a total redesign/refactoring using what I have learned and will be inspired by _Jose Valim's_ book *Crafting Rails Applications*. 
+I will create a new project using _enginex_, complete with one or more dummy apllications and take it from there. Sadly I will likely not have time for this until April 2011, so if anyone has the time and energy, please help me in this effort!
 
 h2. Cream edge, debugging and assisting developing the framework
 
