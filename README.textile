@@ -24,7 +24,7 @@ h2. Status update (May 7, 2011)
 *IMPORTANT*
 
 Cream and the gems it depends on has undergone a lot of updates and bugfixes during 4-7 of May, thanks to _@alecslupu_. 
-Cream should now again work as advertised but has so far only been tested for Active Record. I plan to soon test it for the other ORMs that cream claim to support!
+Cream should now again work as advertised but has so far only been tested for Active Record and Mongoid. I plan to soon test it for the other ORMs that cream aim to support!
 
 h2. Installation and configuration
 
