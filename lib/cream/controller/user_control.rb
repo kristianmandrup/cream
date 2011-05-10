@@ -2,18 +2,14 @@ module Cream
   module UserControl
 
     def current_user   
-      # puts "current_user"
       if !session[:user_id]
-        # puts "make guest"        
         @guest ||= Guest.create(guest_options) 
-        # puts "guest: #{@guest}"
         return @guest
       end
       if session[:user_id]  
         begin
           clazz = session[:user_class_name].constantize
           @current_user ||= clazz.find session[:user_id] 
-          # puts "logged in user: #{@current_user}"
           return @current_user
         rescue Exception => e
           puts "Error with current_user: user_class_name = '#{session[:user_class_name]}' error: #{e}"
@@ -21,8 +17,12 @@ module Cream
       end
     end
 
+    def role_subject
+      current_user
+    end      
+
     def set_language language_code
-     current_user.language_code = language_code if current_user # for non-guest user
+     current_user.language_code = language_code if current_user && current_user.respond_to? :language_code # for non-guest user
      guest_options[:language_code] = language_code # for guest user
     end    
 
@@ -31,7 +31,11 @@ module Cream
     end
 
     def user_signed_in?
-      current_user && !current_user.has_role?(:guest)
+      current_user && !is_guest?
+    end
+
+    def is_guest?
+      role_subject.has_only_role?(:guest)      
     end
 
     def user_session
@@ -53,7 +57,12 @@ module Cream
       resource = args.last || resource_or_scope
       expire_session_data_after_sign_in!
       warden.set_user(resource, options.merge!(:scope => scope))
+
       # set user id
+      post_signin resource, options
+    end
+
+    def post_signin resource, options = {}
       session[:user_id] = resource.id
       session[:user_class_name] = resource.class.name
     end
@@ -71,9 +80,13 @@ module Cream
       warden.user(scope) # Without loading user here, before_logout hook is not called
       warden.raw_session.inspect # Without this inspect here. The session does not clear.
       warden.logout(scope)
-      # user id
+      # user id   
+      post_signout scope            
+    end        
+    
+    def post_signout
       session[:user_id] = nil
       @current_user = nil      
-    end        
+    end
   end
 end
