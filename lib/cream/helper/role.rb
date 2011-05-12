@@ -1,3 +1,7 @@
+# TODO
+# should use #role_subject instead!
+# #current_ability is available to make cancan tests like user_can? and user_cannot?
+
 module Cream::Helper
   module Role
 
@@ -21,47 +25,46 @@ module Cream::Helper
     # does the user have ANY of the given roles?
     # Uses generic roles API    
     def has_role? user_role
-      current_user && current_user.has_role?(user_role)
+      role_subject && role_subject.has_role?(user_role)
     end
     
     # does the user have ANY of the given roles?
     # Uses generic roles API    
     def has_any_role? user_role
-      current_user && current_user.has_any_role?(user_role)
+      role_subject && role_subject.has_any_role?(user_role)
     end
 
     # does the user have ALL of the given roles?
     # Uses generic roles API
     def has_roles? *roles
-      current_user && current_user.has_roles?(roles.flat_uniq)
+      role_subject && role_subject.has_roles?(roles.flat_uniq)
     end
 
     # using group membership as guard
 
     def for_user_in_group name, &block
-      yield if current_user && current_user.is_in_group?(name)
+      yield if role_subject && role_subject.is_in_group?(name)
     end
 
     def for_user_in_groups *names, &block
-      yield if current_user && current_user.is_in_group?(names.flat_uniq)
+      yield if role_subject && role_subject.is_in_group?(names.flat_uniq)
     end
 
     def for_user_in_any_group *names, &block
-      yield if current_user && current_user.is_in_any_groups?(names.flat_uniq)
+      yield if role_subject && role_subject.is_in_any_groups?(names.flat_uniq)
     end
 
     def not_for_user_in_group name, &block
-      yield if current_user && !current_user.is_in_group?(name)
+      yield if role_subject && !role_subject.is_in_group?(name)
     end
 
     def not_for_user_in_groups *names, &block
-      yield if current_user && !current_user.is_in_group?(names.flat_uniq)
+      yield if role_subject && !role_subject.is_in_group?(names.flat_uniq)
     end
 
     def not_for_user_in_any_group *names, &block
-      yield if current_user && !current_user.is_in_any_groups?(names.flat_uniq)
+      yield if role_subject && !role_subject.is_in_any_groups?(names.flat_uniq)
     end
-
 
     # returns true if the current user owns the object
     # tries default 'owner' relations if none given as an argument
@@ -94,8 +97,7 @@ module Cream::Helper
         return
       end
       yield if has_role?(user_role) && block
-    end 
-    
+    end    
     
     # execute block if user DOES NOT have any of the given roles
     def not_for_roles(*user_roles, &block)            
@@ -120,7 +122,8 @@ module Cream::Helper
     
     def user_relation? obj, relation
       raise ArgumentError, "User method must be a Symbol or String" if !relation.kind_of_label?
-      current_user && is_owner?(current_user, obj, relation)
+      user = role_subject.user || current_user
+      user && is_owner?(user, obj, relation)
     end
     
     def is_owner? user, obj, relation
@@ -143,24 +146,24 @@ module Cream::Helper
           raise ArgumentException, "Unknown option #{options}"
         end
 
-        def state_check state, current_user
-          logged_in_check(state, current_user) || logged_out_check(state, current_user)
+        def state_check state, role_subject
+          logged_in_check(state, role_subject) || logged_out_check(state, role_subject)
         end
 
-        def logged_in_check state, current_user
-          state == :logged_in && is_not_guest?(current_user)
+        def logged_in_check state, role_subject
+          state == :logged_in && is_not_guest?(role_subject)
         end
 
-        def logged_out_check state, current_user
-          state == :logged_out && is_guest?(current_user)
+        def logged_out_check state, role_subject
+          state == :logged_out && is_guest?(role_subject)
         end
 
-        def is_not_guest? current_user
-          !current_user || (current_user && !current_user.is?(:guest))
+        def is_not_guest? role_subject
+          !role_subject || (role_subject && !role_subject.is?(:guest))
         end
 
-        def is_guest? current_user
-          current_user && current_user.is?(:guest)
+        def is_guest? role_subject
+          role_subject && role_subject.is?(:guest)
         end
 
         def logged_in_labels

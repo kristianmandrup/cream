@@ -9,13 +9,13 @@ Rails3::Plugin::Extender.new do
   extend_rails :controller do
     extend_from_module Cream, :role
     extend_from_module Cream::Controller, :ability
-    extend_from_module Cream::Helper, :role, :host 
+    extend_from_module Cream::Helper, :role, :host, :action 
   end  
 
   # extend action_view with methods from some modules
   extend_rails :view do
     extend_from_module Cream::View, :role, :host, :user_action_menu
-    extend_from_module Cream::Helper, :role
+    extend_from_module Cream::Helper, :role, :action
   end  
   
   after :initialize do    
