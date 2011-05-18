@@ -19,6 +19,12 @@ Cream targets smooth integration of the following main systems:
 
 Cream comes with a suite of specialized generators that aim to facilitate configuration of your Rails 3 app with these systems. For details on how to use these generators, please see the documentation for the individual gem.
 
+h2. Status update (May 18, 2011)
+
+Since the cream generators rely on the gems "rails_assist":http://github.com/kristianmandrup/rails_assist and "rails_artifactor":http://github.com/kristianmandrup/rails_artifactor. These gems abstract away the location of specific Rails directories, and it should thus be pretty easy to upgrade cream to support the new Rails 3.1 artifact layout (with assets) and even to have cream support multiple directory layouts. 
+It is "bad design" to just hardcode the Rails artifact directory paths to generate artifacts into... as is currently the most common approach for Rails generator authors.  
+I hope this will make a case for others to use these gems to assist in the creation of flexible Rails generators in the future.
+
 h2. Status update (May 7, 2011)
 
 *IMPORTANT*

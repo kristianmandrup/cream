@@ -1,28 +1,86 @@
 module Cream
   module UserControl
 
-    def current_user   
+    # as_role current_user_roles do |role| 
+    #   role.update_attributes_of(Project).with params[:project] 
+    #   role.create(Project).with params[:project] 
+    # end
+    def as_role role, &block
+      yield RoleModelManager.new role
+    end
+    
+    def as_roles *roles, &block
+      yield RoleModelManager.new roles.flatten
+    end
+
+    class RoleModelManager
+      attr_accessor :roles
+      
+      def initialize *roles
+        @roles = roles.flatten
+      end
+
+      def update_attributes_of model_clazz
+        AttributesUpdater.new model_clazz
+      end
+
+      def create model_clazz
+        ModelCreator.new model_clazz
+      end      
+      
+      class AttributesUpdater
+        attr_accessor :clazz
+
+        def initialize clazz
+          @clazz = clazz
+        end
+        
+        def with attributes = {}
+          clazz.constantize.update_attributes(attributes.merge(:as => roles))
+        end
+      end
+      
+      class ModelCreator
+        attr_accessor :clazz
+
+        def initialize clazz
+          @clazz = clazz
+        end
+        
+        def with attributes = {}
+          clazz.constantize.create(attributes.merge(:as => roles))
+        end
+      end      
+    end
+
+    def current_roles
+      the_current_user.roles_list
+    end
+
+    def the_current_user
       if !session[:user_id]
-        @guest ||= Guest.create(guest_options) 
-        return @guest
+        Guest.create(guest_options)
       end
       if session[:user_id]  
         begin
           clazz = session[:user_class_name].constantize
-          @current_user ||= clazz.find session[:user_id] 
-          return @current_user
+          clazz.find session[:user_id] 
         rescue Exception => e
           puts "Error with current_user: user_class_name = '#{session[:user_class_name]}' error: #{e}"
         end
       end
     end
+    
+    def current_user
+      the_current_user
+    end
 
     def role_subject
-      current_user
+      the_current_user
     end      
 
     def set_language language_code
-     current_user.language_code = language_code if current_user && current_user.respond_to? :language_code # for non-guest user
+     current_user.language_code = language_code if the_current_user && the_current_user.respond_to? :language_code # for non-guest user
      guest_options[:language_code] = language_code # for guest user
     end    
 
@@ -31,7 +89,7 @@ module Cream
     end
 
     def user_signed_in?
-      current_user && !is_guest?
+      the_current_user && !is_guest?
     end
 
     def is_guest?
@@ -86,7 +144,6 @@ module Cream
     
     def post_signout
       session[:user_id] = nil
-      @current_user = nil      
     end
   end
 end
