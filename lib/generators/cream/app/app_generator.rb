@@ -53,9 +53,7 @@ require "rails/test_unit/railtie"
           rgen "controller Main index"
 
           # insert as last route in routefile
-          routes_file.insert :before_last => 'end' do
-            'root :to => "main#index"'
-          end
+          insert_last_in_routes 'root :to => "main#index"'
         end
       end
       
