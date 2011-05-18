@@ -51,7 +51,11 @@ require "rails/test_unit/railtie"
         if !(routes =~ /root\s+:/)
           # create a MainController with an #index action.
           rgen "controller Main index"
-          File.insert_into routes_file, :after => 'do', :content => 'root :to => "main#index"'
+
+          # insert as last route in routefile
+          routes_file.insert :before_last => 'end' do
+            'root :to => "main#index"'
+          end
         end
       end
       
@@ -110,11 +114,11 @@ require "rails/test_unit/railtie"
   end
 
   def has_roles? *roles
-    false
+    roles.size == 1 && roles.first == :guest
   end  
 
   def has_any_role? *roles
-    roles.flat_uniq.to_symbols.include?(:guest)
+    roles.include?(:guest)
   end  
 }
         end
