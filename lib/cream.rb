@@ -1,6 +1,5 @@
 require 'require_all'
 require 'rails'
-# require 'devise'
 require 'devise-links'
 
 require 'cancan'
@@ -15,7 +14,6 @@ require 'sugar-high/array'
 
 require 'cream/role'    
 
-require_all File.dirname(__FILE__) + '/cream/controller'
 require_all File.dirname(__FILE__) + '/cream/helper'
 require_all File.dirname(__FILE__) + '/cream/view'
 require_all File.dirname(__FILE__) + '/cream/rails'

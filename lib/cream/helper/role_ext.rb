@@ -3,7 +3,14 @@
 # #current_ability is available to make cancan tests like user_can? and user_cannot?
 
 module Cream::Helper
-  module Role
+  module RoleExt
+    def is_guest?
+      role_subject.has_only_role?(:guest)
+    end
+
+    def role_subject
+      the_current_user
+    end
 
     # for_any_user :signed_in
     # for_any_user :not_logged_in    
