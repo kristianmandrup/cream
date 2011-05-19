@@ -35,7 +35,7 @@ module Cream::Helper
     end
 
     def set_language language_code
-     current_user.language_code = language_code if the_current_user && the_current_user.respond_to? :language_code # for non-guest user
+     current_user.language_code = language_code if the_current_user && the_current_user.respond_to? # :language_code # for non-guest user
      guest_options[:language_code] = language_code # for guest user
     end
   end
