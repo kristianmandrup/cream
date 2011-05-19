@@ -16,6 +16,7 @@ Rails3::Plugin::Extender.new do
   extend_rails :view do
     extend_from_module Cream::View, :role, :host, :user_action_menu
     extend_from_module Cream::Helper, :role, :action
+    extend_from_module Cream::Controller, :ability
   end  
   
   after :initialize do    
@@ -23,6 +24,7 @@ Rails3::Plugin::Extender.new do
 
     if defined? Cream::UserControl
       ApplicationController.send :include, Cream::UserControl
+      ApplicationController.send :include, Cream::Controller::Ability
     else
       puts "Cream::UserControl not defined!"
     end
