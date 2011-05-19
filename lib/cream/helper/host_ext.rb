@@ -1,5 +1,5 @@
 module Cream::Helper
-  module Host
+  module HostExt
     def localhost?
        ['localhost', '127.0.0.1'].include?(request.host)
     end           

@@ -1,7 +1,3 @@
-# TODO
-# should use #role_subject instead!
-# #current_ability is available to make cancan tests like user_can? and user_cannot?
-
 module Cream::Helper
   module RoleExt
     def is_guest?

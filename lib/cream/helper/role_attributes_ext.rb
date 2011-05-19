@@ -1,3 +1,5 @@
+# TODO
+# Not finished! Very experimental
 module Cream::Helper
   # as_role current_user_roles do |role| 
   #   role.update_attributes_of(Project).with params[:project] 
@@ -19,34 +21,36 @@ module Cream::Helper
     end
 
     def update_attributes_of model_clazz
-      AttributesUpdater.new model_clazz
+      AttributesUpdater.new model_clazz, roles
     end
 
     def create model_clazz
-      ModelCreator.new model_clazz
+      ModelCreator.new model_clazz, roles
     end      
   
     class AttributesUpdater
-      attr_accessor :clazz
+      attr_accessor :clazz, :roles
 
-      def initialize clazz
+      def initialize clazz, roles
         @clazz = clazz
+        @roles = roles
       end
     
       def with attributes = {}
-        clazz.constantize.update_attributes(attributes.merge(:as => roles))
+        clazz.constantize.update_attributes(attributes.merge(:as => roles.first))
       end
     end
   
     class ModelCreator
-      attr_accessor :clazz
+      attr_accessor :clazz, :roles
 
-      def initialize clazz
+      def initialize clazz, roles
         @clazz = clazz
+        @roles = roles        
       end
     
       def with attributes = {}
-        clazz.constantize.create(attributes.merge(:as => roles))
+        clazz.constantize.create(attributes.merge(:as => roles.first))
       end
     end      
   end

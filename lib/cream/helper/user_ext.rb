@@ -1,3 +1,21 @@
+# To redefine current_user method:
+# 
+# create a file in /lib/user_ext.rb
+# 
+# module Cream::Helper
+#   module UserExt 
+#     def current_user
+#       the_current_user
+#     end
+#   end
+# end
+# 
+# then require this file in a rails initializer you create, fx called xtras.rb
+
+# - initializers/xtras.rb
+#
+# require 'user_ext'
+
 module Cream::Helper
   module UserExt 
     def guest_options
@@ -30,13 +48,15 @@ module Cream::Helper
       end
     end
 
+    # You can redefine this if needed, fx calling #devise_current_user
     def current_user
       the_current_user
     end
 
-    def set_language language_code
-     current_user.language_code = language_code if the_current_user && the_current_user.respond_to? :language_code # for non-guest user
-     guest_options[:language_code] = language_code # for guest user
+      # call devise method  
+    def devise_current_user
     end
+    
+    # perhaps use trick to have pointer to devise #current_user method
   end
 end
