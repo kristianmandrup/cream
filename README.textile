@@ -19,12 +19,12 @@ Cream targets smooth integration of the following main systems:
 
 Cream comes with a suite of specialized generators that aim to facilitate configuration of your Rails 3 app with these systems. For details on how to use these generators, please see the documentation for the individual gem.
 
-h2. Status update (May 7, 2011)
+h2. Status update (June 12, 2011)
 
-*IMPORTANT*
+Please check out the *rails_3_1* branch. I've just added support for the _File.mutat_ext :all_ macro available from the gem "sugar-high":http://github.com/kristianmandrup/sugar-high
 
-Cream and the gems it depends on has undergone a lot of updates and bugfixes during 4-7 of May, thanks to _@alecslupu_. 
-Cream should now again work as advertised but has so far only been tested for Active Record and Mongoid. I plan to soon test it for the other ORMs that cream aim to support!
+Cream might currently have a few gotchas to get it working (not tested since mid May). For the roles part you can substitute _roles_generic_ with the new gem "troles":http://github.com/kristianmandrup/troles, which has a much cleaner design and also supports role groups. Cream will be redesigned and rebranded
+as *Dancing* over the summer, and will support Rails 3.1. Stay tuned. You are as always most welcome to assist in the project :)
 
 h2. Installation and configuration
 
