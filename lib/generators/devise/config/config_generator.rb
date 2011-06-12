@@ -1,4 +1,6 @@
-require 'sugar-high/file'
+require 'sugar-high/file_mutate'
+File.mutate_ext :all
+
 require 'sugar-high/module'
 require 'cream'
 require 'rails_artifactor'

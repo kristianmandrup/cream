@@ -15,7 +15,7 @@ group :default do
   gem "rails_artifactor", ">= 0.3.3"
 
   gem "r3_plugin_toolbox", "~> 0.4.0" 
-  gem "sugar-high",        "~> 0.4.0"      
+  gem "sugar-high",        "~> 0.4.5"      
 end
 
 group :test do    
