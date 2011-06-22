@@ -19,6 +19,14 @@ Cream targets smooth integration of the following main systems:
 
 Cream comes with a suite of specialized generators that aim to facilitate configuration of your Rails 3 app with these systems. For details on how to use these generators, please see the documentation for the individual gem.
 
+h2. Status update (June 22, 2011)
+
+During most of May and June (2011), the _cream_ gem has been broken due to an update of the gem _'sugar-high'_, which the generators depend on for file operations via the _'file_mutate'_ pack. The latest release of _sugar-high_, version '0.4.6.4' should now ensure that the _file_mutate_ pack is backwards compatible so that this should no longer cause an error.
+
+I am currently working on a new framework 'dancing tango with troles' taking what I've learned so far and providing a far better solution which incorporates use of multiple user accounts for a given user and thus that a user can be logged into multiple applications simultaneously in different roles! 
+
+*Please help out on this project if you find it useful! Thanks!*
+
 h2. Status update (June 12, 2011)
 
 Please check out the *rails_3_1* branch. I've just added support for the _File.mutat_ext :all_ macro available from the gem "sugar-high":http://github.com/kristianmandrup/sugar-high
