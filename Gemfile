@@ -12,16 +12,20 @@ group :default do
   gem "cancan",            ">= 1.4.0" 
   gem "rails",             ">= 3.0.1"
 
-  gem "rails_artifactor", ">= 0.3.3"
+  gem "rails_artifactor",  ">= 0.3.3"
 
-  gem "r3_plugin_toolbox", "~> 0.4.0" 
-  gem "sugar-high",        "~> 0.4.0"      
+  gem "r3_plugin_toolbox", ">= 0.4.0" 
+  gem "sugar-high",        ">= 0.4.0"
 end
 
-group :test do    
-  # gem 'ffaker',            '~> 0.4.0',    :git => 'http://github.com/kematzy/ffaker.git'
-  gem "rspec",             ">= 2.0.1" 
-  gem "generator-spec",    ">= 0.6.0" 
-  gem "rspec-action_view", ">= 0.3.1"     
-  gem "rails-app-spec",    "~> 0.3.0"
+group :development, :test do
+  gem "shoulda",  ">= 0"
+  gem "cutter",   ">= 0"
+  gem "rspec",    ">= 2.5"
+  gem "bundler",  "~> 1.0.10"
+  gem "jeweler",  "~> 1.6.4"
+  gem "rcov",     ">= 0" 
+  gem "generator-spec",    ">= 0.6.0"
+  gem "rspec-action_view", ">= 0.3.1"
+  gem "rails-app-spec",    ">= 0.3.0"
 end
