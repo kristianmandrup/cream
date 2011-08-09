@@ -1,5 +1,25 @@
 h1. Cream
 
+h2. August 9, 2011 - Announcement!
+
+During the past few months, @kristianmandrup and @stanislaw have been working hard to come up with a replacement for cream, redesigning the core components from the ground up, with a full spec suite, dummy apps for integration testing etc.
+
+The fruits are now ready to be harvested! Today we announce the Release Candidate 
+of "CanTango":https://github.com/kristianmandrup/cantango
+
+The gem (with Rails 3 engine) will be released later today when we have the wiki and README in place ;)
+
+Also join the "CanTango discussion group":http://groups.google.com/group/cantango
+
+We hope you will enjoy it and join in the effort to create a super ACM system for Rails 3 :)
+
+Cheers!
+
+PS: This also means that cream will no longer be maintained. All efforts are now on CanTango. Please migrate from cream to CanTango.
+A migration guide will be available on the wiki soon.
+
+h2. Intro
+
 This project aims to assist in setting up a Rails 3 app with an integrated Authentication and Authorization solution for your ORM of choice.
 
 Execute the *full_config* generator with arguments specifying: 
